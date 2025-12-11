@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+                    fx:controller="org.raflab.studsluzbadesktopclient.controllers.MenuBarController">
+        <MenuBar fx:id="menuBar" style="-fx-background-color: #ADD8E6;">
+            <Menu text="Studenti">
+                <items>
+                    <MenuItem onAction="#openSearchStudent" text="Pretraži" />   
+                    <MenuItem onAction="#openNewStudent" text="Novi" />
+                    <MenuItem text="Grupe" />
+                </items>                           
+            </Menu>
+            <Menu text="Nastavnici">
+                <items>
+                	<MenuItem text="Pretraži" />
+                    <MenuItem text="Novi" />
+                </items>                          
+            </Menu>
+            <Menu text="Predmeti">
+                <items>
+                	<MenuItem text="Studijski programi" />                                   
+                    <MenuItem text="Predmeti" />                  
+                </items>                          
+            </Menu>
+            <Menu text="Nastava i ispiti">
+                <items>
+                	<MenuItem text="Raspodela nastave"  />
+                	<MenuItem text="Raspodela nastave - studenti"  />
+                	<MenuItem text="Ispitni rokovi" />
+                    <MenuItem text="Ispiti - unos" />
+                    <MenuItem text="Ispiti - prijave" />
+                    <MenuItem text="Ispiti - rezultati" />
+                </items>                          
+            </Menu>
+            <Menu text="Administracija">
+                <items>
+                    <MenuItem text="Šifarnici" />               
+                    <MenuItem text="Školske godine"  />
+                    <MenuItem text="Korisnici" />
+                </items>                          
+            </Menu>
+        </MenuBar>
+</VBox>

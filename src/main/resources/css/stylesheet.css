@@ -1,0 +1,27 @@
+.sidebar-button {
+    -fx-background-color: darkblue;
+    -fx-text-fill: white;
+    -fx-border: none; 
+	-fx-pref-width: 100px;
+}
+
+.sidebar-button:hover {
+    -fx-background-color: lightskyblue;		
+}
+
+.sidebar-box {
+    -fx-background-color: darkblue;    
+}
+
+.info-bar {
+    -fx-background-color: darkblue; 	
+}
+
+
+.fastsearch-box{
+	-fx-padding:20px;
+}
+
+.thick {
+  -fx-font-weight: bold;
+}
