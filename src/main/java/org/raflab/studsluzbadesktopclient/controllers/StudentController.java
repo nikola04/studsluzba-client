@@ -19,6 +19,7 @@ import org.raflab.studsluzbadesktopclient.services.StudentService;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -119,16 +120,16 @@ public class StudentController {
         studentDTO.setIme(imeTf.getText());
         studentDTO.setPrezime(prezimeTf.getText());
         studentDTO.setSrednjeIme(srednjeImeTf.getText());
-        studentDTO.setPol(muski.isSelected() ? "M" : "Z");
-        studentDTO.setGodinaUpisa(Integer.parseInt(godinaUpisaTf.getText()));
+        studentDTO.setPol(muski.isSelected() ? 'M' : 'Z');
         studentDTO.setAdresa(adresaTf.getText());
         studentDTO.setJmbg(jmbgTf.getText());
-        studentDTO.setDatumRodjenja(
-                Date.from(datumRodjenjaDp.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        studentDTO.setGodinaUpisa(Integer.parseInt(godinaUpisaTf.getText()));
+        Date datumRodjenja = Date.from(datumRodjenjaDp.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        studentDTO.setDatumRodjenja(LocalDate.ofInstant(datumRodjenja.toInstant(), ZoneId.systemDefault()));
         studentDTO.setMestoRodjenja(mestoRodjenjaCb.getValue().getCode());
-        studentDTO.setEmailPrivatni(emailPrivatniTf.getText());
-        studentDTO.setEmailFakultet(emailFakultetTf.getText());
-        studentDTO.setBrojTelefona(brojTelefonaTf.getText());
+        studentDTO.setPrivatniEmail(emailPrivatniTf.getText());
+        studentDTO.setFakultetEmail(emailFakultetTf.getText());
+        studentDTO.setBrojTelefonaMobilni(brojTelefonaTf.getText());
         studentDTO.setMestoStanovanja(mestoStanovanjaCb.getValue().getCode());
 
         studentDTO.setDrzavaRodjenja(drzavaRodjenjaCb.getValue().getCode());

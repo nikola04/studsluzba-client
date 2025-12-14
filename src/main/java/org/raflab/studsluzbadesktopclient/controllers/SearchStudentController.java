@@ -19,6 +19,8 @@ public class SearchStudentController {
 
     @FXML
     private TextField imeStudentaTf;
+    @FXML
+    private TextField prezimeStudentaTf;
 
     @FXML
     private TableView<StudentDTO> tabelaStudenti;
@@ -32,7 +34,7 @@ public class SearchStudentController {
         if(imeStudentaTf.getText().isEmpty())
             studenti = studentService.sviStudenti();
         else
-            studenti = studentService.searchStudent(imeStudentaTf.getText());
+            studenti = studentService.searchStudent(imeStudentaTf.getText(), prezimeStudentaTf.getText()).getContent();
 
         tabelaStudenti.setItems(FXCollections.observableArrayList(studenti));
     }
