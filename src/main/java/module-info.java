@@ -39,4 +39,5 @@ module stud_sluzba_desktop_client {
 
     // DTO
     requires studsluzba.common;
+    requires java.prefs;
 }

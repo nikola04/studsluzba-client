@@ -28,6 +28,12 @@ public class MenuBarController {
 	public void openNewStudent() {
 		mainView.changeRoot("newStudent");
 	}
+	public void openAdminSifarnici() {
+		mainView.changeRoot("adminSifarnici");
+	}
+	public void openAdminSkolskeGodine() {
+		mainView.changeRoot("adminSkolskeGodine");
+	}
 
 	@FXML
     public void initialize() {		

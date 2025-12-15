@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<?import javafx.geometry.Insets?>
+<BorderPane fx:id="adminSifrarnici"
+            prefHeight="600" prefWidth="900"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.raflab.studsluzbadesktopclient.controllers.AdminSifrarniciController">
+
+
+    <!-- GORNJI MENI -->
+    <top>
+        <fx:include source="menuBar.fxml"/>
+    </top>
+
+
+    <!-- LEVA STRANA: TIP ŠIFRARNIKA -->
+    <left>
+        <VBox spacing="10" prefWidth="220">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10" />
+            </padding>
+
+
+            <Label text="Tip šifrarnika" />
+            <ListView fx:id="sifrarnikTypeList" />
+        </VBox>
+    </left>
+
+
+    <!-- CENTRALNI DEO -->
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10" />
+            </padding>
+
+
+            <Label text="Stavke šifrarnika" />
+
+
+            <TableView fx:id="itemsTable" prefHeight="400">
+                <columns>
+                    <TableColumn fx:id="idColumn" text="ID" prefWidth="80" />
+                    <TableColumn fx:id="sifraColumn" text="Šifra" prefWidth="120" />
+                    <TableColumn fx:id="nazivColumn" text="Naziv" prefWidth="220" />
+                    <TableColumn fx:id="opisColumn" text="Opis" prefWidth="300" />
+                </columns>
+            </TableView>
+
+
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button text="Dodaj" onAction="#handleAdd" />
+                <Button text="Izmeni" onAction="#handleEdit" />
+                <Button text="Obriši" onAction="#handleDelete" />
+            </HBox>
+        </VBox>
+    </center>
+
+
+    <!-- DONJA STATUS LINIJA -->
+    <bottom>
+        <HBox spacing="10">
+            <padding>
+                <Insets top="5" right="10" bottom="5" left="10" />
+            </padding>
+            <Label fx:id="statusLabel" text="Izaberite tip šifrarnika." />
+        </HBox>
+    </bottom>
+
+
+</BorderPane>
