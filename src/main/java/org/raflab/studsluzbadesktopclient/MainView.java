@@ -3,7 +3,6 @@ package org.raflab.studsluzbadesktopclient;
 import java.io.IOException;
 import java.util.Objects;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javafx.fxml.FXMLLoader;
@@ -56,36 +55,11 @@ public class MainView {
 	}
 	
 	public void openModal(String fxml) {
-		FXMLLoader loader = appFXMLLoader.getLoader(MainView.class.getResource("/fxml/"+fxml+".fxml"));
-		try {
-			Parent parent = loader.load();
-			Scene scene = new Scene(parent, 400, 300);
-	        Stage stage = new Stage();
-	        stage.initModality(Modality.APPLICATION_MODAL);
-	        
-	        stage.setScene(scene);
-	        stage.showAndWait();
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		this.openModal(fxml, null);
 	}
 	
 	public void openModal(String fxml, String title) {
-		FXMLLoader loader = appFXMLLoader.getLoader(MainView.class.getResource("/fxml/"+fxml+".fxml"));
-		try {
-			Parent parent = loader.load();
-			Scene scene = new Scene(parent, 400, 300);
-	        Stage stage = new Stage();
-	        stage.setTitle(title);
-	        stage.initModality(Modality.APPLICATION_MODAL);
-	        
-	        stage.setScene(scene);
-	        stage.showAndWait();
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		this.openModal(fxml, title, 400, 300);
 	}
 	
 	public void openModal(String fxml, String title,  int weight, int height) {
@@ -94,7 +68,8 @@ public class MainView {
 			Parent parent = loader.load();
 			Scene scene = new Scene(parent, weight, height);
 	        Stage stage = new Stage();
-	        stage.setTitle(title);
+
+			if (title != null) stage.setTitle(title);
 	        stage.initModality(Modality.APPLICATION_MODAL);
 	        
 	        stage.setScene(scene);

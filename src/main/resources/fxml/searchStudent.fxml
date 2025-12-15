@@ -27,12 +27,12 @@
 
                     <VBox spacing="5" alignment="CENTER_LEFT">
                         <Label text="Ime"/>
-                        <TextField fx:id="imeStudentaTf" minWidth="200" />
+                        <TextField fx:id="studentNameTf" minWidth="200" />
                     </VBox>
 
                     <VBox spacing="5" alignment="CENTER_LEFT">
                         <Label text="Prezime"/>
-                        <TextField fx:id="prezimeStudentaTf" minWidth="200" />
+                        <TextField fx:id="studentLastNameTf" minWidth="200" />
                     </VBox>
 
                 </HBox>
@@ -44,7 +44,7 @@
                 <padding>
                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                 </padding>
-                <TableView fx:id="tabelaStudenti" minHeight="300" prefWidth="700">
+                <TableView fx:id="studentTable" minHeight="300" prefWidth="700">
                     <columns>
                         <TableColumn fx:id="imeColumn" maxWidth="200.0" prefWidth="150" text="Ime">
                             <cellValueFactory>

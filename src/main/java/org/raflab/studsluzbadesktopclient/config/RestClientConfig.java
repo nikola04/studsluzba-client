@@ -5,23 +5,22 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.client.RestClient;
 
-
-@Configuration(proxyBeanMethods = false)
-public class WebClientConfig {
+@Configuration
+public class RestClientConfig {
     @Autowired
     private ConfigProperties configProperties;
 
-    public WebClientConfig(ConfigProperties configProperties) {
+    public RestClientConfig(ConfigProperties configProperties) {
         this.configProperties = configProperties;
     }
 
     @Bean
-    public WebClient webClient() {
-        return WebClient.builder()
+    public RestClient restClient() {
+        return RestClient.builder()
             .baseUrl(configProperties.getBaseUrl())
-            .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .defaultHeaders(headers -> headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
             .build();
     }
 }

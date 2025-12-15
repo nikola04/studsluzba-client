@@ -11,28 +11,29 @@ public class CoderFactory {
     private Coder<SimpleCode> tipSrednjeSkole;
     private Coder<SimpleCode> ispitniRok;
 
-    // ucita samo ako nije ucitano
     public Coder<SimpleCode> getSimpleCoder(CoderType coderType){
-
-        switch(coderType) {
-
-            case DRZAVA:
-                if(drzaveCoder==null)
+        return switch (coderType) {
+            case DRZAVA -> {
+                if (drzaveCoder == null)
                     drzaveCoder = new TextFileSimpleCoder(coderType.getPath());
-                return drzaveCoder;
-            case MESTO:
-                if(mestaCoder==null)
+                yield drzaveCoder;
+            }
+            case MESTO -> {
+                if (mestaCoder == null)
                     mestaCoder = new TextFileSimpleCoder(coderType.getPath());
-                return mestaCoder;
-            case TIP_SREDNJE_SKOLE:
-                if(tipSrednjeSkole==null)
+                yield mestaCoder;
+            }
+            case TIP_SREDNJE_SKOLE -> {
+                if (tipSrednjeSkole == null)
                     tipSrednjeSkole = new TextFileSimpleCoder(coderType.getPath());
-                return tipSrednjeSkole;
-            case ISPITNI_ROK:
-                if(ispitniRok==null)
+                yield tipSrednjeSkole;
+            }
+            case ISPITNI_ROK -> {
+                if (ispitniRok == null)
                     ispitniRok = new TextFileSimpleCoder(coderType.getPath());
-                return ispitniRok;
-            default: return null;
-        }
+                yield ispitniRok;
+            }
+            default -> null;
+        };
     }
 }

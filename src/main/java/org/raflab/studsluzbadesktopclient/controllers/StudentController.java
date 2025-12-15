@@ -11,18 +11,13 @@ import net.sf.jasperreports.engine.*;
 import org.raflab.studsluzbadesktopclient.coder.CoderFactory;
 import org.raflab.studsluzbadesktopclient.coder.CoderType;
 import org.raflab.studsluzbadesktopclient.coder.SimpleCode;
-import org.raflab.studsluzbadesktopclient.dtos.StudentDTO;
 import org.raflab.studsluzbadesktopclient.services.StudentService;
 import org.springframework.stereotype.Component;
 
-import javax.swing.*;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.*;
 
 @Component
 public class StudentController {
-
     private final StudentService studentService;
     private final CoderFactory coderFactory;
 
@@ -83,7 +78,7 @@ public class StudentController {
 //    ComboBox<VisokoskolskaUstanova> visokoskolskaUstanovaCb;
 
 
-    public StudentController(StudentService studentService,CoderFactory coderFactory) {
+    public StudentController(StudentService studentService, CoderFactory coderFactory) {
         this.studentService = studentService;
         this.coderFactory = coderFactory;
     }
@@ -112,26 +107,26 @@ public class StudentController {
     }
 
     public void handleSaveStudent(ActionEvent event) {
-        StudentDTO studentDTO = new StudentDTO();
-
-        studentDTO.setIme(imeTf.getText());
-        studentDTO.setPrezime(prezimeTf.getText());
-        studentDTO.setSrednjeIme(srednjeImeTf.getText());
-        studentDTO.setPol(muski.isSelected() ? 'M' : 'Z');
-        studentDTO.setAdresa(adresaTf.getText());
-        studentDTO.setJmbg(jmbgTf.getText());
-        studentDTO.setGodinaUpisa(Integer.parseInt(godinaUpisaTf.getText()));
-        Date datumRodjenja = Date.from(datumRodjenjaDp.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-        studentDTO.setDatumRodjenja(LocalDate.ofInstant(datumRodjenja.toInstant(), ZoneId.systemDefault()));
-        studentDTO.setMestoRodjenja(mestoRodjenjaCb.getValue().getCode());
-        studentDTO.setPrivatniEmail(emailPrivatniTf.getText());
-        studentDTO.setFakultetEmail(emailFakultetTf.getText());
-        studentDTO.setBrojTelefonaMobilni(brojTelefonaTf.getText());
-        studentDTO.setMestoStanovanja(mestoStanovanjaCb.getValue().getCode());
-
-        studentDTO.setDrzavaRodjenja(drzavaRodjenjaCb.getValue().getCode());
-        studentDTO.setDrzavljanstvo(drzavljanstvoCb.getValue().getCode());
-        studentDTO.setNacionalnost(nacionalnostTf.getText());
+//        StudentResponseDTO studentDTO = new StudentResponseDTO();
+//
+//        studentDTO.setIme(imeTf.getText());
+//        studentDTO.setPrezime(prezimeTf.getText());
+//        studentDTO.setSrednjeIme(srednjeImeTf.getText());
+//        studentDTO.setPol(muski.isSelected() ? 'M' : 'Z');
+//        studentDTO.setAdresa(adresaTf.getText());
+//        studentDTO.setJmbg(jmbgTf.getText());
+//        studentDTO.setGodinaUpisa(Integer.parseInt(godinaUpisaTf.getText()));
+//        Date datumRodjenja = Date.from(datumRodjenjaDp.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+//        studentDTO.setDatumRodjenja(LocalDate.ofInstant(datumRodjenja.toInstant(), ZoneId.systemDefault()));
+//        studentDTO.setMestoRodjenja(mestoRodjenjaCb.getValue().getCode());
+//        studentDTO.setPrivatniEmail(emailPrivatniTf.getText());
+//        studentDTO.setFakultetEmail(emailFakultetTf.getText());
+//        studentDTO.setBrojTelefonaMobilni(brojTelefonaTf.getText());
+//        studentDTO.setMestoStanovanja(mestoStanovanjaCb.getValue().getCode());
+//
+//        studentDTO.setDrzavaRodjenja(drzavaRodjenjaCb.getValue().getCode());
+//        studentDTO.setDrzavljanstvo(drzavljanstvoCb.getValue().getCode());
+//        studentDTO.setNacionalnost(nacionalnostTf.getText());
 
 //        studentService.saveStudent(studentDTO);
         resetForm();
@@ -182,6 +177,4 @@ public class StudentController {
         uspehSrednjaSkolaTf.clear();
         uspehPrijemniTf.clear();
     }
-
-
 }

@@ -12,6 +12,7 @@
           <option value="studsluzba_desktopclient" />
           <option value="studsluzba_desktopclient" />
           <option value="studsluzba_desktopclient" />
+          <option value="studsluzba_desktopclient" />
         </list>
       </option>
       <option name="ignoredPackages">
@@ -20,6 +21,7 @@
           <option value="org.springframework:spring-context:5.2.2.RELEASE" />
           <option value="com.jayway.jsonpath:json-path:2.4.0" />
           <option value="org.springframework:spring-expression:5.2.2.RELEASE" />
+          <option value="net.sf.jasperreports:jasperreports:7.0.3" />
         </list>
       </option>
       <option name="ignoredReasons">
@@ -28,6 +30,7 @@
           <option value="Not exploitable" />
           <option value="Other" />
           <option value="Not exploitable" />
+          <option value="Other" />
         </list>
       </option>
     </inspection_tool>

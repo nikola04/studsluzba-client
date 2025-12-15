@@ -7,7 +7,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import org.raflab.studsluzbadesktopclient.dtos.StudentDTO;
+import javafx.scene.layout.BorderPane;
+import org.raflab.studsluzbacommon.dto.response.StudentResponseDTO;
 import org.raflab.studsluzbadesktopclient.services.StudentService;
 import org.raflab.studsluzbadesktopclient.utils.ErrorHandler;
 import org.springframework.stereotype.Component;
@@ -20,12 +21,14 @@ public class SearchStudentController {
     private final StudentService studentService;
 
     @FXML
-    private TextField imeStudentaTf;
+    public BorderPane searchStudentPane;
     @FXML
-    private TextField prezimeStudentaTf;
+    private TextField studentNameTf;
+    @FXML
+    private TextField studentLastNameTf;
 
     @FXML
-    private TableView<StudentDTO> tabelaStudenti;
+    private TableView<StudentResponseDTO> studentTable;
 
     public SearchStudentController(StudentService studentService) {
         this.studentService = studentService;
@@ -34,13 +37,13 @@ public class SearchStudentController {
     public void handleSearchStudent(ActionEvent actionEvent) {
         ((Button) actionEvent.getSource()).setDisable(true);
 
-        String ime = imeStudentaTf.getText();
-        String prezime = prezimeStudentaTf.getText();
+        String name = studentNameTf.getText();
+        String lastName = studentLastNameTf.getText();
 
-        studentService.searchStudentAsync(ime, prezime)
+        studentService.searchStudentAsync(name, lastName)
             .thenAccept(pagedResponse -> {
-                List<StudentDTO> studenti = pagedResponse.getContent();
-                Platform.runLater(() -> tabelaStudenti.setItems(FXCollections.observableArrayList(studenti)));
+                List<StudentResponseDTO> studenti = pagedResponse.getContent();
+                Platform.runLater(() -> studentTable.setItems(FXCollections.observableArrayList(studenti)));
             })
             .exceptionally(ex -> {
                 ErrorHandler.displayError(ex);
