@@ -12,7 +12,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.5</version>
+        <version>4.0.0</version>
     </parent>
     <dependencies>		
         <dependency>
@@ -23,7 +23,11 @@
 		   <groupId>org.springframework.boot</groupId>
 		   <artifactId>spring-boot-starter-test</artifactId>
 		   <scope>test</scope>
-		 </dependency> 
+		 </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
 		 <dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-core</artifactId>
@@ -67,7 +71,23 @@
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
-            <version>6.21.0</version> <!-- ili neka aktuelna verzija -->
+            <version>7.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-storage-blob</artifactId>
+            <version>12.12.0</version> <!-- Use the appropriate version for your project -->
+            <exclusions>
+                <exclusion>
+                    <groupId>io.projectreactor</groupId>
+                    <artifactId>reactor-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-core</artifactId>
+            <version>3.8.0</version> <!-- Use a recent compatible version, e.g., 3.4.37 or 3.5.x -->
         </dependency>
 
     </dependencies>

@@ -1,8 +1,7 @@
 package org.raflab.studsluzbadesktopclient;
 
-import java.io.IOException;
-
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -24,12 +23,14 @@ public class StudsluzbaFxClientApp extends Application {
     }
 
     @Override
-    public void init() throws Exception {	   
-	    springContext = SpringApplication.run(StudsluzbaFxClientApp.class);
-	}   
+    public void init() {
+        SpringApplication app = new SpringApplication(StudsluzbaFxClientApp.class);
+        app.setWebApplicationType(WebApplicationType.NONE);
+        springContext = app.run();
+    }
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage) {
     	primaryStage.setTitle("RAF Studentska služba");
     	MainView mainView = springContext.getBean(MainView.class);
     	primaryStage.setScene(mainView.createScene());
@@ -37,7 +38,7 @@ public class StudsluzbaFxClientApp extends Application {
     }
     
     @Override
-    public void stop() throws Exception {
+    public void stop() {
     	springContext.close();
     	Platform.exit();
     }

@@ -1,13 +1,15 @@
 package org.raflab.studsluzbadesktopclient.controllers;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
 import org.raflab.studsluzbadesktopclient.dtos.StudentDTO;
 import org.raflab.studsluzbadesktopclient.services.StudentService;
+import org.raflab.studsluzbadesktopclient.utils.ErrorHandler;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -30,12 +32,20 @@ public class SearchStudentController {
     }
 
     public void handleSearchStudent(ActionEvent actionEvent) {
-        List<StudentDTO> studenti = null;
-        if(imeStudentaTf.getText().isEmpty())
-            studenti = studentService.sviStudenti();
-        else
-            studenti = studentService.searchStudent(imeStudentaTf.getText(), prezimeStudentaTf.getText()).getContent();
+        ((Button) actionEvent.getSource()).setDisable(true);
 
-        tabelaStudenti.setItems(FXCollections.observableArrayList(studenti));
+        String ime = imeStudentaTf.getText();
+        String prezime = prezimeStudentaTf.getText();
+
+        studentService.searchStudentAsync(ime, prezime)
+            .thenAccept(pagedResponse -> {
+                List<StudentDTO> studenti = pagedResponse.getContent();
+                Platform.runLater(() -> tabelaStudenti.setItems(FXCollections.observableArrayList(studenti)));
+            })
+            .exceptionally(ex -> {
+                ErrorHandler.displayError(ex);
+                return null;
+            })
+            .thenRun(() -> Platform.runLater(() -> ((Button) actionEvent.getSource()).setDisable(false)));
     }
 }

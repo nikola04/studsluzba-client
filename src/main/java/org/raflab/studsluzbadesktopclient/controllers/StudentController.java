@@ -8,9 +8,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.view.JasperViewer;
-import org.raflab.studsluzbadesktopclient.MainView;
 import org.raflab.studsluzbadesktopclient.coder.CoderFactory;
 import org.raflab.studsluzbadesktopclient.coder.CoderType;
 import org.raflab.studsluzbadesktopclient.coder.SimpleCode;
@@ -136,22 +133,22 @@ public class StudentController {
         studentDTO.setDrzavljanstvo(drzavljanstvoCb.getValue().getCode());
         studentDTO.setNacionalnost(nacionalnostTf.getText());
 
-        studentService.saveStudent(studentDTO);
+//        studentService.saveStudent(studentDTO);
         resetForm();
     }
 
     public void handleIzvestaj() throws JRException {
 
-        List<StudentDTO> studenti = studentService.sviStudenti();
-
-        JasperReport report = JasperCompileManager.compileReport(
-                MainView.class.getResourceAsStream("/reports/sviStudenti.jrxml")
-        );
-
-        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(studenti);
-        JasperPrint jp = JasperFillManager.fillReport(report, new HashMap<>(), dataSource);
-
-        JasperExportManager.exportReportToPdfFile(jp, "sviStudenti.pdf");
+//        List<StudentDTO> studenti = studentService.sviStudenti();
+//
+//        JasperReport report = JasperCompileManager.compileReport(
+//                MainView.class.getResourceAsStream("/reports/sviStudenti.jrxml")
+//        );
+//
+//        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(studenti);
+//        JasperPrint jp = JasperFillManager.fillReport(report, new HashMap<>(), dataSource);
+//
+//        JasperExportManager.exportReportToPdfFile(jp, "sviStudenti.pdf");
     }
 
 
