@@ -24,6 +24,7 @@ public class SearchStudentController {
 
     @FXML
     public BorderPane searchStudentPane;
+    public TextField srednjaSkolaTf;
     @FXML
     private TextField studentNameTf;
     @FXML

@@ -2,11 +2,10 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-<BorderPane
-        prefHeight="600" prefWidth="900"
-        xmlns:fx="http://javafx.com/fxml"
+
+<BorderPane prefHeight="600" prefWidth="900" style="-fx-background-color: white;" xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.raflab.studsluzbadesktopclient.controllers.SkolskaGodinaController">
 
     <top>
@@ -14,34 +13,62 @@
     </top>
 
     <center>
-        <VBox spacing="10" alignment="CENTER">
+        <VBox spacing="15" style="-fx-background-color: white;">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20" />
+            </padding>
 
-            <Label text="Školske godine" style="-fx-font-size: 18px;"/>
+            <Label text="Skolske Godine"
+                   style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
 
-            <TableView fx:id="skolskaGodinaTable">
-                <columns>
-                    <TableColumn text="Naziv">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="godina"/>
-                        </cellValueFactory>
-                    </TableColumn>
-                    <TableColumn text="Aktivna">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="aktivan"/>
-                        </cellValueFactory>
-                    </TableColumn>
-                </columns>
-            </TableView>
+            <HBox spacing="15" VBox.vgrow="ALWAYS">
 
-            <HBox spacing="10">
-                <Button text="Dodaj" onAction="#handleAdd"/>
-                <Button text="Postavi" onAction="#handleSet"/>
+                <VBox spacing="10" HBox.hgrow="ALWAYS">
+                    <TableView fx:id="skolskaGodinaTable" VBox.vgrow="ALWAYS"
+                               style="-fx-background-color: white; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-padding: 0;">
+                        <columns>
+                            <TableColumn text="Godina" prefWidth="300">
+                                <cellValueFactory><PropertyValueFactory property="godina" /></cellValueFactory>
+                            </TableColumn>
+                            <TableColumn text="Status (Aktivna)" prefWidth="150" style="-fx-alignment: CENTER;">
+                                <cellValueFactory><PropertyValueFactory property="aktivan" /></cellValueFactory>
+                            </TableColumn>
+                        </columns>
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                        </columnResizePolicy>
+                    </TableView>
 
-                <Button text="Obriši" onAction="#handleDelete"/>
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Button text="−" onAction="#handleDelete"
+                                style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-min-width: 40;" />
 
+                        <Button text="✓" onAction="#handleSet"
+                                style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-min-width: 40;" />
+
+                        <Label text="Select row for deletion or update" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
+                    </HBox>
+                </VBox>
+
+                <VBox spacing="20" prefWidth="300" minWidth="300"
+                      style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1;">
+                    <padding><Insets top="25" right="20" bottom="25" left="20" /></padding>
+
+                    <VBox spacing="5">
+                        <Label text="New Record" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                        <Separator />
+                    </VBox>
+
+                    <VBox spacing="8">
+                        <Label text="Naziv godine" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
+                        <TextField fx:id="novaGodinaTf" promptText="npr. 2025"
+                                   style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 8; -fx-padding: 8;" />
+                    </VBox>
+
+                    <Button text="Save" onAction="#handleCreate" maxWidth="Infinity"
+                            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 12; -fx-background-radius: 8; -fx-cursor: hand;" />
+                </VBox>
             </HBox>
-
         </VBox>
     </center>
 </BorderPane>
-

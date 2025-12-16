@@ -12,70 +12,78 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Separator?>
 
-<BorderPane fx:id="searchStudentPane" prefHeight="700" prefWidth="900" style="-fx-background-color: white;" xmlns:fx="http://javafx.com/fxml"
+<BorderPane fx:id="searchStudentPane" prefHeight="700" prefWidth="950" style="-fx-background-color: white;" xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.raflab.studsluzbadesktopclient.controllers.SearchStudentController">
     <top>
         <fx:include source="menuBar.fxml"/>
     </top>
     <center>
-        <VBox spacing="20" style="-fx-background-color: white;">
+        <VBox spacing="15" style="-fx-background-color: white;">
             <padding>
                 <Insets top="20" right="20" bottom="20" left="20" />
             </padding>
 
-            <VBox spacing="15" style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1;">
-                <padding>
-                    <Insets top="20" right="25" bottom="20" left="25" />
-                </padding>
+            <Label text="Pretraga Studenata"
+                   style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
 
-                <VBox spacing="5">
-                    <Label text="Search Students" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
-                    <Separator />
+            <HBox spacing="15" VBox.vgrow="ALWAYS">
+
+                <VBox spacing="10" HBox.hgrow="ALWAYS">
+                    <TableView fx:id="studentTable" VBox.vgrow="ALWAYS"
+                               style="-fx-background-color: white; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-padding: 0;">
+                        <columns>
+                            <TableColumn prefWidth="200" text="Ime">
+                                <cellValueFactory><PropertyValueFactory property="ime" /></cellValueFactory>
+                            </TableColumn>
+                            <TableColumn prefWidth="200" text="Prezime">
+                                <cellValueFactory><PropertyValueFactory property="prezime" /></cellValueFactory>
+                            </TableColumn>
+                            <TableColumn prefWidth="120" text="Godina upisa" style="-fx-alignment: CENTER;">
+                                <cellValueFactory><PropertyValueFactory property="godinaUpisa" /></cellValueFactory>
+                            </TableColumn>
+                        </columns>
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                        </columnResizePolicy>
+                    </TableView>
+                    <Label text="Select student for detailed profile" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
                 </VBox>
 
-                <HBox spacing="20" alignment="BOTTOM_LEFT">
-                    <VBox spacing="8" HBox.hgrow="ALWAYS">
-                        <Label text="Ime" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
-                        <TextField fx:id="studentNameTf" promptText="Unesite ime..."
-                                   style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 8; -fx-padding: 8;" />
+                <VBox spacing="20" prefWidth="300" minWidth="300"
+                      style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1;">
+                    <padding>
+                        <Insets top="25" right="20" bottom="25" left="20" />
+                    </padding>
+
+                    <VBox spacing="5">
+                        <Label text="Apply Filters" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                        <Separator />
                     </VBox>
 
-                    <VBox spacing="8" HBox.hgrow="ALWAYS">
-                        <Label text="Prezime" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
-                        <TextField fx:id="studentLastNameTf" promptText="Unesite prezime..."
-                                   style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 8; -fx-padding: 8;" />
+                    <VBox spacing="15">
+                        <VBox spacing="8">
+                            <Label text="Ime" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
+                            <TextField fx:id="studentNameTf" promptText="Unesite ime..."
+                                       style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 8; -fx-padding: 8;" />
+                        </VBox>
+
+                        <VBox spacing="8">
+                            <Label text="Prezime" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
+                            <TextField fx:id="studentLastNameTf" promptText="Unesite prezime..."
+                                       style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 8; -fx-padding: 8;" />
+                        </VBox>
+
+                        <VBox spacing="8">
+                            <Label text="Srednja škola" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
+                            <TextField fx:id="srednjaSkolaTf" promptText="npr. Prva gimnazija"
+                                       style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 8; -fx-padding: 8;" />
+                        </VBox>
                     </VBox>
 
-                    <Button onAction="#handleSearchStudent" text="Search" prefHeight="38" minWidth="120"
-                            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;" />
-                </HBox>
-            </VBox>
-
-            <VBox spacing="10" VBox.vgrow="ALWAYS">
-                <TableView fx:id="studentTable" VBox.vgrow="ALWAYS"
-                           style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-padding: 0;">
-                    <columns>
-                        <TableColumn prefWidth="250" text="Ime">
-                            <cellValueFactory>
-                                <PropertyValueFactory property="ime" />
-                            </cellValueFactory>
-                        </TableColumn>
-                        <TableColumn prefWidth="250" text="Prezime">
-                            <cellValueFactory>
-                                <PropertyValueFactory property="prezime" />
-                            </cellValueFactory>
-                        </TableColumn>
-                        <TableColumn prefWidth="150" text="Godina upisa" style="-fx-alignment: CENTER;">
-                            <cellValueFactory>
-                                <PropertyValueFactory property="godinaUpisa" />
-                            </cellValueFactory>
-                        </TableColumn>
-                    </columns>
-                    <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                    </columnResizePolicy>
-                </TableView>
-            </VBox>
+                    <Button onAction="#handleSearchStudent" text="Search" maxWidth="Infinity"
+                            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 10 16; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;" />
+                </VBox>
+            </HBox>
         </VBox>
     </center>
 </BorderPane>

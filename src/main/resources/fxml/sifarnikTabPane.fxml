@@ -12,7 +12,7 @@
     <Tab text="Zvanje" closable="false">
         <HBox spacing="15" style="-fx-background-color: white; -fx-padding: 15;">
             <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: transparent;">
-                <TableView fx:id="zvanjeTable" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-padding: 0;">
+                <TableView fx:id="zvanjeTable" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-padding: 0;">
                     <columns>
                         <TableColumn text="ID" prefWidth="50" style="-fx-alignment: CENTER;">
                             <cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory>
@@ -24,7 +24,7 @@
                 </TableView>
                 <HBox spacing="10" alignment="CENTER_LEFT">
                     <Button text="−" onAction="#handleDeleteZvanje" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-min-width: 40;" />
-                    <Label text="Selektujte red za brisanje" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
+                    <Label text="Select row for deletion" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
                 </HBox>
             </VBox>
 
@@ -46,7 +46,7 @@
     <Tab text="Tip škole" closable="false">
         <HBox spacing="15" style="-fx-background-color: white; -fx-padding: 15;">
             <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: transparent;">
-                <TableView fx:id="tipSkoleTable" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-padding: 0;">
+                <TableView fx:id="tipSkoleTable" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-padding: 0;">
                     <columns>
                         <TableColumn text="ID" prefWidth="50" style="-fx-alignment: CENTER;">
                             <cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory>
@@ -58,7 +58,7 @@
                 </TableView>
                 <HBox spacing="10" alignment="CENTER_LEFT">
                     <Button text="−" onAction="#handleDeleteTipSkole" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-min-width: 40;" />
-                    <Label text="Selektujte red za brisanje" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
+                    <Label text="Select row for deletion" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
                 </HBox>
             </VBox>
 
@@ -80,7 +80,7 @@
     <Tab text="Naučna Oblast" closable="false">
         <HBox spacing="15" style="-fx-background-color: white; -fx-padding: 15;">
             <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: transparent;">
-                <TableView fx:id="naucnaOblastTable" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-padding: 0;">
+                <TableView fx:id="naucnaOblastTable" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-padding: 0;">
                     <columns>
                         <TableColumn text="ID" prefWidth="50" style="-fx-alignment: CENTER;">
                             <cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory>
@@ -92,7 +92,7 @@
                 </TableView>
                 <HBox spacing="10" alignment="CENTER_LEFT">
                     <Button text="−" onAction="#handleDeleteNaucnaOblast" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-min-width: 40;" />
-                    <Label text="Selektujte red za brisanje" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
+                    <Label text="Select row for deletion" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
                 </HBox>
             </VBox>
 
@@ -114,7 +114,7 @@
     <Tab text="Uža Naučna Oblast" closable="false">
         <HBox spacing="15" style="-fx-background-color: white; -fx-padding: 15;">
             <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: transparent;">
-                <TableView fx:id="uzaNaucnaOblastTable" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-padding: 0;">
+                <TableView fx:id="uzaNaucnaOblastTable" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-padding: 0;">
                     <columns>
                         <TableColumn text="ID" prefWidth="50" style="-fx-alignment: CENTER;">
                             <cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory>
@@ -126,7 +126,7 @@
                 </TableView>
                 <HBox spacing="10" alignment="CENTER_LEFT">
                     <Button text="−" onAction="#handleDeleteUzaNaucnaOblast" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-min-width: 40;" />
-                    <Label text="Selektujte red za brisanje" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
+                    <Label text="Select row for deletion" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
                 </HBox>
             </VBox>
 
@@ -148,7 +148,7 @@
     <Tab text="Vrsta Studija" closable="false">
         <HBox spacing="15" style="-fx-background-color: white; -fx-padding: 15;">
             <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: transparent;">
-                <TableView fx:id="vrstaStudijaTable" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-padding: 0;">
+                <TableView fx:id="vrstaStudijaTable" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-padding: 0;">
                     <columns>
                         <TableColumn text="ID" prefWidth="50" style="-fx-alignment: CENTER;">
                             <cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory>
@@ -163,7 +163,7 @@
                 </TableView>
                 <HBox spacing="10" alignment="CENTER_LEFT">
                     <Button text="−" onAction="#handleDeleteVrstaStudija" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-min-width: 40;" />
-                    <Label text="Selektujte red za brisanje" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
+                    <Label text="Select row for deletion" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
                 </HBox>
             </VBox>
 
@@ -189,7 +189,7 @@
     <Tab text="Visokoškolska Ustanova" closable="false">
         <HBox spacing="15" style="-fx-background-color: white; -fx-padding: 15;">
             <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: transparent;">
-                <TableView fx:id="visokoskolskaUstanovaTable" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-padding: 0;">
+                <TableView fx:id="visokoskolskaUstanovaTable" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-padding: 0;">
                     <columns>
                         <TableColumn text="ID" prefWidth="50" style="-fx-alignment: CENTER;">
                             <cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory>
@@ -201,7 +201,7 @@
                 </TableView>
                 <HBox spacing="10" alignment="CENTER_LEFT">
                     <Button text="−" onAction="#handleDeleteVisokoskolskaUstanova" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-min-width: 40;" />
-                    <Label text="Selektujte red za brisanje" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
+                    <Label text="Select row for deletion" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
                 </HBox>
             </VBox>
 
@@ -223,7 +223,7 @@
     <Tab text="Vrsta Predispitne" closable="false">
         <HBox spacing="15" style="-fx-background-color: white; -fx-padding: 15;">
             <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: transparent;">
-                <TableView fx:id="vrstaPredispitneTable" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-padding: 0;">
+                <TableView fx:id="vrstaPredispitneTable" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-padding: 0;">
                     <columns>
                         <TableColumn text="ID" prefWidth="50" style="-fx-alignment: CENTER;">
                             <cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory>
@@ -235,7 +235,7 @@
                 </TableView>
                 <HBox spacing="10" alignment="CENTER_LEFT">
                     <Button text="−" onAction="#handleDeleteVrstaPredispitne" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-min-width: 40;" />
-                    <Label text="Selektujte red za brisanje" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
+                    <Label text="Select row for deletion" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
                 </HBox>
             </VBox>
 
