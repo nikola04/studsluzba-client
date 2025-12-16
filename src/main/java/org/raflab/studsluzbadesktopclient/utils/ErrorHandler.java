@@ -2,6 +2,7 @@ package org.raflab.studsluzbadesktopclient.utils;
 
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import org.raflab.studsluzbadesktopclient.exceptions.ConflictException;
 import org.raflab.studsluzbadesktopclient.exceptions.ResourceNotFoundException;
 import org.raflab.studsluzbadesktopclient.exceptions.InvalidDataException;
 import org.raflab.studsluzbadesktopclient.exceptions.ServerCommunicationException;
@@ -32,6 +33,8 @@ public class ErrorHandler {
             return "Resource not found.";
         if (cause instanceof ServerCommunicationException || cause instanceof WebClientRequestException)
             return "Communication failed.";
+        if (cause instanceof ConflictException)
+            return "Conflict.";
 
         return "Unexpected error.";
     }

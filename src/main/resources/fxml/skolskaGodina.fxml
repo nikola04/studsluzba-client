@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <BorderPane
-        fx:id="adminSkolskeGodine"
         prefHeight="600" prefWidth="900"
         xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.raflab.studsluzbadesktopclient.controllers.AdminSkolskeGodineController">
+            fx:controller="org.raflab.studsluzbadesktopclient.controllers.SkolskaGodinaController">
 
     <top>
         <fx:include source="menuBar.fxml"/>
@@ -22,7 +18,7 @@
 
             <Label text="Školske godine" style="-fx-font-size: 18px;"/>
 
-            <TableView fx:id="skolskeGodineTable">
+            <TableView fx:id="skolskaGodinaTable">
                 <columns>
                     <TableColumn text="Naziv">
                         <cellValueFactory>
@@ -39,7 +35,7 @@
 
             <HBox spacing="10">
                 <Button text="Dodaj" onAction="#handleAdd"/>
-                <Button text="Izmeni" onAction="#handleEdit"/>
+                <Button text="Postavi" onAction="#handleSet"/>
 
                 <Button text="Obriši" onAction="#handleDelete"/>
 

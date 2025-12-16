@@ -5,16 +5,12 @@ import org.raflab.studsluzbadesktopclient.services.StudentService;
 import org.springframework.stereotype.Component;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.MenuBar;
 
 @Component
 public class MenuBarController { 
 
 	final MainView mainView;
 	final StudentService studentService;
-
-	@FXML
-	private MenuBar menuBar;
 
     public MenuBarController(StudentService studentService, MainView mainView){
         this.studentService = studentService;
@@ -28,11 +24,11 @@ public class MenuBarController {
 	public void openNewStudent() {
 		mainView.changeRoot("newStudent");
 	}
-	public void openAdminSifarnici() {
-		mainView.changeRoot("adminSifarnici");
+	public void openSifarnik() {
+		mainView.changeRoot("sifarnik");
 	}
-	public void openAdminSkolskeGodine() {
-		mainView.changeRoot("adminSkolskeGodine");
+	public void openSkolskaGodina() {
+		mainView.changeRoot("skolskaGodina");
 	}
 
 	@FXML

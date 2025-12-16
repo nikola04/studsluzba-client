@@ -2,7 +2,6 @@ package org.raflab.studsluzbadesktopclient.coder;
 
 import org.springframework.stereotype.Component;
 
-
 @Component
 public class CoderFactory {
 

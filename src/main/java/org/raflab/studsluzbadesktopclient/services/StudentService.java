@@ -1,7 +1,5 @@
 package org.raflab.studsluzbadesktopclient.services;
 
-import java.util.concurrent.CompletableFuture;
-
 import lombok.AllArgsConstructor;
 import org.raflab.studsluzbacommon.dto.PagedResponse;
 import org.raflab.studsluzbacommon.dto.response.StudentResponseDTO;
@@ -33,14 +31,13 @@ public class StudentService {
 		return builder.toUriString();
 	}
 
-	public CompletableFuture<PagedResponse<StudentResponseDTO>> searchStudentAsync(String name, String lastName) {
+	public Mono<PagedResponse<StudentResponseDTO>> searchStudents(String name, String lastName) {
 		String url = createSearchUrl(name, lastName);
 
 		return webClient.get()
 			.uri(url)
 			.retrieve()
 			.onStatus(HttpStatusCode::is5xxServerError, clientResponse -> Mono.error(new ServerCommunicationException(clientResponse.statusCode().toString())))
-			.bodyToMono(new ParameterizedTypeReference<PagedResponse<StudentResponseDTO>>() {})
-				.toFuture();
+			.bodyToMono(new ParameterizedTypeReference<>() {});
 	}
 }

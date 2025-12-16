@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<BorderPane
+    prefHeight="600" prefWidth="900"
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="org.raflab.studsluzbadesktopclient.controllers.SifrarnikController"
+>
+    <top>
+        <fx:include source="menuBar.fxml"/>
+    </top>
+
+    <center>
+        <fx:include source="sifarnikTabPane.fxml"/>
+    </center>
+</BorderPane>

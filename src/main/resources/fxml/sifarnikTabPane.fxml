@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+
+<TabPane xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="org.raflab.studsluzbadesktopclient.controllers.SifrarnikController">
+
+    <Tab text="Zvanje" closable="false">
+        <HBox spacing="15" style="-fx-background-color: white; -fx-padding: 15;">
+            <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: transparent;">
+                <TableView fx:id="zvanjeTable" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-padding: 0;">
+                    <columns>
+                        <TableColumn text="ID" prefWidth="50" style="-fx-alignment: CENTER;">
+                            <cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Zvanje" prefWidth="350">
+                            <cellValueFactory><PropertyValueFactory property="zvanje" /></cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                </TableView>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button text="−" onAction="#handleDeleteZvanje" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-min-width: 40;" />
+                    <Label text="Selektujte red za brisanje" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
+                </HBox>
+            </VBox>
+
+            <VBox spacing="20" prefWidth="300" minWidth="300" style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1;">
+                <padding><Insets top="25" right="20" bottom="25" left="20" /></padding>
+                <VBox spacing="5">
+                    <Label text="New Record" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                    <Separator />
+                </VBox>
+                <VBox spacing="8">
+                    <Label text="Naziv zvanja" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
+                    <TextField fx:id="novoZvanjeTf" promptText="npr. Docent" style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 8; -fx-padding: 8;" />
+                </VBox>
+                <Button text="Save" onAction="#handleCreateZvanje" maxWidth="Infinity" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 12; -fx-background-radius: 8; -fx-cursor: hand;" />
+            </VBox>
+        </HBox>
+    </Tab>
+
+    <Tab text="Tip škole" closable="false">
+        <HBox spacing="15" style="-fx-background-color: white; -fx-padding: 15;">
+            <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: transparent;">
+                <TableView fx:id="tipSkoleTable" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-padding: 0;">
+                    <columns>
+                        <TableColumn text="ID" prefWidth="50" style="-fx-alignment: CENTER;">
+                            <cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Tip" prefWidth="350">
+                            <cellValueFactory><PropertyValueFactory property="tip" /></cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                </TableView>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button text="−" onAction="#handleDeleteTipSkole" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-min-width: 40;" />
+                    <Label text="Selektujte red za brisanje" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
+                </HBox>
+            </VBox>
+
+            <VBox spacing="20" prefWidth="300" minWidth="300" style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1;">
+                <padding><Insets top="25" right="20" bottom="25" left="20" /></padding>
+                <VBox spacing="5">
+                    <Label text="New Record" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                    <Separator />
+                </VBox>
+                <VBox spacing="8">
+                    <Label text="Naziv ustanove" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
+                    <TextField fx:id="novoTipSkoleTf" promptText="npr. Gimnazija" style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 8; -fx-padding: 8;" />
+                </VBox>
+                <Button text="Save" onAction="#handleCreateTipSkole" maxWidth="Infinity" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 12; -fx-background-radius: 8; -fx-cursor: hand;" />
+            </VBox>
+        </HBox>
+    </Tab>
+
+    <Tab text="Naučna Oblast" closable="false">
+        <HBox spacing="15" style="-fx-background-color: white; -fx-padding: 15;">
+            <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: transparent;">
+                <TableView fx:id="naucnaOblastTable" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-padding: 0;">
+                    <columns>
+                        <TableColumn text="ID" prefWidth="50" style="-fx-alignment: CENTER;">
+                            <cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Naučna Oblast" prefWidth="350">
+                            <cellValueFactory><PropertyValueFactory property="naucnaOblast" /></cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                </TableView>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button text="−" onAction="#handleDeleteNaucnaOblast" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-min-width: 40;" />
+                    <Label text="Selektujte red za brisanje" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
+                </HBox>
+            </VBox>
+
+            <VBox spacing="20" prefWidth="300" minWidth="300" style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1;">
+                <padding><Insets top="25" right="20" bottom="25" left="20" /></padding>
+                <VBox spacing="5">
+                    <Label text="New Record" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                    <Separator />
+                </VBox>
+                <VBox spacing="8">
+                    <Label text="Naziv oblasti" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
+                    <TextField fx:id="novoNaucnaOblastTf" promptText="npr. Prirodne nauke" style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 8; -fx-padding: 8;" />
+                </VBox>
+                <Button text="Save" onAction="#handleCreateNaucnaOblast" maxWidth="Infinity" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 12; -fx-background-radius: 8; -fx-cursor: hand;" />
+            </VBox>
+        </HBox>
+    </Tab>
+
+    <Tab text="Uža Naučna Oblast" closable="false">
+        <HBox spacing="15" style="-fx-background-color: white; -fx-padding: 15;">
+            <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: transparent;">
+                <TableView fx:id="uzaNaucnaOblastTable" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-padding: 0;">
+                    <columns>
+                        <TableColumn text="ID" prefWidth="50" style="-fx-alignment: CENTER;">
+                            <cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Uža Naučna Oblast" prefWidth="350">
+                            <cellValueFactory><PropertyValueFactory property="uzaNaucnaOblast" /></cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                </TableView>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button text="−" onAction="#handleDeleteUzaNaucnaOblast" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-min-width: 40;" />
+                    <Label text="Selektujte red za brisanje" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
+                </HBox>
+            </VBox>
+
+            <VBox spacing="20" prefWidth="300" minWidth="300" style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1;">
+                <padding><Insets top="25" right="20" bottom="25" left="20" /></padding>
+                <VBox spacing="5">
+                    <Label text="New Record" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                    <Separator />
+                </VBox>
+                <VBox spacing="8">
+                    <Label text="Naziv uže oblasti" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
+                    <TextField fx:id="novoUzaNaucnaOblastTf" promptText="npr. Veštačka inteligencija" style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 8; -fx-padding: 8;" />
+                </VBox>
+                <Button text="Save" onAction="#handleCreateUzaNaucnaOblast" maxWidth="Infinity" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 12; -fx-background-radius: 8; -fx-cursor: hand;" />
+            </VBox>
+        </HBox>
+    </Tab>
+
+    <Tab text="Vrsta Studija" closable="false">
+        <HBox spacing="15" style="-fx-background-color: white; -fx-padding: 15;">
+            <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: transparent;">
+                <TableView fx:id="vrstaStudijaTable" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-padding: 0;">
+                    <columns>
+                        <TableColumn text="ID" prefWidth="50" style="-fx-alignment: CENTER;">
+                            <cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Naziv" prefWidth="250">
+                            <cellValueFactory><PropertyValueFactory property="naziv" /></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Oznaka" style="-fx-alignment: CENTER;">
+                            <cellValueFactory><PropertyValueFactory property="oznaka" /></cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                </TableView>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button text="−" onAction="#handleDeleteVrstaStudija" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-min-width: 40;" />
+                    <Label text="Selektujte red za brisanje" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
+                </HBox>
+            </VBox>
+
+            <VBox spacing="20" prefWidth="300" minWidth="300" style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1;">
+                <padding><Insets top="25" right="20" bottom="25" left="20" /></padding>
+                <VBox spacing="5">
+                    <Label text="New Record" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                    <Separator />
+                </VBox>
+                <VBox spacing="8">
+                    <Label text="Naziv" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
+                    <TextField fx:id="novoVrstaStudijaNazivTf" promptText="npr. Osnovne akademske" style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 8; -fx-padding: 8;" />
+                    <Label text="Oznaka" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;">
+                        <VBox.margin><Insets top="5"/></VBox.margin>
+                    </Label>
+                    <TextField fx:id="novoVrstaStudijaOznakaTf" promptText="npr. OAS" style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 8; -fx-padding: 8;" />
+                </VBox>
+                <Button text="Save" onAction="#handleCreateVrstaStudija" maxWidth="Infinity" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 12; -fx-background-radius: 8; -fx-cursor: hand;" />
+            </VBox>
+        </HBox>
+    </Tab>
+
+    <Tab text="Visokoškolska Ustanova" closable="false">
+        <HBox spacing="15" style="-fx-background-color: white; -fx-padding: 15;">
+            <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: transparent;">
+                <TableView fx:id="visokoskolskaUstanovaTable" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-padding: 0;">
+                    <columns>
+                        <TableColumn text="ID" prefWidth="50" style="-fx-alignment: CENTER;">
+                            <cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Naziv Ustanove" prefWidth="350">
+                            <cellValueFactory><PropertyValueFactory property="naziv" /></cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                </TableView>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button text="−" onAction="#handleDeleteVisokoskolskaUstanova" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-min-width: 40;" />
+                    <Label text="Selektujte red za brisanje" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
+                </HBox>
+            </VBox>
+
+            <VBox spacing="20" prefWidth="300" minWidth="300" style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1;">
+                <padding><Insets top="25" right="20" bottom="25" left="20" /></padding>
+                <VBox spacing="5">
+                    <Label text="New Record" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                    <Separator />
+                </VBox>
+                <VBox spacing="8">
+                    <Label text="Naziv ustanove" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
+                    <TextField fx:id="novoVisokoskolskaUstanovaTf" promptText="npr. Univerzitet u Beogradu" style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 8; -fx-padding: 8;" />
+                </VBox>
+                <Button text="Save" onAction="#handleCreateVisokoskolskaUstanova" maxWidth="Infinity" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 12; -fx-background-radius: 8; -fx-cursor: hand;" />
+            </VBox>
+        </HBox>
+    </Tab>
+
+    <Tab text="Vrsta Predispitne" closable="false">
+        <HBox spacing="15" style="-fx-background-color: white; -fx-padding: 15;">
+            <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: transparent;">
+                <TableView fx:id="vrstaPredispitneTable" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-padding: 0;">
+                    <columns>
+                        <TableColumn text="ID" prefWidth="50" style="-fx-alignment: CENTER;">
+                            <cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Naziv" prefWidth="350">
+                            <cellValueFactory><PropertyValueFactory property="vrsta" /></cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                </TableView>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button text="−" onAction="#handleDeleteVrstaPredispitne" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-min-width: 40;" />
+                    <Label text="Selektujte red za brisanje" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
+                </HBox>
+            </VBox>
+
+            <VBox spacing="20" prefWidth="300" minWidth="300" style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1;">
+                <padding><Insets top="25" right="20" bottom="25" left="20" /></padding>
+                <VBox spacing="5">
+                    <Label text="New Record" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                    <Separator />
+                </VBox>
+                <VBox spacing="8">
+                    <Label text="Naziv obaveze" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
+                    <TextField fx:id="novoVrstaPredispitneTf" promptText="npr. Kolokvijum" style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 8; -fx-padding: 8;" />
+                </VBox>
+                <Button text="Save" onAction="#handleCreateVrstaPredispitne" maxWidth="Infinity" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 12; -fx-background-radius: 8; -fx-cursor: hand;" />
+            </VBox>
+        </HBox>
+    </Tab>
+
+</TabPane>

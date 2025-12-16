@@ -2,6 +2,7 @@ package org.raflab.studsluzbadesktopclient.controllers;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -19,6 +20,7 @@ import java.util.List;
 public class SearchStudentController {
 
     private final StudentService studentService;
+    private final ObservableList<StudentResponseDTO> studentObList = FXCollections.observableArrayList();
 
     @FXML
     public BorderPane searchStudentPane;
@@ -34,21 +36,23 @@ public class SearchStudentController {
         this.studentService = studentService;
     }
 
+    public void initialize(){
+        studentTable.setItems(studentObList);
+        this.handleSearchStudent(null);
+    }
+
     public void handleSearchStudent(ActionEvent actionEvent) {
-        ((Button) actionEvent.getSource()).setDisable(true);
+        Button button = actionEvent != null ? ((Button) actionEvent.getSource()) : null;
+        if (button != null) button.setDisable(true);
 
         String name = studentNameTf.getText();
         String lastName = studentLastNameTf.getText();
 
-        studentService.searchStudentAsync(name, lastName)
-            .thenAccept(pagedResponse -> {
-                List<StudentResponseDTO> studenti = pagedResponse.getContent();
-                Platform.runLater(() -> studentTable.setItems(FXCollections.observableArrayList(studenti)));
-            })
-            .exceptionally(ex -> {
-                ErrorHandler.displayError(ex);
-                return null;
-            })
-            .thenRun(() -> Platform.runLater(() -> ((Button) actionEvent.getSource()).setDisable(false)));
+        studentService.searchStudents(name, lastName).subscribe(pagedResponse -> {
+            List<StudentResponseDTO> studentList = pagedResponse.getContent();
+            Platform.runLater(() -> studentObList.setAll(studentList));
+        }, ErrorHandler::displayError, () -> {
+            if (button != null) button.setDisable(false);
+        });
     }
 }
