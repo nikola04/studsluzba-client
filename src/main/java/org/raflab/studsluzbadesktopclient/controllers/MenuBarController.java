@@ -20,7 +20,9 @@ public class MenuBarController {
 	public void openSearchStudent() {
 		mainView.changeRoot("searchStudent");
 	}
-
+	public void openSearchNastavnik() {
+		mainView.changeRoot("searchNastavnik");
+	}
 	public void openNewStudent() {
 		mainView.changeRoot("newStudent");
 	}

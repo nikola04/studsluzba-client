@@ -12,7 +12,7 @@
                 <MenuItem text="Grupe"/>
             </Menu>
             <Menu text="Nastavnici">
-                <MenuItem text="Pretraži"/>
+                <MenuItem onAction="#openSearchNastavnik" text="Pretraži"/>
                 <MenuItem text="Novi"/>
             </Menu>
             <Menu text="Predmeti">

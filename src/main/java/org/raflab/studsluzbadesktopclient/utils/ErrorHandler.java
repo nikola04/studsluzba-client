@@ -35,7 +35,7 @@ public class ErrorHandler {
             return "Communication failed.";
         if (cause instanceof ConflictException)
             return "Conflict.";
-
+        ex.printStackTrace();
         return "Unexpected error.";
     }
 }

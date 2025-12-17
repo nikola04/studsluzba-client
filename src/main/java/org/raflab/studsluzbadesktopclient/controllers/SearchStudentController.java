@@ -9,8 +9,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.util.Duration;
 import org.raflab.studsluzbacommon.dto.response.StudentResponseDTO;
 import org.raflab.studsluzbadesktopclient.services.StudentService;
+import org.raflab.studsluzbadesktopclient.utils.DebouncedSearchHelper;
 import org.raflab.studsluzbadesktopclient.utils.ErrorHandler;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +41,14 @@ public class SearchStudentController {
 
     public void initialize(){
         studentTable.setItems(studentObList);
+        new DebouncedSearchHelper(
+                Duration.millis(300),
+                () -> handleSearchStudent(null),
+                studentNameTf,
+                studentLastNameTf,
+                srednjaSkolaTf
+        );
+
         this.handleSearchStudent(null);
     }
 
