@@ -1,13 +1,16 @@
 package org.raflab.studsluzbadesktopclient.services;
 
 import lombok.AllArgsConstructor;
+import org.raflab.studsluzbacommon.dto.response.IznosResponse;
 import org.raflab.studsluzbacommon.dto.response.StudentIndeksResponseDTO;
+import org.raflab.studsluzbacommon.dto.response.UplataResponse;
 import org.raflab.studsluzbadesktopclient.exceptions.InvalidDataException;
 import org.raflab.studsluzbadesktopclient.exceptions.ResourceNotFoundException;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.naming.CommunicationException;
@@ -44,5 +47,19 @@ public class StudentIndexService {
 			.onStatus(HttpStatusCode::isError, clientResponse ->
 					Mono.error(new CommunicationException(clientResponse.statusCode().toString())))
 			.bodyToMono(Double.class);
+	}
+
+	public Flux<UplataResponse> findStudentUplata(Long indexId){
+		return webClient.get()
+				.uri(createURL(indexId + "/uplata"))
+				.retrieve()
+				.bodyToFlux(UplataResponse.class);
+	}
+
+	public Mono<IznosResponse> fetchPreostaliIznos(Long indexId){
+		return webClient.get()
+				.uri(createURL(indexId + "/uplata/preostalo"))
+				.retrieve()
+				.bodyToMono(IznosResponse.class);
 	}
 }

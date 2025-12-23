@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.raflab.studsluzbadesktopclient.controllers.StudentController"
             style="-fx-background-color: white;">
@@ -27,7 +28,13 @@
     </top>
     <center>
         <TabPane tabClosingPolicy="UNAVAILABLE">
-            <Tab text="Ispiti (Položeni/Nepoloženi)">
+            <Tab text="Profil">
+                <VBox spacing="10" style="-fx-padding: 15;">
+                    <Button text="Uverenje"
+                            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 12; -fx-background-radius: 6; -fx-cursor: hand;"/>
+                </VBox>
+            </Tab>
+            <Tab text="Ispiti">
                 <VBox spacing="10" style="-fx-padding: 15;">
                     <Label text="Položeni ispiti" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
                     <TableView fx:id="examsTable" VBox.vgrow="ALWAYS">
@@ -44,9 +51,38 @@
                 <ListView fx:id="yearsList" style="-fx-padding: 10;"/>
             </Tab>
 
-            <Tab text="Uplate i Finansije">
-                <TableView fx:id="paymentsTable" style="-fx-padding: 10;">
-                </TableView>
+            <Tab text="Uplate">
+                <VBox spacing="10" style="-fx-padding: 15;">
+                    <VBox spacing="5" style="-fx-background-color: #f8f9fa; -fx-padding: 10; -fx-background-radius: 5; -fx-border-color: #dee2e6; -fx-border-radius: 5;">
+                        <Label text="Remaining amount" style="-fx-font-weight: bold;"/>
+                        <HBox spacing="20">
+                            <Label fx:id="remainingRsdLabel" text="RSD: 0.00" style="-fx-font-weight: medium;"/>
+                            <Label fx:id="remainingEurLabel" text="EUR: 0.00" style="-fx-font-weight: medium;"/>
+                        </HBox>
+                    </VBox>
+                    <HBox alignment="CENTER_LEFT">
+                        <Label text="Uplate" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button text="Create" onAction="#handleCreateUplata"
+                                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 12; -fx-background-radius: 6; -fx-cursor: hand;"/>
+                    </HBox>
+                    <TableView fx:id="paymentsTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn prefWidth="50" text="ID">
+                                <cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory>
+                            </TableColumn>
+                            <TableColumn prefWidth="200" text="Iznos">
+                                <cellValueFactory><PropertyValueFactory property="iznos" /></cellValueFactory>
+                            </TableColumn>
+                            <TableColumn prefWidth="100" text="Kurs">
+                                <cellValueFactory><PropertyValueFactory property="kurs" /></cellValueFactory>
+                            </TableColumn>
+                            <TableColumn prefWidth="200" text="Datum">
+                                <cellValueFactory><PropertyValueFactory property="datum" /></cellValueFactory>
+                            </TableColumn>
+                        </columns>
+                    </TableView>
+                </VBox>
             </Tab>
         </TabPane>
     </center>
