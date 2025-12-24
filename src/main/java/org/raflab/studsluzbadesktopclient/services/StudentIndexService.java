@@ -1,6 +1,7 @@
 package org.raflab.studsluzbadesktopclient.services;
 
 import lombok.AllArgsConstructor;
+import org.raflab.studsluzbacommon.dto.request.UplataRequest;
 import org.raflab.studsluzbacommon.dto.response.IznosResponse;
 import org.raflab.studsluzbacommon.dto.response.StudentIndeksResponseDTO;
 import org.raflab.studsluzbacommon.dto.response.UplataResponse;
@@ -49,14 +50,36 @@ public class StudentIndexService {
 			.bodyToMono(Double.class);
 	}
 
-	public Flux<UplataResponse> findStudentUplata(Long indexId){
+	public Flux<UplataResponse> fetchStudentUplata(Long indexId){
 		return webClient.get()
 				.uri(createURL(indexId + "/uplata"))
 				.retrieve()
 				.bodyToFlux(UplataResponse.class);
 	}
 
-	public Mono<IznosResponse> fetchPreostaliIznos(Long indexId){
+	public Mono<UplataResponse> fetchStudentUplata(Long indexId, Long uplataId){
+		return webClient.get()
+				.uri(createURL(indexId + "/uplata/" + uplataId))
+				.retrieve()
+				.onStatus(status -> status.value() == 404, clientResponse ->
+						Mono.error(new ResourceNotFoundException("Uplata cannot be found.")))
+				.bodyToMono(UplataResponse.class);
+	}
+
+	public Mono<Long> createStudentUplata(Long indexId, Double amount){
+		UplataRequest body = new UplataRequest();
+		body.setIznos(amount);
+
+		return webClient.post()
+				.uri(createURL(indexId + "/uplata"))
+				.bodyValue(body)
+				.retrieve()
+				.onStatus(status -> status.value() == 400, clientResponse ->
+						Mono.error(new ResourceNotFoundException("Amount is not valid.")))
+				.bodyToMono(Long.class);
+	}
+
+	public Mono<IznosResponse> fetchUplataPreostaliIznos(Long indexId){
 		return webClient.get()
 				.uri(createURL(indexId + "/uplata/preostalo"))
 				.retrieve()
