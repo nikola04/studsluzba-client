@@ -35,15 +35,31 @@
                 </VBox>
             </Tab>
             <Tab text="Ispiti">
-                <VBox spacing="10" style="-fx-padding: 15;">
-                    <Label text="Položeni ispiti" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
-                    <TableView fx:id="examsTable" VBox.vgrow="ALWAYS">
-                        <columns>
-                            <TableColumn text="Predmet" prefWidth="250"/>
-                            <TableColumn text="Ocena" prefWidth="100"/>
-                            <TableColumn text="Datum" prefWidth="150"/>
-                        </columns>
-                    </TableView>
+                <VBox spacing="10">
+                    <VBox spacing="10" style="-fx-padding: 15;">
+                        <Label text="Polozeni ispiti" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                        <TableView fx:id="passedExamsTable" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="idPassedExamColumn" prefWidth="70" text="ID" />
+                                <TableColumn fx:id="predmetPassedExamColumn" prefWidth="200" text="Predmet" />
+                                <TableColumn fx:id="nastavnikPassedExamColumn" prefWidth="250" text="Nastavnik" />
+                                <TableColumn fx:id="espbPassedExamColumn" text="ESPB" />
+                                <TableColumn fx:id="rokPassedExamColumn" prefWidth="70" text="Rok" />
+                            </columns>
+                        </TableView>
+                    </VBox>
+                    <VBox spacing="10" style="-fx-padding: 15;">
+                        <Label text="Nepolozeni ispiti" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                        <TableView fx:id="examsTable" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="idExamColumn" prefWidth="70" text="ID" />
+                                <TableColumn fx:id="predmetExamColumn" prefWidth="200" text="Predmet" />
+                                <TableColumn fx:id="nastavnikExamColumn" prefWidth="250" text="Nastavnik" />
+                                <TableColumn fx:id="espbExamColumn" text="ESPB" />
+                                <TableColumn fx:id="rokExamColumn" text="Rok" prefWidth="70" />
+                            </columns>
+                        </TableView>
+                    </VBox>
                 </VBox>
             </Tab>
 
@@ -82,6 +98,10 @@
                             </TableColumn>
                         </columns>
                     </TableView>
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Button text="−" onAction="#handleDeletePayment" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-min-width: 40;" />
+                        <Label text="Select row for deletion" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
+                    </HBox>
                 </VBox>
             </Tab>
         </TabPane>

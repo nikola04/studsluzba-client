@@ -2,9 +2,7 @@ package org.raflab.studsluzbadesktopclient.services;
 
 import lombok.AllArgsConstructor;
 import org.raflab.studsluzbacommon.dto.request.UplataRequest;
-import org.raflab.studsluzbacommon.dto.response.IznosResponse;
-import org.raflab.studsluzbacommon.dto.response.StudentIndeksResponseDTO;
-import org.raflab.studsluzbacommon.dto.response.UplataResponse;
+import org.raflab.studsluzbacommon.dto.response.*;
 import org.raflab.studsluzbadesktopclient.exceptions.InvalidDataException;
 import org.raflab.studsluzbadesktopclient.exceptions.ResourceNotFoundException;
 import org.springframework.core.ParameterizedTypeReference;
@@ -79,10 +77,52 @@ public class StudentIndexService {
 				.bodyToMono(Long.class);
 	}
 
+	public Mono<Boolean> deleteStudentUplata(Long indexId, Long uplataId){
+		return webClient.delete()
+				.uri(createURL(indexId + "/uplata/" + uplataId))
+				.retrieve()
+				.onStatus(status -> status.value() == 404, clientResponse ->
+						Mono.error(new ResourceNotFoundException("Uplata cannot be found.")))
+				.toBodilessEntity()
+				.thenReturn(true);
+	}
+
 	public Mono<IznosResponse> fetchUplataPreostaliIznos(Long indexId){
 		return webClient.get()
 				.uri(createURL(indexId + "/uplata/preostalo"))
 				.retrieve()
 				.bodyToMono(IznosResponse.class);
+	}
+
+// unused for now
+//	public Flux<PolozenPredmetResponse> fetchStudentPolozenPredmet(Long indexId){
+//		return webClient.get()
+//				.uri(createURL(indexId + "/predmet/polozen"))
+//				.retrieve()
+//				.bodyToFlux(PolozenPredmetResponse.class);
+//	}
+
+//	public Mono<Boolean> deletePolozenPredmet(Long indexId, Long predmetId){
+//		return webClient.delete()
+//				.uri(createURL(indexId + "/predmet/" + predmetId + "/polozen"))
+//				.retrieve()
+//				.onStatus(status -> status.value() == 404, clientResponse ->
+//						Mono.error(new ResourceNotFoundException("PolozenPredmet cannot be found.")))
+//				.toBodilessEntity()
+//				.thenReturn(true);
+//	}
+
+	public Flux<IspitResponse> fetchStudentPolozenIspit(Long indexId){
+		return webClient.get()
+				.uri(createURL(indexId + "/ispit/polozen"))
+				.retrieve()
+				.bodyToFlux(IspitResponse.class);
+	}
+
+	public Flux<IspitResponse> fetchStudentNepolozeniIspiti(Long indexId){
+		return webClient.get()
+				.uri(createURL(indexId + "/ispit/nepolozen"))
+				.retrieve()
+				.bodyToFlux(IspitResponse.class);
 	}
 }
