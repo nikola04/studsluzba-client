@@ -64,66 +64,7 @@
             </Tab>
 
             <Tab text="Upisane Godine">
-                <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
-                    <VBox spacing="20" style="-fx-padding: 15;">
-
-                        <VBox spacing="10">
-                            <HBox alignment="CENTER_LEFT">
-                                <Label text="Upis" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
-                                <Region HBox.hgrow="ALWAYS" />
-                                <Button text="Create Upis" onAction="#handleCreateUpis"
-                                        style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 12; -fx-background-radius: 6; -fx-cursor: hand;"/>
-                            </HBox>
-                            <TableView fx:id="upisTable" prefHeight="200">
-                                <columns>
-                                    <TableColumn prefWidth="50" text="ID">
-                                        <cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory>
-                                    </TableColumn>
-                                    <TableColumn prefWidth="100" text="Godina">
-                                        <cellValueFactory><PropertyValueFactory property="godina" /></cellValueFactory>
-                                    </TableColumn>
-                                    <TableColumn prefWidth="150" text="Datum Upisa">
-                                        <cellValueFactory><PropertyValueFactory property="datumUpisa" /></cellValueFactory>
-                                    </TableColumn>
-                                    <TableColumn prefWidth="100" text="Skolska Godina">
-                                        <cellValueFactory><PropertyValueFactory property="skolskaGodina" /></cellValueFactory>
-                                    </TableColumn>
-                                    <TableColumn prefWidth="300" text="Napomena">
-                                        <cellValueFactory><PropertyValueFactory property="napomena" /></cellValueFactory>
-                                    </TableColumn>
-                                </columns>
-                            </TableView>
-                        </VBox>
-                        <VBox spacing="10">
-                            <HBox alignment="CENTER_LEFT">
-                                <Label text="Obnova" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
-                                <Region HBox.hgrow="ALWAYS" />
-                                <Button text="Create Obnova" onAction="#handleCreateObnova"
-                                        style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 12; -fx-background-radius: 6; -fx-cursor: hand;"/>
-                            </HBox>
-                            <TableView fx:id="obnovaTable" prefHeight="200">
-                                <columns>
-                                    <TableColumn prefWidth="50" text="ID">
-                                        <cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory>
-                                    </TableColumn>
-                                    <TableColumn prefWidth="100" text="Godina">
-                                        <cellValueFactory><PropertyValueFactory property="godina" /></cellValueFactory>
-                                    </TableColumn>
-                                    <TableColumn prefWidth="150" text="Datum Obnove">
-                                        <cellValueFactory><PropertyValueFactory property="datumObnove" /></cellValueFactory>
-                                    </TableColumn>
-                                    <TableColumn prefWidth="100" text="Skolska Godina">
-                                        <cellValueFactory><PropertyValueFactory property="skolskaGodina" /></cellValueFactory>
-                                    </TableColumn>
-                                    <TableColumn prefWidth="300" text="Napomena">
-                                        <cellValueFactory><PropertyValueFactory property="napomena" /></cellValueFactory>
-                                    </TableColumn>
-                                </columns>
-                            </TableView>
-                        </VBox>
-
-                    </VBox>
-                </ScrollPane>
+                <ListView fx:id="yearsList" style="-fx-padding: 10;"/>
             </Tab>
 
             <Tab text="Uplate">

@@ -94,40 +94,23 @@ public class StudentIndexService {
 				.bodyToMono(IznosResponse.class);
 	}
 
-	public Flux<UpisGodineResponse> fetchStudentUpisGodine(Long indexId){
-		return webClient.get()
-				.uri(createURL(indexId + "/upis"))
-				.retrieve()
-				.bodyToFlux(UpisGodineResponse.class);
-	}
+// unused for now
+//	public Flux<PolozenPredmetResponse> fetchStudentPolozenPredmet(Long indexId){
+//		return webClient.get()
+//				.uri(createURL(indexId + "/predmet/polozen"))
+//				.retrieve()
+//				.bodyToFlux(PolozenPredmetResponse.class);
+//	}
 
-	public Mono<Long> createStudentUpisGodine(Long indexId, Long skolskaGodinaId, String note){
-		return webClient.post()
-				.uri(uriBuilder -> uriBuilder
-						.path(createURL(indexId + "/upis/godina/" + skolskaGodinaId))
-						.queryParam("napomena", note)
-						.build())
-				.bodyValue("")
-				.retrieve()
-				.bodyToMono(Long.class);
-	}
-
-	public Flux<ObnovaGodineResponse> fetchStudentObnovaGodine(Long indexId){
-		return webClient.get()
-				.uri(createURL(indexId + "/obnova"))
-				.retrieve()
-				.bodyToFlux(ObnovaGodineResponse.class);
-	}
-
-	public Mono<Long> createStudentObnovaGodine(Long indexId, Long skolskaGodinaId, String note){
-		return webClient.post()
-				.uri(uriBuilder -> uriBuilder
-						.path(createURL(indexId + "/obnova/godina/" + skolskaGodinaId))
-						.queryParam("napomena", note)
-						.build())
-				.retrieve()
-				.bodyToMono(Long.class);
-	}
+//	public Mono<Boolean> deletePolozenPredmet(Long indexId, Long predmetId){
+//		return webClient.delete()
+//				.uri(createURL(indexId + "/predmet/" + predmetId + "/polozen"))
+//				.retrieve()
+//				.onStatus(status -> status.value() == 404, clientResponse ->
+//						Mono.error(new ResourceNotFoundException("PolozenPredmet cannot be found.")))
+//				.toBodilessEntity()
+//				.thenReturn(true);
+//	}
 
 	public Flux<IspitResponse> fetchStudentPolozenIspit(Long indexId){
 		return webClient.get()
