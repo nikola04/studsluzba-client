@@ -24,7 +24,7 @@ public class StudentIndexService {
 		return "student/indeks/" + pathEnd;
 	}
 
-	public Mono<StudentIndeksResponseDTO> findStudentIndexByIndexNumber(String index){
+	public Mono<StudentIndeksResponseDTO> fetchStudentIndexByIndexNumber(String index){
 		return webClient.get()
 			.uri(createURL(index))
 			.retrieve()
@@ -35,6 +35,13 @@ public class StudentIndexService {
 			.onStatus(HttpStatusCode::isError, clientResponse ->
 					Mono.error(new CommunicationException(clientResponse.statusCode().toString())))
 			.bodyToMono(new ParameterizedTypeReference<>() {});
+	}
+
+	public Flux<StudentIndeksResponseDTO> fetchStudentIndexByStudentId(Long studentId){
+		return webClient.get()
+			.uri("student/podaci/" + studentId + "/indeks")
+			.retrieve()
+			.bodyToFlux(StudentIndeksResponseDTO.class);
 	}
 
 	public Mono<Double> findStudentAverageOcena(Long indexId){
