@@ -8,7 +8,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.raflab.studsluzbacommon.dto.response.StudentIndeksResponseDTO;
@@ -21,7 +23,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @Component
 public class StudentController {
@@ -73,11 +74,11 @@ public class StudentController {
     private void updatePayments(){
         payments.clear();
 
-        studentIndexService.fetchUplataPreostaliIznos(studentIndex.getId()).subscribe(amount -> Platform.runLater(() -> {
+        studentIndexService.fetchPreostaliIznos(studentIndex.getId()).subscribe(amount -> Platform.runLater(() -> {
             remainingRsdLabel.setText("RSD: " + String.format("%.2f", amount.getRsd()));
             remainingEurLabel.setText("EUR: " + String.format("%.2f", amount.getEur()));
         }), ErrorHandler::displayError);
-        studentIndexService.fetchStudentUplata(studentIndex.getId()).subscribe(payments::add, ErrorHandler::displayError);
+        studentIndexService.findStudentUplata(studentIndex.getId()).subscribe(payments::add, ErrorHandler::displayError);
 
         paymentsTable.refresh();
     }
@@ -111,27 +112,5 @@ public class StudentController {
     }
 
     public void handleCreateUplata(ActionEvent actionEvent) {
-        Button button = (Button) actionEvent.getSource();
-
-        TextInputDialog dialog = new TextInputDialog("0.00");
-        dialog.setTitle("New Uplata");
-        dialog.setHeaderText("Enter new amount:");
-        dialog.setContentText("Amount in RSD");
-
-        Optional<String> result = dialog.showAndWait();
-
-        result.ifPresent(stringAmount -> {
-            try {
-                double amount = Double.parseDouble(stringAmount.replace(",", "."));
-                button.setDisable(true);
-
-                studentIndexService.createStudentUplata(studentIndex.getId(), amount)
-                    .doFinally(signalType -> Platform.runLater(() -> button.setDisable(false)))
-                    .subscribe(uplataId -> studentIndexService.fetchStudentUplata(studentIndex.getId(), uplataId)
-                        .subscribe(payments::add), ErrorHandler::displayError);
-            }catch (NumberFormatException e){
-                ErrorHandler.displayError(new NumberFormatException("Invalid amount"));
-            }
-        });
     }
 }
