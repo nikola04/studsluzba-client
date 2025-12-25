@@ -43,4 +43,5 @@ module stud_sluzba_desktop_client {
     requires reactor.netty.http;
     requires org.reactivestreams;
     requires java.naming;
+    requires ch.qos.logback.classic;
 }

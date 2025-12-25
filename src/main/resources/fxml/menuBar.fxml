@@ -13,7 +13,7 @@
             </Menu>
             <Menu text="Nastavnici">
                 <MenuItem onAction="#openSearchNastavnik" text="Pretraži"/>
-                <MenuItem text="Novi"/>
+                <MenuItem onAction="#openNewNastavnik" text="Novi"/>
             </Menu>
             <Menu text="Predmeti">
                 <MenuItem text="Studijski programi"/>

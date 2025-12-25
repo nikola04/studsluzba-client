@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.raflab.studsluzbadesktopclient.controllers.NastavnikProfileController"
+            prefWidth="900" prefHeight="650">
+
+    <BorderPane prefWidth="900" prefHeight="650">
+
+        <!-- ===== NASLOV ===== -->
+        <top>
+            <Label text="Profil nastavnika"
+                   BorderPane.alignment="CENTER"
+                   style="-fx-font-size: 18px; -fx-font-weight: bold;">
+                <BorderPane.margin>
+                    <Insets top="15" bottom="15"/>
+                </BorderPane.margin>
+            </Label>
+        </top>
+
+        <!-- ===== SADRŽAJ ===== -->
+        <center>
+            <VBox spacing="20">
+
+                <!-- ===== OSNOVNI PODACI ===== -->
+                <GridPane alignment="CENTER"
+                          hgap="15"
+                          vgap="12">
+
+                    <padding>
+                        <Insets top="10" right="40" bottom="10" left="40"/>
+                    </padding>
+
+                    <columnConstraints>
+                        <ColumnConstraints halignment="RIGHT" minWidth="150"/>
+                        <ColumnConstraints halignment="LEFT" minWidth="300"/>
+                    </columnConstraints>
+
+                    <Label text="Ime:" GridPane.rowIndex="0"/>
+                    <TextField fx:id="imeTf" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                    <Label text="Prezime:" GridPane.rowIndex="1"/>
+                    <TextField fx:id="prezimeTf" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                    <Label text="Srednje ime:" GridPane.rowIndex="2"/>
+                    <TextField fx:id="srednjeImeTf" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                    <Label text="JMBG:" GridPane.rowIndex="3"/>
+                    <TextField fx:id="jmbgTf" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                    <Label text="Datum rođenja:" GridPane.rowIndex="4"/>
+                    <DatePicker fx:id="datumRodjenjaDp" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                    <Label text="Email:" GridPane.rowIndex="5"/>
+                    <TextField fx:id="emailTf" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+                    <Label text="Telefon:" GridPane.rowIndex="6"/>
+                    <TextField fx:id="brojTelefonaTf" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+                    <Label text="Adresa:" GridPane.rowIndex="7"/>
+                    <TextField fx:id="adresaTf" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+                </GridPane>
+
+                <!-- ===== TABOVI ===== -->
+                <TabPane prefHeight="300">
+
+                    <!-- ===== ZVANJA ===== -->
+                    <Tab text="Zvanja">
+                        <BorderPane>
+
+                            <center>
+                                <TableView fx:id="zvanjaTv">
+                                    <columns>
+                                        <TableColumn text="Zvanje" fx:id="zvanjeCol" prefWidth="150"/>
+                                        <TableColumn text="Naučna oblast" fx:id="naucnaOblastCol" prefWidth="180"/>
+                                        <TableColumn text="Uža oblast" fx:id="uzaNaucnaOblastCol" prefWidth="180"/>
+                                        <TableColumn text="Datum izbora" fx:id="datumIzboraCol" prefWidth="120"/>
+                                        <TableColumn text="Aktivno" fx:id="aktivnoCol" prefWidth="80"/>
+                                    </columns>
+                                </TableView>
+                            </center>
+
+                            <bottom>
+                                <HBox spacing="10" alignment="CENTER_RIGHT">
+                                    <padding>
+                                        <Insets top="10" right="15" bottom="10" left="15"/>
+                                    </padding>
+                                    <Button text="Dodaj" onAction="#handleAddZvanje"/>
+                                    <Button text="Izmeni" onAction="#handleEditZvanje"/>
+                                    <Button text="Obriši" onAction="#handleDeleteZvanje"/>
+                                </HBox>
+                            </bottom>
+
+                        </BorderPane>
+                    </Tab>
+
+                    <!-- ===== OBRAZOVANJE ===== -->
+                    <Tab text="Obrazovanje">
+                        <BorderPane>
+
+                            <center>
+                                <TableView fx:id="obrazovanjeTv">
+                                    <columns>
+                                        <TableColumn text="Visokoškolska ustanova" fx:id="ustanovaCol" prefWidth="300"/>
+                                        <TableColumn text="Vrsta studija" fx:id="vrstaStudijaCol" prefWidth="200"/>
+                                    </columns>
+                                </TableView>
+                            </center>
+
+                            <bottom>
+                                <HBox spacing="10" alignment="CENTER_RIGHT">
+                                    <padding>
+                                        <Insets top="10" right="15" bottom="10" left="15"/>
+                                    </padding>
+                                    <Button text="Dodaj" onAction="#handleAddObrazovanje"/>
+                                    <Button text="Obriši" onAction="#handleDeleteObrazovanje"/>
+                                </HBox>
+                            </bottom>
+
+                        </BorderPane>
+                    </Tab>
+
+                </TabPane>
+
+            </VBox>
+        </center>
+
+        <!-- ===== DUGMAD ===== -->
+        <bottom>
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <padding>
+                    <Insets top="10" right="20" bottom="15" left="20"/>
+                </padding>
+                <Button text="Sačuvaj izmene"
+                        prefWidth="150"
+                        onAction="#handleSave"/>
+                <Button text="Zatvori"
+                        prefWidth="100"
+                        onAction="#handleClose"/>
+            </HBox>
+        </bottom>
+
+    </BorderPane>
+</AnchorPane>
