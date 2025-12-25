@@ -1,15 +1,12 @@
 package org.raflab.studsluzbadesktopclient.config;
 
-import org.raflab.studsluzbadesktopclient.exceptions.ServerCommunicationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 
 
@@ -30,7 +27,6 @@ public class WebClientConfig {
             .baseUrl(configProperties.getBaseUrl())
             .clientConnector(new ReactorClientHttpConnector(httpClient))
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .defaultStatusHandler(HttpStatusCode::is5xxServerError, clientResponse -> Mono.error(new ServerCommunicationException(clientResponse.statusCode().toString())))
             .build();
     }
 }

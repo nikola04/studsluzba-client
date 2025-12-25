@@ -10,6 +10,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Separator?>
 
 <BorderPane fx:id="searchStudentPane" prefHeight="700" prefWidth="950" style="-fx-background-color: white;" xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.raflab.studsluzbadesktopclient.controllers.SearchStudentController">
@@ -48,15 +49,18 @@
                     <Label text="Select student for detailed profile" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
                 </VBox>
 
-                <VBox spacing="20" prefWidth="300" minWidth="300">
+                <VBox spacing="20" prefWidth="300" minWidth="300"
+                      style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1;">
+                    <padding>
+                        <Insets top="25" right="20" bottom="25" left="20" />
+                    </padding>
 
-                    <VBox spacing="15" style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1;">
-                        <padding>
-                            <Insets top="20" right="20" bottom="20" left="20" />
-                        </padding>
-
+                    <VBox spacing="5">
                         <Label text="Apply Filters" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                        <Separator />
+                    </VBox>
 
+                    <VBox spacing="15">
                         <VBox spacing="8">
                             <Label text="Ime" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
                             <TextField fx:id="studentNameTf" promptText="Unesite ime..."
@@ -76,23 +80,8 @@
                         </VBox>
                     </VBox>
 
-                    <VBox spacing="15" style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1;">
-                        <padding>
-                            <Insets top="20" right="20" bottom="20" left="20" />
-                        </padding>
-
-                        <Label text="Find Student" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
-
-                        <VBox spacing="8">
-                            <Label text="Broj Indeksa" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
-                            <TextField fx:id="brojIndeksaTf" promptText="Unesite indeks..."
-                                       style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 8; -fx-padding: 8;" />
-                        </VBox>
-
-                        <Button onAction="#handleSearchByIndex" text="Search" maxWidth="Infinity"
-                                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 10 16; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;" />
-                    </VBox>
-
+                    <Button onAction="#handleSearchStudent" text="Search" maxWidth="Infinity"
+                            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 10 16; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;" />
                 </VBox>
             </HBox>
         </VBox>

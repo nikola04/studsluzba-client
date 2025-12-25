@@ -1,87 +1,180 @@
 package org.raflab.studsluzbadesktopclient.controllers;
 
-import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableView;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import org.raflab.studsluzbacommon.dto.response.StudentIndeksResponseDTO;
-import org.raflab.studsluzbacommon.dto.response.StudentResponseDTO;
-import org.raflab.studsluzbadesktopclient.services.StudentIndexService;
-import org.raflab.studsluzbadesktopclient.utils.ErrorHandler;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import net.sf.jasperreports.engine.*;
+import org.raflab.studsluzbadesktopclient.coder.CoderFactory;
+import org.raflab.studsluzbadesktopclient.coder.CoderType;
+import org.raflab.studsluzbadesktopclient.coder.SimpleCode;
+import org.raflab.studsluzbadesktopclient.services.StudentService;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
+import java.util.*;
 
 @Component
 public class StudentController {
-    public TableView examsTable;
-    public ListView yearsList;
-    public TableView paymentsTable;
-    @Autowired
-    private ApplicationContext context;
+    private final StudentService studentService;
+    private final CoderFactory coderFactory;
 
-    @Autowired
-    private StudentIndexService studentIndexService;
-//    @Autowired
-//    private StudentService studentService;
+    @FXML
+    private TextField imeTf;
+    @FXML
+    private TextField prezimeTf;
+    @FXML
+    private TextField srednjeImeTf;
+    @FXML
+    private RadioButton muski;
+    @FXML
+    private RadioButton zenski;
+    @FXML
+    private TextField jmbgTf;
+    @FXML
+    private DatePicker datumRodjenjaDp;
+    @FXML
+    private DatePicker datumAktivacijeDp;
+    @FXML
+    ComboBox<SimpleCode> mestoRodjenjaCb;
+    @FXML
+    private TextField emailPrivatniTf;
+    @FXML
+    private TextField emailFakultetTf;
+    @FXML
+    TextField brojTelefonaTf;
+    @FXML
+    TextField adresaTf;
+    @FXML
+    ComboBox<SimpleCode> mestoStanovanjaCb;
+    @FXML
+    ComboBox<SimpleCode> drzavaRodjenjaCb;
+    @FXML
+    ComboBox<SimpleCode> drzavljanstvoCb;
+    @FXML
+    TextField nacionalnostTf;
+    @FXML
+    TextField brojLicneKarteTf;
+    @FXML
+    TextField godinaUpisaTf;
+    @FXML
+    TextField brojIndeksaTf;
+    @FXML
+    TextField godinaIndeksaTf;
+    @FXML
+    TextField uspehSrednjaSkolaTf;
+    @FXML
+    TextField uspehPrijemniTf;
 
-    public Label nameLabel;
-    public Label avgLabel;
-    public Label espbLabel;
+//    @FXML
+//    ComboBox<StudProgram> studProgramCb;
 
-    private StudentIndeksResponseDTO studentIndex;
-    private StudentResponseDTO student;
+//    @FXML
+//    ComboBox<SrednjaSkola> srednjaSkolaCb;
 
-    public void setStudentIndex(StudentIndeksResponseDTO studentIndex){
-        this.studentIndex = studentIndex;
-        if (studentIndex == null)
-            this.student = null;
-        else this.student = studentIndex.getStudent();
+//    @FXML
+//    ComboBox<VisokoskolskaUstanova> visokoskolskaUstanovaCb;
 
-        this.onStudentUpdate();
-    }
 
-    public void setStudent(StudentResponseDTO student){
-        this.student = student;
-        this.onStudentUpdate();
-    }
-
-    private void updateAverageOcena(){
-        avgLabel.setText("Average: ");
-        studentIndexService.findStudentAverageOcena(studentIndex.getId()).subscribe(ocena -> Platform.runLater(() -> avgLabel.setText("Average: " + ocena)), ErrorHandler::displayError);
-    }
-    private void onStudentUpdate(){
-        nameLabel.setText(student != null ? student.getIme() + " " + student.getPrezime() : "Student");
-        espbLabel.setText("ESPB: " + (studentIndex != null ? studentIndex.getOstvarenoEspb() : 0));
-        this.updateAverageOcena();
+    public StudentController(StudentService studentService, CoderFactory coderFactory) {
+        this.studentService = studentService;
+        this.coderFactory = coderFactory;
     }
 
     @FXML
-    private void handleOpenEditProfile() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editProfile.fxml"));
-            loader.setControllerFactory(context::getBean);
-            Parent root = loader.load();
+    public void initialize(){
+        drzavaRodjenjaCb.setItems(FXCollections.observableArrayList(coderFactory.getSimpleCoder(CoderType.DRZAVA).getCodes()));
+        drzavaRodjenjaCb.setValue(new SimpleCode("Serbia"));
 
-            EditProfileController editController = loader.getController();
-            editController.setStudentData(this.student);
-            editController.setParentController(this);
+        drzavljanstvoCb.setItems(FXCollections.observableArrayList(coderFactory.getSimpleCoder(CoderType.DRZAVA).getCodes()));
+        drzavljanstvoCb.setValue(new SimpleCode("Serbia"));
 
-            Stage stage = new Stage();
-            stage.setTitle("Edit Profile");
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        mestoRodjenjaCb.setItems(FXCollections.observableArrayList(coderFactory.getSimpleCoder(CoderType.MESTO).getCodes()));
+        mestoRodjenjaCb.setValue(new SimpleCode("Beograd"));
+
+        mestoStanovanjaCb.setItems(FXCollections.observableArrayList(coderFactory.getSimpleCoder(CoderType.MESTO).getCodes()));
+        mestoStanovanjaCb.setValue(new SimpleCode("Beograd"));
+    }
+
+    public void handleOpenModalSrednjeSkole(ActionEvent ae) {
+        //mainViewManager.openModal("addSrednjaSkola");
+    }
+
+    public void handleOpenModalVisokoskolskeUstanove(ActionEvent ae) {
+        //mainViewManager.openModal("addVisaUstanovaForStudent");
+    }
+
+    public void handleSaveStudent(ActionEvent event) {
+//        StudentResponseDTO studentDTO = new StudentResponseDTO();
+//
+//        studentDTO.setIme(imeTf.getText());
+//        studentDTO.setPrezime(prezimeTf.getText());
+//        studentDTO.setSrednjeIme(srednjeImeTf.getText());
+//        studentDTO.setPol(muski.isSelected() ? 'M' : 'Z');
+//        studentDTO.setAdresa(adresaTf.getText());
+//        studentDTO.setJmbg(jmbgTf.getText());
+//        studentDTO.setGodinaUpisa(Integer.parseInt(godinaUpisaTf.getText()));
+//        Date datumRodjenja = Date.from(datumRodjenjaDp.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+//        studentDTO.setDatumRodjenja(LocalDate.ofInstant(datumRodjenja.toInstant(), ZoneId.systemDefault()));
+//        studentDTO.setMestoRodjenja(mestoRodjenjaCb.getValue().getCode());
+//        studentDTO.setPrivatniEmail(emailPrivatniTf.getText());
+//        studentDTO.setFakultetEmail(emailFakultetTf.getText());
+//        studentDTO.setBrojTelefonaMobilni(brojTelefonaTf.getText());
+//        studentDTO.setMestoStanovanja(mestoStanovanjaCb.getValue().getCode());
+//
+//        studentDTO.setDrzavaRodjenja(drzavaRodjenjaCb.getValue().getCode());
+//        studentDTO.setDrzavljanstvo(drzavljanstvoCb.getValue().getCode());
+//        studentDTO.setNacionalnost(nacionalnostTf.getText());
+
+//        studentService.saveStudent(studentDTO);
+        resetForm();
+    }
+
+    public void handleIzvestaj() throws JRException {
+
+//        List<StudentDTO> studenti = studentService.sviStudenti();
+//
+//        JasperReport report = JasperCompileManager.compileReport(
+//                MainView.class.getResourceAsStream("/reports/sviStudenti.jrxml")
+//        );
+//
+//        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(studenti);
+//        JasperPrint jp = JasperFillManager.fillReport(report, new HashMap<>(), dataSource);
+//
+//        JasperExportManager.exportReportToPdfFile(jp, "sviStudenti.pdf");
+    }
+
+
+    private void resetForm() {
+        imeTf.clear();
+        prezimeTf.clear();
+        srednjeImeTf.clear();
+
+        muski.setSelected(false);
+        zenski.setSelected(false);
+
+        jmbgTf.clear();
+        datumRodjenjaDp.setValue(null);
+        datumAktivacijeDp.setValue(null);
+
+        mestoRodjenjaCb.setValue(null);
+        emailPrivatniTf.clear();
+        emailFakultetTf.clear();
+        brojTelefonaTf.clear();
+        adresaTf.clear();
+
+        mestoStanovanjaCb.setValue(null);
+        drzavaRodjenjaCb.setValue(null);
+        drzavljanstvoCb.setValue(null);
+
+        nacionalnostTf.clear();
+        brojLicneKarteTf.clear();
+        godinaUpisaTf.clear();
+        brojIndeksaTf.clear();
+        godinaIndeksaTf.clear();
+        uspehSrednjaSkolaTf.clear();
+        uspehPrijemniTf.clear();
     }
 }
