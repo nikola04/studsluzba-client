@@ -2,7 +2,6 @@
 
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.text.Text?>
 <?import javafx.geometry.*?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.raflab.studsluzbadesktopclient.controllers.NewStudentController">
@@ -12,17 +11,15 @@
     </top>
 
     <center>
-        <BorderPane>
+        <BorderPane style="padding: 0 40;">
             <center>
                 <fx:include source="studentPodaciTabPane.fxml"/>
             </center>
             <bottom>
                 <GridPane alignment="center" hgap="10" vgap="10">
                     <padding><Insets top="20" bottom="10"/></padding>
-                    <Button  onAction="#handleSaveStudent" text="Sačuvaj"
-                             GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                    <Text GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-                    <Button text="Izvestaj" GridPane.columnIndex="2" GridPane.rowIndex="3" onAction="#handleIzvestaj"/>
+                    <Button text="Save" onAction="#handleSaveStudent"
+                            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 12; -fx-background-radius: 6; -fx-cursor: hand;"/>
                 </GridPane>
             </bottom>
         </BorderPane>
