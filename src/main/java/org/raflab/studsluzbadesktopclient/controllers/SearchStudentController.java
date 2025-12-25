@@ -8,13 +8,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.raflab.studsluzbacommon.dto.response.StudentIndeksResponseDTO;
 import org.raflab.studsluzbacommon.dto.response.StudentResponseDTO;
 import org.raflab.studsluzbadesktopclient.exceptions.InvalidDataException;
 import org.raflab.studsluzbadesktopclient.services.StudentIndexService;
@@ -66,82 +66,7 @@ public class SearchStudentController {
                 srednjaSkolaTf
         );
 
-        studentTable.setRowFactory(tv -> {
-            TableRow<StudentResponseDTO> row = new TableRow<>();
-            row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    StudentResponseDTO rowData = row.getItem();
-                    this.handleStudentSelection(rowData);
-                }
-            });
-            return row;
-        });
-
         this.handleSearchStudent(null);
-    }
-
-    private void handleStudentSelection(StudentResponseDTO selectedStudent) {
-        studentIndexService.fetchStudentIndexByStudentId(selectedStudent.getId())
-                .collectList()
-                .subscribe(indices -> Platform.runLater(() -> {
-                    if (indices.isEmpty()) {
-                        try {
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editProfile.fxml"));
-                            loader.setControllerFactory(context::getBean);
-                            Parent root = loader.load();
-
-                            EditProfileController editController = loader.getController();
-                            editController.setStudentData(selectedStudent);
-
-                            Stage stage = new Stage();
-                            stage.setTitle("Edit Profile");
-                            stage.initModality(Modality.APPLICATION_MODAL);
-                            stage.setScene(new Scene(root));
-                            stage.show();
-                            return;
-                        }catch(Exception e){
-                            ErrorHandler.displayError(e);
-                        }
-                    }
-
-                    ListView<StudentIndeksResponseDTO> listView = new ListView<>();
-                    listView.setItems(FXCollections.observableArrayList(indices));
-                    listView.setPrefHeight(150);
-
-                    listView.setCellFactory(lv -> new ListCell<>() {
-                        @Override
-                        protected void updateItem(StudentIndeksResponseDTO item, boolean empty) {
-                            super.updateItem(item, empty);
-                            if(item == null)
-                                setText(null);
-                            else setText(item.getStudijskiProgram().getOznaka() + " " + String.format("%03d", item.getBroj()) + "/" + item.getGodina());
-                        }
-                    });
-
-                    Alert dialog = new Alert(Alert.AlertType.NONE);
-                    dialog.setTitle("Choose Index");
-                    dialog.setHeaderText("Student: " + selectedStudent.getIme() + " " + selectedStudent.getPrezime());
-
-                    ButtonType closeButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-                    dialog.getButtonTypes().add(closeButton);
-
-                    VBox container = new VBox(10, new Label("Double click to open:"), listView);
-                    container.setPadding(new javafx.geometry.Insets(10));
-                    dialog.getDialogPane().setContent(container);
-
-                    listView.setOnMouseClicked(event -> {
-                        if (event.getClickCount() == 2 && listView.getSelectionModel().getSelectedItem() != null) {
-                            StudentIndeksResponseDTO selected = listView.getSelectionModel().getSelectedItem();
-                            dialog.close();
-                            this.openStudentIndex(selected);
-                        }
-                    });
-
-                    dialog.showAndWait();
-
-                    studentTable.getSelectionModel().clearSelection();
-
-                }), ErrorHandler::displayError);
     }
 
     public void handleSearchStudent(ActionEvent actionEvent) {
@@ -172,29 +97,27 @@ public class SearchStudentController {
         Button button = (Button) actionEvent.getSource();
         button.setDisable(true);
 
-        studentIndexService.fetchStudentIndexByIndexNumber(indexNumber.trim())
+        studentIndexService.findStudentIndexByIndexNumber(indexNumber.trim())
             .doFinally(signalType -> Platform.runLater(() -> button.setDisable(false)))
-            .subscribe(student -> Platform.runLater(() -> openStudentIndex(student)), ErrorHandler::displayError);
-    }
+            .subscribe(student -> Platform.runLater(() -> {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/studentProfile.fxml"));
+                    loader.setControllerFactory(context::getBean);
+                    Parent root = loader.load();
 
-    private void openStudentIndex(StudentIndeksResponseDTO student){
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/studentProfile.fxml"));
-            loader.setControllerFactory(context::getBean);
-            Parent root = loader.load();
+                    StudentController controller = loader.getController();
+                    controller.setStudentIndex(student);
 
-            StudentController controller = loader.getController();
-            controller.setStudentIndex(student);
+                    Stage stage = new Stage();
+                    stage.setTitle("Student Profile");
+                    stage.setScene(new Scene(root));
+                    stage.initModality(Modality.APPLICATION_MODAL);
 
-            Stage stage = new Stage();
-            stage.setTitle("Student Profile");
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.show();
 
-            stage.show();
-
-        } catch (IOException e) {
-            ErrorHandler.displayError(e);
-        }
+                } catch (IOException e) {
+                    ErrorHandler.displayError(e);
+                }
+            }), ErrorHandler::displayError);
     }
 }
