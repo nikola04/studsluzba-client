@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<ScrollPane fitToWidth="true" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.raflab.studsluzbadesktopclient.controllers.EditProfileController">
+    <VBox spacing="20" style="-fx-background-color: white;" prefWidth="600">
+        <padding>
+            <Insets top="25" right="25" bottom="25" left="25" />
+        </padding>
+
+        <Label text="Student Profile" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+        <Separator />
+
+        <GridPane hgap="15" vgap="10">
+            <columnConstraints>
+                <ColumnConstraints minWidth="150" prefWidth="180" />
+                <ColumnConstraints hgrow="ALWAYS" />
+            </columnConstraints>
+
+            <Label text="Ime:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+            <TextField fx:id="firstNameTf" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <Label text="Srednje ime:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+            <TextField fx:id="middleNameTf" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            <Label text="Prezime:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+            <TextField fx:id="lastNameTf" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+            <Label text="JMBG:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+            <TextField fx:id="jmbgTf" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+            <Label text="Broj lične karte:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+            <TextField fx:id="idCardTf" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+            <Label text="Datum rođenja:" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+            <DatePicker fx:id="birthDatePicker" GridPane.rowIndex="5" GridPane.columnIndex="1" maxWidth="Infinity"/>
+
+            <Label text="Mesto rođenja:" GridPane.rowIndex="6" GridPane.columnIndex="0" />
+            <TextField fx:id="birthPlaceTf" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+            <Label text="Pol:" GridPane.rowIndex="7" GridPane.columnIndex="0" />
+            <ComboBox fx:id="genderCb" GridPane.rowIndex="7" GridPane.columnIndex="1" maxWidth="Infinity"/>
+
+            <Label text="Privatni Email:" GridPane.rowIndex="8" GridPane.columnIndex="0" />
+            <TextField fx:id="privateEmailTf" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+
+            <Label text="Mobilni telefon:" GridPane.rowIndex="9" GridPane.columnIndex="0" />
+            <TextField fx:id="mobilePhoneTf" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
+
+            <Label text="Adresa prebivališta:" GridPane.rowIndex="10" GridPane.columnIndex="0" />
+            <TextField fx:id="addressTf" GridPane.rowIndex="10" GridPane.columnIndex="1"/>
+
+            <Label text="Srednja škola:" GridPane.rowIndex="11" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+            <ComboBox fx:id="highSchoolCb" GridPane.rowIndex="11" GridPane.columnIndex="1" maxWidth="Infinity" promptText="Izaberi školu..."/>
+
+            <Label text="Visokoškolska ust.:" GridPane.rowIndex="12" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+            <ComboBox fx:id="universityCb" GridPane.rowIndex="12" GridPane.columnIndex="1" maxWidth="Infinity" promptText="Izaberi ustanovu..."/>
+        </GridPane>
+
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button text="Cancel" onAction="#handleCancel" style="-fx-background-color: #6f7375; -fx-text-fill: white;"/>
+            <Button text="Save" onAction="#handleSave" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        </HBox>
+    </VBox>
+</ScrollPane>

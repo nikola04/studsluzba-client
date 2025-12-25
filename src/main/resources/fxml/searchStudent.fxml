@@ -10,8 +10,9 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Separator?>
 
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.control.ComboBox?>
 <BorderPane fx:id="searchStudentPane" prefHeight="700" prefWidth="950" style="-fx-background-color: white;" xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.raflab.studsluzbadesktopclient.controllers.SearchStudentController">
     <top>
@@ -32,6 +33,9 @@
                     <TableView fx:id="studentTable" VBox.vgrow="ALWAYS"
                                style="-fx-background-color: white; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-padding: 0;">
                         <columns>
+                            <TableColumn prefWidth="50" text="ID">
+                                <cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory>
+                            </TableColumn>
                             <TableColumn prefWidth="200" text="Ime">
                                 <cellValueFactory><PropertyValueFactory property="ime" /></cellValueFactory>
                             </TableColumn>
@@ -47,20 +51,35 @@
                         </columnResizePolicy>
                     </TableView>
                     <Label text="Select student for detailed profile" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
+
+                    <Region HBox.hgrow="ALWAYS" />
+
+                    <HBox spacing="5" alignment="CENTER_RIGHT">
+                        <Button fx:id="prevBtn" text="&lt;" onAction="#handlePrevPage"
+                                style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 4; -fx-cursor: hand;"/>
+
+                        <Label text="Strana:" style="-fx-font-size: 12px;"/>
+                        <TextField fx:id="currentPageTf" prefWidth="40" prefHeight="10" text="1" alignment="CENTER"
+                                   style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 4;"/>
+                        <Label fx:id="totalPagesLabel" text=" od 1" style="-fx-font-size: 12px;"/>
+
+                        <Button fx:id="nextBtn" text="&gt;" onAction="#handleNextPage"
+                                style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 4; -fx-cursor: hand;"/>
+
+                        <ComboBox fx:id="pageSizeCb" prefWidth="70"
+                                  style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 4;"/>
+                    </HBox>
                 </VBox>
 
-                <VBox spacing="20" prefWidth="300" minWidth="300"
-                      style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1;">
-                    <padding>
-                        <Insets top="25" right="20" bottom="25" left="20" />
-                    </padding>
+                <VBox spacing="20" prefWidth="300" minWidth="300">
 
-                    <VBox spacing="5">
+                    <VBox spacing="15" style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1;">
+                        <padding>
+                            <Insets top="20" right="20" bottom="20" left="20" />
+                        </padding>
+
                         <Label text="Apply Filters" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
-                        <Separator />
-                    </VBox>
 
-                    <VBox spacing="15">
                         <VBox spacing="8">
                             <Label text="Ime" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
                             <TextField fx:id="studentNameTf" promptText="Unesite ime..."
@@ -80,8 +99,23 @@
                         </VBox>
                     </VBox>
 
-                    <Button onAction="#handleSearchStudent" text="Search" maxWidth="Infinity"
-                            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 10 16; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;" />
+                    <VBox spacing="15" style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1;">
+                        <padding>
+                            <Insets top="20" right="20" bottom="20" left="20" />
+                        </padding>
+
+                        <Label text="Find Student" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+
+                        <VBox spacing="8">
+                            <Label text="Broj Indeksa" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
+                            <TextField fx:id="brojIndeksaTf" promptText="Unesite indeks..."
+                                       style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 8; -fx-padding: 8;" />
+                        </VBox>
+
+                        <Button onAction="#handleSearchByIndex" text="Search" maxWidth="Infinity"
+                                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 10 16; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;" />
+                    </VBox>
+
                 </VBox>
             </HBox>
         </VBox>
