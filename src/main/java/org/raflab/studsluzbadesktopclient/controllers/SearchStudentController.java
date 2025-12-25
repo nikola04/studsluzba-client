@@ -48,17 +48,8 @@ public class SearchStudentController {
     @FXML
     private TextField studentLastNameTf;
 
-    @FXML public Button prevBtn;
-    @FXML public TextField currentPageTf;
-    @FXML public Label totalPagesLabel;
-    @FXML public Button nextBtn;
-    @FXML public ComboBox<Integer> pageSizeCb;
-
     @FXML
     private TableView<StudentResponseDTO> studentTable;
-
-    private int currentPage = 0;
-    private int totalPages = 1;
 
     public SearchStudentController(StudentService studentService, StudentIndexService studentIndexService) {
         this.studentService = studentService;
@@ -67,12 +58,9 @@ public class SearchStudentController {
 
     public void initialize(){
         studentTable.setItems(studentObList);
-        pageSizeCb.setItems(FXCollections.observableArrayList(5, 10, 20, 50));
-        pageSizeCb.setValue(10);
-
         new DebouncedSearchHelper(
                 Duration.millis(300),
-                () -> handleSearchStudent(true),
+                () -> handleSearchStudent(null),
                 studentNameTf,
                 studentLastNameTf,
                 srednjaSkolaTf
@@ -89,25 +77,7 @@ public class SearchStudentController {
             return row;
         });
 
-        currentPageTf.setOnAction(e -> {
-            try {
-                int targetPage = Integer.parseInt(currentPageTf.getText()) - 1;
-                if (targetPage >= 0 && targetPage < totalPages) {
-                    currentPage = targetPage;
-                    this.updateCurrentPage();
-                    handleSearchStudent(false);
-                }
-            } catch (NumberFormatException ex) {
-                this.updateCurrentPage();
-            }
-        });
-
-
-        pageSizeCb.valueProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal == null || newVal.equals(oldVal)) return;
-            this.handleSearchStudent(true);
-        });
-        this.handleSearchStudent(true);
+        this.handleSearchStudent(null);
     }
 
     private void handleStudentSelection(StudentResponseDTO selectedStudent) {
@@ -174,27 +144,21 @@ public class SearchStudentController {
                 }), ErrorHandler::displayError);
     }
 
-    public void handleSearchStudent(boolean toResetPage) {
-        if (toResetPage) currentPage = 0;
-        this.updateCurrentPage();
+    public void handleSearchStudent(ActionEvent actionEvent) {
+        Button button = actionEvent != null ? ((Button) actionEvent.getSource()) : null;
+        if (button != null) button.setDisable(true);
 
         String name = studentNameTf.getText();
         String lastName = studentLastNameTf.getText();
         String highSchoolName = srednjaSkolaTf.getText();
 
-        Integer pageSize = pageSizeCb.getValue();
-
-        studentService.searchStudents(name.trim(), lastName.trim(), highSchoolName.trim(), currentPage, pageSize)
+        studentService.searchStudents(name.trim(), lastName.trim(), highSchoolName.trim())
+            .doFinally(signalType -> Platform.runLater(() -> {
+                if(button != null) button.setDisable(false);
+            }))
             .subscribe(pagedResponse -> {
                 List<StudentResponseDTO> studentList = pagedResponse.getContent();
-                currentPage = pagedResponse.getPage();
-                totalPages = pagedResponse.getTotalPages();
-
-                Platform.runLater(() -> {
-                    this.updateCurrentPage();
-                    this.updateTotalPages();
-                    studentObList.setAll(studentList);
-                });
+                Platform.runLater(() -> studentObList.setAll(studentList));
         }, ErrorHandler::displayError);
     }
 
@@ -231,30 +195,6 @@ public class SearchStudentController {
 
         } catch (IOException e) {
             ErrorHandler.displayError(e);
-        }
-    }
-
-    private void updateCurrentPage(){
-        currentPageTf.setText(String.valueOf(currentPage + 1));
-    }
-
-    private void updateTotalPages(){
-        totalPagesLabel.setText(" od " + totalPages);
-    }
-
-    public void handlePrevPage() {
-        if (currentPage > 0) {
-            currentPage--;
-            this.updateCurrentPage();
-            handleSearchStudent(false);
-        }
-    }
-
-    public void handleNextPage() {
-        if (currentPage < totalPages - 1) {
-            currentPage++;
-            this.updateCurrentPage();
-            this.handleSearchStudent(false);
         }
     }
 }

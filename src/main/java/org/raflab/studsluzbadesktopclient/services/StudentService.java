@@ -8,6 +8,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
@@ -22,16 +23,22 @@ public class StudentService {
 		return "student/podaci/" + pathEnd;
 	}
 
-	public Mono<PagedResponse<StudentResponseDTO>> searchStudents(String name, String lastName, String highSchoolName, Integer page, Integer size) {
+	private String createSearchUrl(String name, String lastName, String highSchoolName){
+		if (name == null || lastName == null || highSchoolName == null || (name.isEmpty() && lastName.isEmpty() && highSchoolName.isEmpty()))
+			return createURL("");
+
+		UriComponentsBuilder builder = UriComponentsBuilder.fromPath(createURL("search"));
+		builder.queryParam("name", name);
+		builder.queryParam("lastName", lastName);
+		builder.queryParam("highSchoolName", highSchoolName);
+		return builder.toUriString();
+	}
+
+	public Mono<PagedResponse<StudentResponseDTO>> searchStudents(String name, String lastName, String highSchoolName) {
+		String url = createSearchUrl(name, lastName, highSchoolName);
+
 		return webClient.get()
-			.uri(uriBuilder -> uriBuilder
-					.path(createURL("search"))
-					.queryParam("name", name)
-					.queryParam("lastName", lastName)
-					.queryParam("highSchoolName", highSchoolName)
-					.queryParam("page", page)
-					.queryParam("size", size)
-					.build())
+			.uri(url)
 			.retrieve()
 			.bodyToMono(new ParameterizedTypeReference<>() {});
 	}
