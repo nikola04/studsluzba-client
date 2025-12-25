@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?><TabPane xmlns="http://javafx.com/javafx/21"
+         xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="org.raflab.studsluzbadesktopclient.controllers.NastavnikTabPaneController">
+
+
+    <Tab text="Osnovni podaci" closable="false">
+        <HBox alignment="center">
+            <GridPane alignment="center" hgap="10" vgap="10">
+
+                <Label text="Ime" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="imeTf" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                <Label text="Prezime" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <TextField fx:id="prezimeTf" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                <Label text="Srednje ime" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <TextField fx:id="srednjeImeTf" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                <Label text="JMBG" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                <TextField fx:id="jmbgTf" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+                <Label text="Datum rođenja" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                <DatePicker fx:id="datumRodjenjaDp" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+                <Label text="Pol" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                <HBox GridPane.columnIndex="1" GridPane.rowIndex="5">
+                    <fx:define>
+                        <ToggleGroup fx:id="polGroup"/>
+                    </fx:define>
+                    <RadioButton fx:id="muskiRb" text="Muški" toggleGroup="$polGroup">
+                        <HBox.margin>
+                            <Insets right="10"/>
+                        </HBox.margin>
+                    </RadioButton>
+                    <RadioButton fx:id="zenskiRb" text="Ženski" toggleGroup="$polGroup"/>
+                </HBox>
+
+            </GridPane>
+        </HBox>
+    </Tab>
+
+    <!-- ================= KONTAKT ================= -->
+    <Tab text="Kontakt podaci" closable="false">
+        <HBox alignment="center">
+            <GridPane alignment="center" hgap="10" vgap="10">
+
+                <Label text="Email" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="emailTf" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                <Label text="Broj telefona" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <TextField fx:id="brojTelefonaTf" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                <Label text="Adresa" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <TextField fx:id="adresaTf" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+            </GridPane>
+        </HBox>
+    </Tab>
+
+    <!-- ================= ZVANJA ================= -->
+    <Tab text="Zvanja" closable="false">
+        <BorderPane>
+            <center>
+                <VBox spacing="10" alignment="center">
+
+                    <Label text="Izaberi zvanje"/>
+                    <ComboBox fx:id="zvanjaCb" prefWidth="250"/>
+
+                    <Button text="Dodaj zvanje"
+                            onAction="#handleAddZvanje"/>
+
+                    <ListView fx:id="zvanjaLv"
+                              prefHeight="200"
+                              prefWidth="300"/>
+
+                </VBox>
+            </center>
+        </BorderPane>
+    </Tab>
+
+    <!-- ================= OBRAZOVANJE ================= -->
+    <Tab text="Obrazovanje" closable="false">
+        <BorderPane>
+            <center>
+                <VBox spacing="10" alignment="center">
+
+
+                    <Label text="Izaberi Visokoskolsku Ustanovu"/>
+                    <ComboBox fx:id="visokoskolskaUstaovaCb" prefWidth="250"/>
+                    <Label text="Izaberi Vrstu Studija"/>
+                    <ComboBox fx:id="vrstaStudijaCb" prefWidth="250"/>
+                    <Button text="Dodaj obrazovanje"
+                            onAction="#handleAddObrazovanje"/>
+                    <ListView fx:id="obrazovanjeLv"
+                              prefHeight="200"
+                              prefWidth="300"/>
+
+                </VBox>
+            </center>
+        </BorderPane>
+    </Tab>
+
+</TabPane>

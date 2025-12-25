@@ -1,7 +1,12 @@
 package org.raflab.studsluzbadesktopclient.services;
 
+import javafx.beans.Observable;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
+import org.raflab.studsluzbacommon.dto.request.NastavnikRequestDTO;
 import org.raflab.studsluzbacommon.dto.response.NastavnikResponseDTO;
+import org.raflab.studsluzbadesktopclient.exceptions.ConflictException;
+import org.raflab.studsluzbadesktopclient.exceptions.ResourceNotFoundException;
 import org.raflab.studsluzbadesktopclient.exceptions.ServerCommunicationException;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
@@ -42,5 +47,43 @@ public class NastavnikService {
                                 Mono.error(new ServerCommunicationException(clientResponse.statusCode().toString())))
                 .bodyToFlux(NastavnikResponseDTO.class)
                 .collectList();
+    }
+
+    public Mono<NastavnikResponseDTO> updateNastavnik(Long id, NastavnikRequestDTO request) {
+        return webClient.patch()
+                .uri("nastavnik/" + id)
+                .bodyValue(request)
+                .retrieve()
+                .bodyToMono(NastavnikResponseDTO.class);
+    }
+
+    public Mono<Void> deleteNastavnik(Long id) {
+        return webClient
+                .delete()
+                .uri("/nastavnik/{id}", id)
+                .exchangeToMono(response -> {
+
+                    if (response.statusCode().is2xxSuccessful()) {
+                        return Mono.empty();
+                    }
+
+                    if (response.statusCode().value() == 409) {
+                        return Mono.error(
+                                new ConflictException(
+                                        "Ne možete obrisati nastavnika dok je vezan za druge podatke."
+                                )
+                        );
+                    }
+
+                    if (response.statusCode().value() == 404) {
+                        return Mono.error(
+                                new ResourceNotFoundException("Nastavnik ne postoji.")
+                        );
+                    }
+
+                    return Mono.error(
+                            new ServerCommunicationException("Greška na serveru.")
+                    );
+                });
     }
 }

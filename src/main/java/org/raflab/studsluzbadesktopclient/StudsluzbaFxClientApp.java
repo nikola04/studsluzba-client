@@ -1,5 +1,7 @@
 package org.raflab.studsluzbadesktopclient;
 
+import ch.qos.logback.classic.joran.PropertiesConfigurator;
+import org.raflab.studsluzbadesktopclient.utils.SpringContextHelper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,6 +29,7 @@ public class StudsluzbaFxClientApp extends Application {
         SpringApplication app = new SpringApplication(StudsluzbaFxClientApp.class);
         app.setWebApplicationType(WebApplicationType.NONE);
         springContext = app.run();
+        SpringContextHelper.setContext(springContext);
     }
 
     @Override

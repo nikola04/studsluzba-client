@@ -16,7 +16,9 @@ public class MenuBarController {
         this.studentService = studentService;
         this.mainView = mainView;
     }
-
+	public void openNewNastavnik() {
+		mainView.changeRoot("newNastavnik");
+	}
 	public void openSearchStudent() {
 		mainView.changeRoot("searchStudent");
 	}

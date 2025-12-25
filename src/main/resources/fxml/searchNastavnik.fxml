@@ -39,7 +39,18 @@
                             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                         </columnResizePolicy>
                     </TableView>
-                    <Label text="Select nastavnik for detailed profile" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Button text="−"
+                                onAction="#handleDeleteNastavnik"
+                                style="-fx-background-color: #e74c3c;
+                   -fx-text-fill: white;
+                   -fx-font-weight: bold;
+                   -fx-background-radius: 5;
+                   -fx-min-width: 40;" />
+
+                        <Label text="Selektuj nastavnika za brisanje ili pregled profila"
+                               style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
+                    </HBox>
                 </VBox>
 
                 <VBox spacing="20" prefWidth="300" minWidth="300"
