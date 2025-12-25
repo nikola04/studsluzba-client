@@ -52,14 +52,18 @@ public class StudentService {
 			Integer godinaUpisa,
 			LocalDate datumRodjenja,
 			String mestoRodjenja,
+			String mestoPrebivalista,
 			String drzavaRodjenja,
 			String drzavljanstvo,
 			String nacionalnost,
 			Character pol,
+			String adresa,
 			String mobilni,
+			String fiksni,
 			String fakultetEmail,
 			String privatniEmail,
 			String brojLicneKarte,
+			String licnuKartuIzdao,
 			String mestoStanovanja,
 			String adresaStanovanja,
 			Double uspehSrednja,
@@ -77,16 +81,20 @@ public class StudentService {
 
 		body.setDatumRodjenja(datumRodjenja);
 		body.setMestoRodjenja(mestoRodjenja);
+		body.setMestoPrebivalista(mestoPrebivalista);
 		body.setDrzavaRodjenja(drzavaRodjenja);
 		body.setDrzavljanstvo(drzavljanstvo);
 		body.setNacionalnost(nacionalnost);
 		body.setPol(pol);
 
+		body.setAdresa(adresa);
 		body.setBrojTelefonaMobilni(mobilni);
+		body.setBrojTelefonaFiksni(fiksni);
 		body.setFakultetEmail(fakultetEmail);
 		body.setPrivatniEmail(privatniEmail);
 
 		body.setBrojLicneKarte(brojLicneKarte);
+		body.setLicnuKartuIzdao(licnuKartuIzdao);
 		body.setMestoStanovanja(mestoStanovanja);
 		body.setAdresaStanovanja(adresaStanovanja);
 
@@ -100,13 +108,5 @@ public class StudentService {
 				.bodyValue(body)
 				.retrieve()
 				.bodyToMono(StudentResponseDTO.class);
-	}
-
-	public Mono<Long> saveStudent(StudentRequest student) {
-		return webClient.post()
-				.uri("student/podaci")
-				.bodyValue(student)
-				.retrieve()
-				.bodyToMono(Long.class);
 	}
 }

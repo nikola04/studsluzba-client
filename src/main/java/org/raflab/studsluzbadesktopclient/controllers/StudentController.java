@@ -380,14 +380,4 @@ public class StudentController {
                     });
                 }), ErrorHandler::displayError);
     }
-
-    public void handleUverenjeStudiranje(ActionEvent actionEvent) {
-        Button button = (Button) actionEvent.getSource();
-        button.setDisable(true);
-    }
-
-    public void handleUverenjeIspiti(ActionEvent actionEvent) {
-        Button button = (Button) actionEvent.getSource();
-        button.setDisable(true);
-    }
 }

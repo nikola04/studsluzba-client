@@ -20,6 +20,7 @@ public class SkolskaGodinaService {
         return "skolskagodina/" + path;
     }
 
+
     public Flux<SkolskaGodinaResponseDTO> fetchSkolskeGodine(){
         return webClient.get()
                 .uri(createURL(""))
