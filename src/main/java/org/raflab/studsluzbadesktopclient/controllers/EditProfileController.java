@@ -91,7 +91,7 @@ public class EditProfileController {
         birthPlaceTf.setText(student.getMestoRodjenja());
         privateEmailTf.setText(student.getPrivatniEmail());
         mobilePhoneTf.setText(student.getBrojTelefonaMobilni());
-        addressTf.setText(student.getAdresa());
+        addressTf.setText(student.getAdresaStanovanja());
         birthDatePicker.setValue(student.getDatumRodjenja());
         genderCb.setValue(student.getPol());
 
@@ -129,18 +129,14 @@ public class EditProfileController {
             student.getGodinaUpisa(),         // Postojeća vrednost
             birthDate,
             birthPlace,
-            student.getMestoPrebivalista(),   // Postojeća vrednost
             student.getDrzavaRodjenja(),      // Postojeća vrednost
             student.getDrzavljanstvo(),       // Postojeća vrednost
             student.getNacionalnost(),        // Postojeća vrednost
             gender,
-            address,
             mobilePhone,
-            student.getBrojTelefonaFiksni(),  // Postojeća vrednost
             student.getFakultetEmail(),       // Postojeća vrednost
             privateEmail,
             idCard,
-            student.getLicnuKartuIzdao(),     // Postojeća vrednost
             student.getMestoStanovanja(),     // Postojeća vrednost
             student.getAdresaStanovanja(),    // Postojeća vrednost
             student.getUspehSrednjaSkola(),   // Postojeća vrednost
