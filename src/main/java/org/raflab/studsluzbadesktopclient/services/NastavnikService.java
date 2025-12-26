@@ -1,9 +1,8 @@
 package org.raflab.studsluzbadesktopclient.services;
 
-import javafx.beans.Observable;
+
 import lombok.AllArgsConstructor;
-import lombok.NonNull;
-import org.raflab.studsluzbacommon.dto.request.NastavnikRequestDTO;
+import org.raflab.studsluzbacommon.dto.request.NastavnikRequest;
 import org.raflab.studsluzbacommon.dto.response.NastavnikResponseDTO;
 import org.raflab.studsluzbadesktopclient.exceptions.ConflictException;
 import org.raflab.studsluzbadesktopclient.exceptions.ResourceNotFoundException;
@@ -49,7 +48,7 @@ public class NastavnikService {
                 .collectList();
     }
 
-    public Mono<NastavnikResponseDTO> updateNastavnik(Long id, NastavnikRequestDTO request) {
+    public Mono<NastavnikResponseDTO> updateNastavnik(Long id, NastavnikRequest request) {
         return webClient.patch()
                 .uri("nastavnik/" + id)
                 .bodyValue(request)

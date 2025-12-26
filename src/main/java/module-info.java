@@ -44,4 +44,5 @@ module stud_sluzba_desktop_client {
     requires org.reactivestreams;
     requires java.naming;
     requires ch.qos.logback.classic;
+    requires com.fasterxml.jackson.databind;
 }

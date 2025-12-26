@@ -120,7 +120,7 @@ public class NastavnikProfileController {
             return;
         }
 
-        NastavnikRequestDTO request = new NastavnikRequestDTO();
+        NastavnikRequest request = new NastavnikRequest();
 
         request.setIme(imeTf.getText());
         request.setPrezime(prezimeTf.getText());
@@ -132,11 +132,10 @@ public class NastavnikProfileController {
         request.setAdresa(adresaTf.getText());
         request.setPol(nastavnik.getPol());
 
-        Set<NastavnikZvanjeRequestDTO> zvanjaRequest =
+        Set<NastavnikZvanjeRequest> zvanjaRequest =
                 zvanjaTv.getItems().stream()
                         .map(z -> {
-                            NastavnikZvanjeRequestDTO r = new NastavnikZvanjeRequestDTO();
-                            r.setId(z.getId());
+                            NastavnikZvanjeRequest r = new NastavnikZvanjeRequest();
                             r.setDatumIzbora(z.getDatumIzbora());
                             r.setZvanjeId(z.getZvanje().getId());
                             r.setNaucnaOblastId(z.getNaucnaOblast().getId());
@@ -148,11 +147,10 @@ public class NastavnikProfileController {
 
         request.setZvanja(zvanjaRequest);
 
-        Set<NastavnikObrazovanjeRequestDTO> obrazovanjeRequest =
+        Set<NastavnikObrazovanjeRequest> obrazovanjeRequest =
                 obrazovanjeTv.getItems().stream()
                         .map(o -> {
-                            NastavnikObrazovanjeRequestDTO r = new NastavnikObrazovanjeRequestDTO();
-                            r.setId(o.getId()); // ✅ NAJBITNIJE
+                            NastavnikObrazovanjeRequest r = new NastavnikObrazovanjeRequest();
                             r.setVisokoskolskaUstanovaId(o.getVisokoskolskaUstanova().getId());
                             r.setVrstaStudijaId(o.getVrstaStudija().getId());
                             return r;

@@ -4,7 +4,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import org.raflab.studsluzbacommon.dto.request.NastavnikRequestDTO;
 import org.raflab.studsluzbacommon.dto.response.*;
 import org.raflab.studsluzbadesktopclient.coder.CoderFactory;
 import org.raflab.studsluzbadesktopclient.services.*;
