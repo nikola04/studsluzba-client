@@ -20,6 +20,8 @@ public class NastavnikTabPaneController {
 
     private final NastavnikObrazovanjeService obrazovenjeService;
     private final SrednjaSkolaService srednjaSkolaService;
+    private final NavigationController navigationController;
+    public TabPane nastavnikTabPane;
 
     @FXML private TextField imeTf;
     @FXML private TextField prezimeTf;
@@ -110,8 +112,12 @@ public class NastavnikTabPaneController {
                 setText(empty || item == null ? null : item.getVrstaStudija().getNaziv() + " / " + item.getVisokoskolskaUstanova().getNaziv());
             }
         });
+
+        nastavnikTabPane.getSelectionModel().selectedIndexProperty().addListener((obs, oldIdx, newIdx) -> {
+            navigationController.navigateTo("newNastavnik:tab:" + newIdx);
+        });
     }
-    public NastavnikTabPaneController(NastavnikService nastavnikService, CoderFactory coderFactory, ZvanjeService zvanjeService, VrstaStudijaService vrstaStudijaService, VisokoskolskaUstanovaService visokoskolskaUstanovaService, NastavnikObrazovanjeService obrazovenjeService, SrednjaSkolaService srednjaSkolaService) {
+    public NastavnikTabPaneController(NastavnikService nastavnikService, CoderFactory coderFactory, ZvanjeService zvanjeService, VrstaStudijaService vrstaStudijaService, VisokoskolskaUstanovaService visokoskolskaUstanovaService, NastavnikObrazovanjeService obrazovenjeService, SrednjaSkolaService srednjaSkolaService, NavigationController navigationController) {
         this.nastavnikService = nastavnikService;
         this.coderFactory = coderFactory;
         this.zvanjeService = zvanjeService;
@@ -119,6 +125,7 @@ public class NastavnikTabPaneController {
         this.visokoskolskaUstanovaService = visokoskolskaUstanovaService;
         this.obrazovenjeService = obrazovenjeService;
         this.srednjaSkolaService = srednjaSkolaService;
+        this.navigationController = navigationController;
     }
     @FXML
     private void handleAddObrazovanje() {

@@ -1,7 +1,6 @@
 package org.raflab.studsluzbadesktopclient.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import javafx.scene.Node;
 import org.springframework.stereotype.Component;
 
 
@@ -10,9 +9,10 @@ import javafx.scene.layout.BorderPane;
 
 @Component
 public class MainWindowController {
-	
-    private ApplicationContext context;
-	
 	@FXML
 	private BorderPane mainPane;
+
+	public void setView(Node node) {
+		mainPane.setCenter(node);
+	}
 }

@@ -7,23 +7,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import org.raflab.studsluzbacommon.dto.response.*;
+import org.raflab.studsluzbadesktopclient.MainView;
 import org.raflab.studsluzbadesktopclient.services.SkolskaGodinaService;
 import org.raflab.studsluzbadesktopclient.services.StudentIndexService;
 import org.raflab.studsluzbadesktopclient.utils.ErrorHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +25,7 @@ import java.util.Optional;
 @Component
 public class StudentController {
     @Autowired
-    private ApplicationContext context;
+    private MainView mainView;
 
     @Autowired
     private StudentIndexService studentIndexService;
@@ -177,23 +171,10 @@ public class StudentController {
 
     @FXML
     private void handleOpenEditProfile() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editProfile.fxml"));
-            loader.setControllerFactory(context::getBean);
-            Parent root = loader.load();
-
-            EditProfileController editController = loader.getController();
-            editController.setStudentData(this.student);
-            editController.setParentController(this);
-
-            Stage stage = new Stage();
-            stage.setTitle("Edit Profile");
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        mainView.openModal("editProfile", "Edit Profile", (EditProfileController controller) -> {
+            controller.setStudentData(this.student);
+            controller.setParentController(this);
+        });
     }
 
     public void handleCreateUplata(ActionEvent actionEvent) {

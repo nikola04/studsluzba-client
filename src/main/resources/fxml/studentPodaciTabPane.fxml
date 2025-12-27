@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.geometry.*?>
 
-<TabPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.raflab.studsluzbadesktopclient.controllers.NewStudentController">
+<TabPane fx:id="podaciTabPane" xmlns:fx="http://javafx.com/fxml" fx:controller="org.raflab.studsluzbadesktopclient.controllers.NewStudentController">
     <Tab text="Osnovni podaci" closable="false">
         <HBox alignment="center">
             <GridPane alignment="center" hgap="10" vgap="10">

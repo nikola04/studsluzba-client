@@ -1,30 +1,26 @@
 package org.raflab.studsluzbadesktopclient.controllers;
 
-import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.raflab.studsluzbacommon.dto.response.NastavnikResponseDTO;
+import org.raflab.studsluzbadesktopclient.MainView;
 import org.raflab.studsluzbadesktopclient.services.NastavnikService;
 import org.raflab.studsluzbadesktopclient.utils.DebouncedSearchHelper;
 import org.raflab.studsluzbadesktopclient.utils.ErrorHandler;
-import org.raflab.studsluzbadesktopclient.utils.SpringContextHelper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SearchNastavnikController {
     private final NastavnikService nastavnikService;
     private final ObservableList<NastavnikResponseDTO> nastavnikObList = FXCollections.observableArrayList();
+    @Autowired private MainView mainView;
 
     @FXML
     public BorderPane searchNastavnikPane;
@@ -63,30 +59,7 @@ public class SearchNastavnikController {
         });
     }
     private void openNastavnikDetails(NastavnikResponseDTO nastavnik) {
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/fxml/nastavnikProfile.fxml")
-            );
-
-            loader.setControllerFactory(clazz ->
-                    SpringContextHelper.getContext().getBean(clazz)
-            );
-
-            Parent root = loader.load();
-
-            NastavnikProfileController controller = loader.getController();
-            controller.setNastavnik(nastavnik);
-
-            Stage stage = new Stage();
-            stage.setTitle("Profil nastavnika");
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.showAndWait();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            ErrorHandler.displayError(e);
-        }
+        mainView.openModal("nastavnikProfile", "Nastavnik Profile", (NastavnikProfileController controller) -> controller.setNastavnik(nastavnik));
     }
     public void handleSearchNastavnik(ActionEvent actionEvent) {
         Button button = actionEvent != null ? ((Button) actionEvent.getSource()) : null;
@@ -101,7 +74,7 @@ public class SearchNastavnikController {
                 .subscribe(nastavnikObList::setAll, ErrorHandler::displayError);
     }
 
-    public void handleDeleteNastavnik(ActionEvent actionEvent) {
+    public void handleDeleteNastavnik() {
         NastavnikResponseDTO selected =
                 nastavnikTable.getSelectionModel().getSelectedItem();
 

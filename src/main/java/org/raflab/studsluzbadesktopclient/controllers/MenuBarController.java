@@ -1,42 +1,31 @@
 package org.raflab.studsluzbadesktopclient.controllers;
 
-import org.raflab.studsluzbadesktopclient.MainView;
-import org.raflab.studsluzbadesktopclient.services.StudentService;
 import org.springframework.stereotype.Component;
 
-import javafx.fxml.FXML;
-
 @Component
-public class MenuBarController { 
+public class MenuBarController {
+	private final NavigationController navController;
 
-	final MainView mainView;
-	final StudentService studentService;
+	public MenuBarController(NavigationController navController){
+		this.navController = navController;
+	}
 
-    public MenuBarController(StudentService studentService, MainView mainView){
-        this.studentService = studentService;
-        this.mainView = mainView;
-    }
 	public void openNewNastavnik() {
-		mainView.changeRoot("newNastavnik");
+		navController.navigateTo("newNastavnik");
 	}
 	public void openSearchStudent() {
-		mainView.changeRoot("searchStudent");
+		navController.navigateTo("searchStudent");
 	}
 	public void openSearchNastavnik() {
-		mainView.changeRoot("searchNastavnik");
+		navController.navigateTo("searchNastavnik");
 	}
 	public void openNewStudent() {
-		mainView.changeRoot("newStudent");
+		navController.navigateTo("newStudent");
 	}
 	public void openSifarnik() {
-		mainView.changeRoot("sifarnik");
+		navController.navigateTo("sifarnik");
 	}
 	public void openSkolskaGodina() {
-		mainView.changeRoot("skolskaGodina");
+		navController.navigateTo("skolskaGodina");
 	}
-
-	@FXML
-    public void initialize() {		
-
-    }
 }

@@ -26,11 +26,12 @@ import org.springframework.stereotype.Component;
 public class NewStudentController {
     @FXML public ComboBox<SrednjaSkolaResponseDTO> srednjaSkolaCb;
     @FXML public ComboBox<VisokoskolskaUstanovaResponseDTO> visokoskolskaUstanovaCb;
+    public TabPane podaciTabPane;
+    @Autowired private NavigationController navController;
     @Autowired private StudentService studentService;
     @Autowired private VisokoskolskaUstanovaService visokoskolskaUstanovaService;
     @Autowired private SrednjaSkolaService srednjaSkolaService;
-    @Autowired
-    private CoderFactory coderFactory;
+    @Autowired private CoderFactory coderFactory;
 
     @FXML
     private TextField imeTf;
@@ -120,6 +121,8 @@ public class NewStudentController {
             @Override
             public VisokoskolskaUstanovaResponseDTO fromString(String string) { return null; }
         });
+
+        podaciTabPane.getSelectionModel().selectedIndexProperty().addListener((obs, oldIdx, newIdx) -> navController.navigateTo("newStudent:tab:" + newIdx));
     }
 
     public void handleSaveStudent(ActionEvent event) {

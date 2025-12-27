@@ -5,33 +5,25 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.raflab.studsluzbacommon.dto.response.StudentIndeksResponseDTO;
 import org.raflab.studsluzbacommon.dto.response.StudentResponseDTO;
+import org.raflab.studsluzbadesktopclient.MainView;
 import org.raflab.studsluzbadesktopclient.exceptions.InvalidDataException;
 import org.raflab.studsluzbadesktopclient.services.StudentIndexService;
 import org.raflab.studsluzbadesktopclient.services.StudentService;
 import org.raflab.studsluzbadesktopclient.utils.DebouncedSearchHelper;
 import org.raflab.studsluzbadesktopclient.utils.ErrorHandler;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.List;
 
 @Component
 public class SearchStudentController {
-    @Autowired
-    private ApplicationContext context;
+    private final MainView mainView;
 
     private final StudentService studentService;
     private final StudentIndexService studentIndexService;
@@ -60,9 +52,10 @@ public class SearchStudentController {
     private int currentPage = 0;
     private int totalPages = 1;
 
-    public SearchStudentController(StudentService studentService, StudentIndexService studentIndexService) {
+    public SearchStudentController(StudentService studentService, StudentIndexService studentIndexService, MainView mainView) {
         this.studentService = studentService;
         this.studentIndexService = studentIndexService;
+        this.mainView = mainView;
     }
 
     public void initialize(){
@@ -115,23 +108,11 @@ public class SearchStudentController {
                 .collectList()
                 .subscribe(indices -> Platform.runLater(() -> {
                     if (indices.isEmpty()) {
-                        try {
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editProfile.fxml"));
-                            loader.setControllerFactory(context::getBean);
-                            Parent root = loader.load();
-
-                            EditProfileController editController = loader.getController();
-                            editController.setStudentData(selectedStudent);
-
-                            Stage stage = new Stage();
-                            stage.setTitle("Edit Profile");
-                            stage.initModality(Modality.APPLICATION_MODAL);
-                            stage.setScene(new Scene(root));
-                            stage.show();
-                            return;
-                        }catch(Exception e){
-                            ErrorHandler.displayError(e);
-                        }
+                        mainView.openModal("editProfile", "Edit Profile", (EditProfileController controller) -> {
+                            controller.setStudentData(selectedStudent);
+                            controller.setParentController(null);
+                        });
+                        return;
                     }
 
                     ListView<StudentIndeksResponseDTO> listView = new ListView<>();
@@ -214,24 +195,7 @@ public class SearchStudentController {
     }
 
     private void openStudentIndex(StudentIndeksResponseDTO student){
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/studentProfile.fxml"));
-            loader.setControllerFactory(context::getBean);
-            Parent root = loader.load();
-
-            StudentController controller = loader.getController();
-            controller.setStudentIndex(student);
-
-            Stage stage = new Stage();
-            stage.setTitle("Student Profile");
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL);
-
-            stage.show();
-
-        } catch (IOException e) {
-            ErrorHandler.displayError(e);
-        }
+        mainView.openModal("studentProfile", "Student Profile", (StudentController controller) -> controller.setStudentIndex(student));
     }
 
     private void updateCurrentPage(){

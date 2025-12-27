@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?><TabPane xmlns="http://javafx.com/javafx/21"
+<?import javafx.geometry.Insets?><TabPane xmlns="http://javafx.com/javafx/21" fx:id="nastavnikTabPane"
          xmlns:fx="http://javafx.com/fxml/1"
          fx:controller="org.raflab.studsluzbadesktopclient.controllers.NastavnikTabPaneController">
 

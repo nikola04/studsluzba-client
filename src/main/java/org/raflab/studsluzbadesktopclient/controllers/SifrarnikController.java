@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SifrarnikController {
+    private final NavigationController navigationController;
     public TextField novoVrstaPredispitneTf;
     public TableView<PredispitneVrstaResponseDTO> vrstaPredispitneTable;
 
@@ -50,8 +51,9 @@ public class SifrarnikController {
     private final PredispitneVrstaService predispitneVrstaService;
     private final NaucnaOblastService naucnaOblastService;
     private final UzaNaucnaOblastService uzaNaucnaOblastService;
+    public TabPane sifarnikTabPane;
 
-    public SifrarnikController(VrstaStudijaService vrstaStudijaService, TipSkoleService tipSkoleService, VisokoskolskaUstanovaService visokoskolskaUstanovaService, ZvanjeService zvanjeService, PredispitneVrstaService predispitneVrstaService, NaucnaOblastService naucnaOblastService, UzaNaucnaOblastService uzaNaucnaOblastService) {
+    public SifrarnikController(VrstaStudijaService vrstaStudijaService, TipSkoleService tipSkoleService, VisokoskolskaUstanovaService visokoskolskaUstanovaService, ZvanjeService zvanjeService, PredispitneVrstaService predispitneVrstaService, NaucnaOblastService naucnaOblastService, UzaNaucnaOblastService uzaNaucnaOblastService, NavigationController navigationController) {
         this.vrstaStudijaService = vrstaStudijaService;
         this.tipSkoleService = tipSkoleService;
         this.visokoskolskaUstanovaService = visokoskolskaUstanovaService;
@@ -59,6 +61,7 @@ public class SifrarnikController {
         this.predispitneVrstaService = predispitneVrstaService;
         this.naucnaOblastService = naucnaOblastService;
         this.uzaNaucnaOblastService = uzaNaucnaOblastService;
+        this.navigationController = navigationController;
     }
 
     public void initialize(){
@@ -83,6 +86,8 @@ public class SifrarnikController {
         naucnaOblastService.fetchNaucnaOblast().collectList().subscribe(list -> Platform.runLater(() -> naucnaOblastObList.setAll(list)), ErrorHandler::displayError);
 
         uzaNaucnaOblastService.fetchUzaNaucnaOblast().collectList().subscribe(list -> Platform.runLater(() -> uzaNaucnaOblastObList.setAll(list)), ErrorHandler::displayError);
+
+        sifarnikTabPane.getSelectionModel().selectedIndexProperty().addListener((obs, oldIdx, newIdx) -> navigationController.navigateTo("sifarnik:tab:" + newIdx));
     }
 
     public void handleCreateZvanje(ActionEvent actionEvent) {
