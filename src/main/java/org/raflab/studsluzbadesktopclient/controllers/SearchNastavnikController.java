@@ -21,12 +21,8 @@ import org.raflab.studsluzbadesktopclient.utils.ErrorHandler;
 import org.raflab.studsluzbadesktopclient.utils.SpringContextHelper;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 public class SearchNastavnikController {
-    private PauseTransition searchDebounce;
-
     private final NastavnikService nastavnikService;
     private final ObservableList<NastavnikResponseDTO> nastavnikObList = FXCollections.observableArrayList();
 
@@ -72,7 +68,6 @@ public class SearchNastavnikController {
                     getClass().getResource("/fxml/nastavnikProfile.fxml")
             );
 
-            // 👇 KLJUČNA LINIJA
             loader.setControllerFactory(clazz ->
                     SpringContextHelper.getContext().getBean(clazz)
             );
@@ -101,13 +96,9 @@ public class SearchNastavnikController {
         String lastName = nastavnikLastNameTf.getText();
 
         nastavnikService.searchNastavnik(name, lastName)
-                .subscribe(nastavnikList -> {
-                    Platform.runLater(() ->
-                            nastavnikObList.setAll(nastavnikList)
-                    );
-                }, ErrorHandler::displayError, () -> {
-                    if (button != null) button.setDisable(false);
-                });
+                .doFinally(signalType -> {if (button != null) button.setDisable(false);})
+                .collectList()
+                .subscribe(nastavnikObList::setAll, ErrorHandler::displayError);
     }
 
     public void handleDeleteNastavnik(ActionEvent actionEvent) {

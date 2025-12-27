@@ -11,7 +11,6 @@
 
     <BorderPane prefWidth="900" prefHeight="650">
 
-        <!-- ===== NASLOV ===== -->
         <top>
             <Label text="Profil nastavnika"
                    BorderPane.alignment="CENTER"
@@ -22,11 +21,9 @@
             </Label>
         </top>
 
-        <!-- ===== SADRŽAJ ===== -->
         <center>
             <VBox spacing="20">
 
-                <!-- ===== OSNOVNI PODACI ===== -->
                 <GridPane alignment="CENTER"
                           hgap="15"
                           vgap="12">
@@ -65,11 +62,9 @@
                     <TextField fx:id="adresaTf" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
                 </GridPane>
 
-                <!-- ===== TABOVI ===== -->
                 <TabPane prefHeight="300">
 
-                    <!-- ===== ZVANJA ===== -->
-                    <Tab text="Zvanja">
+                    <Tab closable="false"  text="Zvanja">
                         <BorderPane>
 
                             <center>
@@ -79,7 +74,7 @@
                                         <TableColumn text="Naučna oblast" fx:id="naucnaOblastCol" prefWidth="180"/>
                                         <TableColumn text="Uža oblast" fx:id="uzaNaucnaOblastCol" prefWidth="180"/>
                                         <TableColumn text="Datum izbora" fx:id="datumIzboraCol" prefWidth="120"/>
-                                        <TableColumn text="Aktivno" fx:id="aktivnoCol" prefWidth="80"/>
+                                        <TableColumn text="Aktivno" fx:id="aktivnoCol" />
                                     </columns>
                                 </TableView>
                             </center>
@@ -98,8 +93,7 @@
                         </BorderPane>
                     </Tab>
 
-                    <!-- ===== OBRAZOVANJE ===== -->
-                    <Tab text="Obrazovanje">
+                    <Tab closable="false" text="Obrazovanje">
                         <BorderPane>
 
                             <center>
@@ -129,7 +123,6 @@
             </VBox>
         </center>
 
-        <!-- ===== DUGMAD ===== -->
         <bottom>
             <HBox spacing="10" alignment="CENTER_RIGHT">
                 <padding>

@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -28,11 +25,17 @@
                     <TableView fx:id="nastavnikTable" VBox.vgrow="ALWAYS"
                                style="-fx-background-color: white; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-padding: 0;">
                         <columns>
-                            <TableColumn prefWidth="200" text="Ime">
+                            <TableColumn prefWidth="50" text="ID">
+                                <cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory>
+                            </TableColumn>
+                            <TableColumn prefWidth="120" text="Ime">
                                 <cellValueFactory><PropertyValueFactory property="ime" /></cellValueFactory>
                             </TableColumn>
-                            <TableColumn prefWidth="200" text="Prezime">
+                            <TableColumn prefWidth="120" text="Prezime">
                                 <cellValueFactory><PropertyValueFactory property="prezime" /></cellValueFactory>
+                            </TableColumn>
+                            <TableColumn prefWidth="200" text="Email">
+                                <cellValueFactory><PropertyValueFactory property="email" /></cellValueFactory>
                             </TableColumn>
                         </columns>
                         <columnResizePolicy>

@@ -7,13 +7,11 @@ import org.raflab.studsluzbacommon.dto.response.NastavnikResponseDTO;
 import org.raflab.studsluzbadesktopclient.exceptions.ConflictException;
 import org.raflab.studsluzbadesktopclient.exceptions.ResourceNotFoundException;
 import org.raflab.studsluzbadesktopclient.exceptions.ServerCommunicationException;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.util.UriComponentsBuilder;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -21,36 +19,20 @@ public class NastavnikService {
 
     private WebClient webClient;
 
-    private String createURL(String pathEnd) {
-        return "nastavnik/" + pathEnd;
-    }
-
-    private String createSearchUrl(String name, String lastName){
-        if (name == null || lastName == null || (name.isEmpty() && lastName.isEmpty()))
-            return createURL("");
-
-        UriComponentsBuilder builder = UriComponentsBuilder.fromPath(createURL("search"));
-        builder.queryParam("ime", name);
-        builder.queryParam("prezime", lastName);
-        return builder.toUriString();
-    }
-
-    public Mono<List<NastavnikResponseDTO>> searchNastavnik(String name, String lastName) {
-        String url = createSearchUrl(name, lastName);
-
+    public Flux<NastavnikResponseDTO> searchNastavnik(String name, String lastName) {
         return webClient.get()
-                .uri(url)
+                .uri(uriBuilder -> uriBuilder
+                        .path("/nastavnik/search")
+                        .queryParam("ime", name)
+                        .queryParam("prezime", lastName)
+                        .build())
                 .retrieve()
-                .onStatus(HttpStatusCode::is5xxServerError,
-                        clientResponse ->
-                                Mono.error(new ServerCommunicationException(clientResponse.statusCode().toString())))
-                .bodyToFlux(NastavnikResponseDTO.class)
-                .collectList();
+                .bodyToFlux(NastavnikResponseDTO.class);
     }
 
     public Mono<NastavnikResponseDTO> updateNastavnik(Long id, NastavnikRequest request) {
         return webClient.patch()
-                .uri("nastavnik/" + id)
+                .uri("/nastavnik/{id}", id)
                 .bodyValue(request)
                 .retrieve()
                 .bodyToMono(NastavnikResponseDTO.class);

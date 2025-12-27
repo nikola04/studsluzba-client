@@ -29,13 +29,14 @@ public class ErrorHandler {
 
         if (cause instanceof InvalidDataException)
             return "Invalid data.";
+        if (cause instanceof IllegalStateException)
+            return "Illegal state.";
         if (cause instanceof ResourceNotFoundException)
             return "Resource not found.";
         if (cause instanceof ServerCommunicationException || cause instanceof WebClientRequestException)
             return "Communication failed.";
         if (cause instanceof ConflictException)
             return "Conflict.";
-        ex.printStackTrace();
         return "Unexpected error.";
     }
 }
