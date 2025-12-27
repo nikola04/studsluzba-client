@@ -161,7 +161,7 @@ public class NewStudentController {
 
             studentService.saveStudent(student)
                     .doFinally(actionType -> button.setDisable(false))
-                    .subscribe(data -> resetForm(), ErrorHandler::displayError);
+                    .subscribe(data -> Platform.runLater(this::resetForm), ErrorHandler::displayError);
 
         }catch (Exception e){
             ErrorHandler.displayError(e);

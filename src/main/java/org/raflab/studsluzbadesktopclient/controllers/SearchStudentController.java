@@ -221,4 +221,31 @@ public class SearchStudentController {
             this.handleSearchStudent(false);
         }
     }
+
+    public void handleDeleteStudent(ActionEvent actionEvent) {
+        StudentResponseDTO selectedStudent = studentTable.getSelectionModel().getSelectedItem();
+        if(selectedStudent == null) {
+            ErrorHandler.displayError(new IllegalStateException("Select student to delete"));
+            return;
+        }
+
+        Button button = (Button) actionEvent.getSource();
+        button.setDisable(true);
+
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Student deletion");
+        confirm.setHeaderText("Please confirm deletion of student:");
+        confirm.setContentText(selectedStudent.getIme() + " " + selectedStudent.getPrezime());
+
+        confirm.showAndWait().ifPresent(result -> {
+            if (result != ButtonType.OK) {
+                button.setDisable(false);
+                return;
+            }
+
+            studentService.deleteStudent(selectedStudent.getId())
+                .doFinally(signalType -> Platform.runLater(() -> button.setDisable(false)))
+                .subscribe(deleted -> Platform.runLater(() -> studentObList.remove(selectedStudent)), ErrorHandler::displayError);
+        });
+    }
 }

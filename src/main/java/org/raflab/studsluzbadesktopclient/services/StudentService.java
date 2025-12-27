@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.raflab.studsluzbacommon.dto.PagedResponse;
 import org.raflab.studsluzbacommon.dto.request.StudentRequest;
 import org.raflab.studsluzbacommon.dto.response.StudentResponseDTO;
+import org.raflab.studsluzbadesktopclient.exceptions.ResourceNotFoundException;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,14 @@ public class StudentService {
 				.bodyValue(student)
 				.retrieve()
 				.bodyToMono(Long.class);
+	}
+
+	public Mono<Boolean> deleteStudent(Long studentId){
+		return webClient.delete()
+				.uri("student/podaci/{id}", studentId)
+				.retrieve()
+				.onStatus(status -> status.value() == 404, clientResponse -> Mono.error(new ResourceNotFoundException("Student cannot be found.")))
+				.bodyToMono(Boolean.class);
 	}
 
 	public Mono<StudentResponseDTO> updateStudentById(

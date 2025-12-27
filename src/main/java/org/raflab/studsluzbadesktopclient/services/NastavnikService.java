@@ -4,6 +4,7 @@ package org.raflab.studsluzbadesktopclient.services;
 import lombok.AllArgsConstructor;
 import org.raflab.studsluzbacommon.dto.request.NastavnikRequest;
 import org.raflab.studsluzbacommon.dto.response.NastavnikResponseDTO;
+import org.raflab.studsluzbadesktopclient.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -48,6 +49,7 @@ public class NastavnikService {
                 .delete()
                 .uri("/nastavnik/{id}", id)
                 .retrieve()
+                .onStatus(status -> status.value() == 404, clientResponse -> Mono.error(new ResourceNotFoundException("Nastavnik cannot be found.")))
                 .bodyToMono(Boolean.class);
     }
 }
