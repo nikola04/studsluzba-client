@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?><TabPane xmlns="http://javafx.com/javafx/21" fx:id="nastavnikTabPane"
          xmlns:fx="http://javafx.com/fxml/1"
-         fx:controller="org.raflab.studsluzbadesktopclient.controllers.NastavnikTabPaneController">
+         fx:controller="org.raflab.studsluzbadesktopclient.controllers.NewNastavnikController">
 
 
     <Tab text="Osnovni podaci" closable="false">
@@ -36,7 +36,7 @@
                             <Insets right="10"/>
                         </HBox.margin>
                     </RadioButton>
-                    <RadioButton fx:id="zenskiRb" text="Ženski" toggleGroup="$polGroup"/>
+                    <RadioButton text="Ženski" toggleGroup="$polGroup"/>
                 </HBox>
 
             </GridPane>
@@ -66,9 +66,20 @@
         <BorderPane>
             <center>
                 <VBox spacing="10" alignment="center">
+                    <Label text="Datum izbora"/>
+                    <DatePicker fx:id="zvanjaDatumIzbora" prefWidth="250"/>
 
-                    <Label text="Izaberi zvanje"/>
+                    <Label text="Naucna oblast"/>
+                    <ComboBox fx:id="zvanjaNaucnaOblastCb" prefWidth="250"/>
+
+                    <Label text="Uza naucna oblast"/>
+                    <ComboBox fx:id="zvanjaUzaNaucnaOblastCb" prefWidth="250"/>
+
+                    <Label text="Zvanje"/>
                     <ComboBox fx:id="zvanjaCb" prefWidth="250"/>
+
+                    <Label text="Aktivno"/>
+                    <CheckBox fx:id="zvanjeAktivno" prefWidth="250"/>
 
                     <Button text="Dodaj zvanje"
                             onAction="#handleAddZvanje"/>

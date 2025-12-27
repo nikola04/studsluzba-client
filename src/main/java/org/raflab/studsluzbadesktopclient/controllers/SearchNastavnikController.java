@@ -69,40 +69,28 @@ public class SearchNastavnikController {
         String lastName = nastavnikLastNameTf.getText();
 
         nastavnikService.searchNastavnik(name, lastName)
-                .doFinally(signalType -> {if (button != null) button.setDisable(false);})
-                .collectList()
-                .subscribe(nastavnikObList::setAll, ErrorHandler::displayError);
+            .doFinally(signalType -> {if (button != null) button.setDisable(false);})
+            .collectList()
+            .subscribe(nastavnikObList::setAll, ErrorHandler::displayError);
     }
 
     public void handleDeleteNastavnik() {
-        NastavnikResponseDTO selected =
-                nastavnikTable.getSelectionModel().getSelectedItem();
+        NastavnikResponseDTO selected = nastavnikTable.getSelectionModel().getSelectedItem();
 
         if (selected == null) {
-            ErrorHandler.displayError(
-                    new IllegalStateException("Morate selektovati nastavnika za brisanje.")
-            );
+            ErrorHandler.displayError(new IllegalStateException("Morate selektovati nastavnika za brisanje."));
             return;
         }
 
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Brisanje nastavnika");
-        confirm.setHeaderText("Da li ste sigurni?");
-        confirm.setContentText(
-                "Nastavnik: " + selected.getIme() + " " + selected.getPrezime()
-        );
+        confirm.setTitle("Nastavnik deletion");
+        confirm.setHeaderText("Please confirm deletion of nastavnik:");
+        confirm.setContentText(selected.getIme() + " " + selected.getPrezime());
 
         confirm.showAndWait().ifPresent(result -> {
-            if (result == ButtonType.OK) {
-
-                nastavnikService.deleteNastavnik(selected.getId())
-                        .subscribe(
-                                r -> Platform.runLater(() ->
-                                        nastavnikTable.getItems().remove(selected)
-                                ),
-                                ErrorHandler::displayError
-                        );
-            }
+            if (result != ButtonType.OK) return;
+            nastavnikService.deleteNastavnik(selected.getId())
+                .subscribe(r -> Platform.runLater(() -> nastavnikTable.getItems().remove(selected)), ErrorHandler::displayError);
         });
     }
 }

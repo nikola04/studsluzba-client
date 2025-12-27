@@ -45,45 +45,39 @@
                     <HBox spacing="10" alignment="CENTER_LEFT">
                         <Button text="−"
                                 onAction="#handleDeleteNastavnik"
-                                style="-fx-background-color: #e74c3c;
-                   -fx-text-fill: white;
-                   -fx-font-weight: bold;
-                   -fx-background-radius: 5;
-                   -fx-min-width: 40;" />
+                                style="-fx-background-color: #e74c3c;-fx-text-fill: white;-fx-font-weight: bold;-fx-background-radius: 5;-fx-min-width: 40;" />
 
-                        <Label text="Selektuj nastavnika za brisanje ili pregled profila"
+                        <Label text="Select nastavnik for detailed profile or deletion"
                                style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
                     </HBox>
                 </VBox>
 
-                <VBox spacing="20" prefWidth="300" minWidth="300"
-                      style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1;">
+                <VBox spacing="20" prefWidth="300" minWidth="300">
+                    <VBox spacing="15" style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1;">
+
                     <padding>
-                        <Insets top="25" right="20" bottom="25" left="20" />
-                    </padding>
+                            <Insets top="25" right="20" bottom="25" left="20" />
+                        </padding>
 
-                    <VBox spacing="5">
-                        <Label text="Apply Filters" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
-                        <Separator />
-                    </VBox>
-
-                    <VBox spacing="15">
-                        <VBox spacing="8">
-                            <Label text="Ime" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
-                            <TextField fx:id="nastavnikNameTf" promptText="Unesite ime..."
-                                       style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 8; -fx-padding: 8;" />
+                        <VBox spacing="5">
+                            <Label text="Apply Filters" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                            <Separator />
                         </VBox>
 
-                        <VBox spacing="8">
-                            <Label text="Prezime" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
-                            <TextField fx:id="nastavnikLastNameTf" promptText="Unesite prezime..."
-                                       style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 8; -fx-padding: 8;" />
+                        <VBox spacing="15">
+                            <VBox spacing="8">
+                                <Label text="Ime" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
+                                <TextField fx:id="nastavnikNameTf" promptText="Unesite ime..."
+                                           style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 8; -fx-padding: 8;" />
+                            </VBox>
+
+                            <VBox spacing="8">
+                                <Label text="Prezime" style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" />
+                                <TextField fx:id="nastavnikLastNameTf" promptText="Unesite prezime..."
+                                           style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 8; -fx-padding: 8;" />
+                            </VBox>
                         </VBox>
-
                     </VBox>
-
-                    <Button onAction="#handleSearchNastavnik" text="Search" maxWidth="Infinity"
-                            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 10 16; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;" />
                 </VBox>
             </HBox>
         </VBox>

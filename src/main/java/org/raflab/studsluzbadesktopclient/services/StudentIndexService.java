@@ -32,8 +32,6 @@ public class StudentIndexService {
 					Mono.error(new InvalidDataException("Indeks Broj is not valid. Use [SP][Broj][Godina].")))
 			.onStatus(status -> status.value() == 404, clientResponse ->
 					Mono.error(new ResourceNotFoundException("Student with provided indeks cannot be found.")))
-			.onStatus(HttpStatusCode::isError, clientResponse ->
-					Mono.error(new CommunicationException(clientResponse.statusCode().toString())))
 			.bodyToMono(new ParameterizedTypeReference<>() {});
 	}
 

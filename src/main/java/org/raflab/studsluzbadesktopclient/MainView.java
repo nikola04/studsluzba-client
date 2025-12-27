@@ -43,7 +43,6 @@ public class MainView {
 
 	public void registerNavigationInputs(Scene scene, NavigationController navCtrl) {
 		scene.setOnMouseClicked(event -> {
-			System.out.println(event.getButton());
 			if (event.getButton() == MouseButton.BACK) {
 				navCtrl.goBack();
 				event.consume();

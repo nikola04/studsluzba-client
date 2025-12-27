@@ -85,7 +85,6 @@
                                         <Insets top="10" right="15" bottom="10" left="15"/>
                                     </padding>
                                     <Button text="Dodaj" onAction="#handleAddZvanje"/>
-                                    <Button text="Izmeni" onAction="#handleEditZvanje"/>
                                     <Button text="Obriši" onAction="#handleDeleteZvanje"/>
                                 </HBox>
                             </bottom>

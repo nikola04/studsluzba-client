@@ -16,11 +16,13 @@
                 <fx:include source="studentPodaciTabPane.fxml"/>
             </center>
             <bottom>
-                <GridPane alignment="center" hgap="10" vgap="10">
-                    <padding><Insets top="20" bottom="10"/></padding>
+                <VBox alignment="CENTER">
+                    <padding>
+                        <Insets top="20" bottom="50" />
+                    </padding>
                     <Button text="Save" onAction="#handleSaveStudent"
                             style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 12; -fx-background-radius: 6; -fx-cursor: hand;"/>
-                </GridPane>
+                </VBox>
             </bottom>
         </BorderPane>
     </center>

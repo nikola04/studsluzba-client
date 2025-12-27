@@ -36,6 +36,14 @@ public class StudentService {
 			.bodyToMono(new ParameterizedTypeReference<>() {});
 	}
 
+	public Mono<Long> saveStudent(StudentRequest student) {
+		return webClient.post()
+				.uri("student/podaci")
+				.bodyValue(student)
+				.retrieve()
+				.bodyToMono(Long.class);
+	}
+
 	public Mono<StudentResponseDTO> updateStudentById(
 			Long id,
 			String firstName,
@@ -93,13 +101,5 @@ public class StudentService {
 				.bodyValue(body)
 				.retrieve()
 				.bodyToMono(StudentResponseDTO.class);
-	}
-
-	public Mono<Long> saveStudent(StudentRequest student) {
-		return webClient.post()
-				.uri("student/podaci")
-				.bodyValue(student)
-				.retrieve()
-				.bodyToMono(Long.class);
 	}
 }

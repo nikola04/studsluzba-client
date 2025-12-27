@@ -13,7 +13,6 @@ import org.raflab.studsluzbadesktopclient.utils.ErrorHandler;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -46,47 +45,20 @@ public class NastavnikProfileController {
         this.nastavnikService = nastavnikService;
     }
 
-    /* ===== INIT ===== */
     @FXML
     public void initialize() {
-            // ===== ZVANJA =====
-            zvanjeCol.setCellValueFactory(cd ->
-                    new SimpleStringProperty(cd.getValue().getZvanje().getZvanje())
-            );
-
-            naucnaOblastCol.setCellValueFactory(cd ->
-                    new SimpleStringProperty(cd.getValue().getNaucnaOblast().getNaucnaOblast())
-            );
-
-            uzaNaucnaOblastCol.setCellValueFactory(cd ->
-                    new SimpleStringProperty(cd.getValue().getUzaNaucnaOblast().getUzaNaucnaOblast())
-            );
-
-            datumIzboraCol.setCellValueFactory(cd ->
-                    new SimpleObjectProperty<>(cd.getValue().getDatumIzbora())
-            );
-
-            aktivnoCol.setCellValueFactory(cd ->
-                    new SimpleObjectProperty<>(cd.getValue().getAktivno())
-            );
-
-            // ===== OBRAZOVANJE =====
-            ustanovaCol.setCellValueFactory(cd ->
-                    new SimpleStringProperty(cd.getValue().getVisokoskolskaUstanova().getNaziv())
-            );
-         vrstaStudijaCol.setCellValueFactory(cd ->
-                new SimpleStringProperty(
-                        cd.getValue().getVrstaStudija().getNaziv()
-                )
-        );
-
+        zvanjeCol.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getZvanje().getZvanje()));
+        naucnaOblastCol.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getNaucnaOblast().getNaucnaOblast()));
+        uzaNaucnaOblastCol.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getUzaNaucnaOblast().getUzaNaucnaOblast()));
+        datumIzboraCol.setCellValueFactory(cd -> new SimpleObjectProperty<>(cd.getValue().getDatumIzbora()));
+        aktivnoCol.setCellValueFactory(cd -> new SimpleObjectProperty<>(cd.getValue().getAktivno()));
+        ustanovaCol.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getVisokoskolskaUstanova().getNaziv()));
+        vrstaStudijaCol.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getVrstaStudija().getNaziv()));
     }
 
-    /* ===== SET NASTAVNIK ===== */
     public void setNastavnik(NastavnikResponseDTO n) {
         this.nastavnik = n;
 
-        // osnovni podaci
         imeTf.setText(n.getIme());
         prezimeTf.setText(n.getPrezime());
         srednjeImeTf.setText(n.getSrednjeIme());
@@ -98,25 +70,14 @@ public class NastavnikProfileController {
 
         jmbgTf.setDisable(true);
 
-        // zvanja
-        if (n.getZvanja() != null) {
-            zvanjaTv.getItems().setAll(n.getZvanja());
-        }
-
-        // obrazovanje
-        if (n.getObrazovanja() != null) {
-            obrazovanjeTv.getItems().setAll(n.getObrazovanja());
-        }
+        if (n.getZvanja() != null) zvanjaTv.getItems().setAll(n.getZvanja());
+        if (n.getObrazovanja() != null) obrazovanjeTv.getItems().setAll(n.getObrazovanja());
     }
 
-    /* ===== SAVE ===== */
     @FXML
     private void handleSave() {
-
         if (nastavnik == null) {
-            ErrorHandler.displayError(
-                    new IllegalStateException("Nastavnik nije učitan!")
-            );
+            ErrorHandler.displayError(new IllegalStateException("Nastavnik not loaded"));
             return;
         }
 
@@ -132,41 +93,24 @@ public class NastavnikProfileController {
         request.setAdresa(adresaTf.getText());
         request.setPol(nastavnik.getPol());
 
-        Set<NastavnikZvanjeRequest> zvanjaRequest =
-                zvanjaTv.getItems().stream()
-                        .map(z -> {
-                            NastavnikZvanjeRequest r = new NastavnikZvanjeRequest();
-                            r.setDatumIzbora(z.getDatumIzbora());
-                            r.setZvanjeId(z.getZvanje().getId());
-                            r.setNaucnaOblastId(z.getNaucnaOblast().getId());
-                            r.setUzaNaucnaOblastId(z.getUzaNaucnaOblast().getId());
-                            r.setAktivno(z.getAktivno());
-                            return r;
-                        })
-                        .collect(Collectors.toSet());
+        request.setZvanja(zvanjaTv.getItems().stream().map(z -> {
+            NastavnikZvanjeRequest r = new NastavnikZvanjeRequest();
+            r.setDatumIzbora(z.getDatumIzbora());
+            r.setZvanjeId(z.getZvanje().getId());
+            r.setNaucnaOblastId(z.getNaucnaOblast().getId());
+            r.setUzaNaucnaOblastId(z.getUzaNaucnaOblast().getId());
+            r.setAktivno(z.getAktivno());
+            return r;
+        }).collect(Collectors.toSet()));
 
-        request.setZvanja(zvanjaRequest);
+        request.setObrazovanje(obrazovanjeTv.getItems().stream().map(o -> {
+            NastavnikObrazovanjeRequest r = new NastavnikObrazovanjeRequest();
+            r.setVisokoskolskaUstanovaId(o.getVisokoskolskaUstanova().getId());
+            r.setVrstaStudijaId(o.getVrstaStudija().getId());
+            return r;
+        }).collect(Collectors.toSet()));
 
-        Set<NastavnikObrazovanjeRequest> obrazovanjeRequest =
-                obrazovanjeTv.getItems().stream()
-                        .map(o -> {
-                            NastavnikObrazovanjeRequest r = new NastavnikObrazovanjeRequest();
-                            r.setVisokoskolskaUstanovaId(o.getVisokoskolskaUstanova().getId());
-                            r.setVrstaStudijaId(o.getVrstaStudija().getId());
-                            return r;
-                        })
-                        .collect(Collectors.toSet());
-
-
-        request.setObrazovanje(obrazovanjeRequest);
-
-        nastavnikService.updateNastavnik(nastavnik.getId(), request)
-                .subscribe(
-                        r -> Platform.runLater(() ->
-                                imeTf.getScene().getWindow().hide()
-                        ),
-                        ErrorHandler::displayError
-                );
+        nastavnikService.updateNastavnik(nastavnik.getId(), request).subscribe(r -> Platform.runLater(() -> imeTf.getScene().getWindow().hide()), ErrorHandler::displayError);
     }
 
     @FXML
@@ -177,15 +121,16 @@ public class NastavnikProfileController {
     public void handleAddZvanje(ActionEvent actionEvent) {
     }
     @FXML
-    public void handleEditZvanje(ActionEvent actionEvent) {
-    }
-    @FXML
-    public void handleDeleteZvanje(ActionEvent actionEvent) {
+    public void handleDeleteZvanje() {
+        NastavnikZvanjeResponseDTO nastavnikZvanje = zvanjaTv.getSelectionModel().getSelectedItem();
+        zvanjaTv.getItems().remove(nastavnikZvanje);
     }
     @FXML
     public void handleAddObrazovanje(ActionEvent actionEvent) {
     }
     @FXML
-    public void handleDeleteObrazovanje(ActionEvent actionEvent) {
+    public void handleDeleteObrazovanje() {
+        NastavnikObrazovanjeResponseDTO nastavnikObrazovanje = obrazovanjeTv.getSelectionModel().getSelectedItem();
+        obrazovanjeTv.getItems().remove(nastavnikObrazovanje);
     }
 }
