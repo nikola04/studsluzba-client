@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
@@ -11,6 +12,7 @@ import lombok.Setter;
 import org.raflab.studsluzbacommon.dto.response.SrednjaSkolaResponseDTO;
 import org.raflab.studsluzbacommon.dto.response.StudentResponseDTO;
 import org.raflab.studsluzbacommon.dto.response.VisokoskolskaUstanovaResponseDTO;
+import org.raflab.studsluzbadesktopclient.MainView;
 import org.raflab.studsluzbadesktopclient.exceptions.InvalidDataException;
 import org.raflab.studsluzbadesktopclient.services.SrednjaSkolaService;
 import org.raflab.studsluzbadesktopclient.services.StudentService;
@@ -23,7 +25,7 @@ import java.time.LocalDate;
 
 @Component
 public class EditProfileController {
-
+    public Label nameLabel;
     @Autowired
     private StudentService studentService;
     @Autowired
@@ -34,12 +36,22 @@ public class EditProfileController {
     private StudentController parentController;
 
     @FXML private TextField firstNameTf, lastNameTf, middleNameTf, jmbgTf, idCardTf, birthPlaceTf, privateEmailTf, mobilePhoneTf, addressTf;
+    public TextField birthCountryTf;
+    public TextField citizenshipTf;
+    public TextField nationalityTf;
+    public TextField facultyEmailTf;
+    public TextField cityTf;
+    public TextField enrollmentYearTf;
+    public TextField highSchoolSuccessTf;
+    public TextField entranceExamSuccessTf;
     @FXML private DatePicker birthDatePicker;
     @FXML private ComboBox<Character> genderCb;
     @FXML private ComboBox<SrednjaSkolaResponseDTO> highSchoolCb;
     @FXML private ComboBox<VisokoskolskaUstanovaResponseDTO> universityCb;
 
     private StudentResponseDTO student;
+    @Autowired
+    private MainView mainView;
 
     @FXML
     public void initialize() {
@@ -83,6 +95,7 @@ public class EditProfileController {
 
     public void setStudentData(StudentResponseDTO student) {
         this.student = student;
+        nameLabel.setText(student.getIme() + " " + student.getPrezime());
         firstNameTf.setText(student.getIme());
         lastNameTf.setText(student.getPrezime());
         middleNameTf.setText(student.getSrednjeIme());
@@ -92,9 +105,16 @@ public class EditProfileController {
         privateEmailTf.setText(student.getPrivatniEmail());
         mobilePhoneTf.setText(student.getBrojTelefonaMobilni());
         addressTf.setText(student.getAdresaStanovanja());
+        birthCountryTf.setText(student.getDrzavaRodjenja());
+        citizenshipTf.setText(student.getNacionalnost());
+        nationalityTf.setText(student.getDrzavljanstvo());
+        facultyEmailTf.setText(student.getFakultetEmail());
+        cityTf.setText(student.getMestoStanovanja());
+        enrollmentYearTf.setText(String.valueOf(student.getGodinaUpisa()));
+        highSchoolSuccessTf.setText(String.valueOf(student.getUspehSrednjaSkola()));
+        entranceExamSuccessTf.setText(String.valueOf(student.getUspehPrijemni()));
         birthDatePicker.setValue(student.getDatumRodjenja());
         genderCb.setValue(student.getPol());
-
         highSchoolCb.setValue(student.getSrednjaSkola());
         universityCb.setValue(student.getVisokoskolskaUstanova());
     }
@@ -112,46 +132,44 @@ public class EditProfileController {
         String mobilePhone = mobilePhoneTf.getText();
         String address = addressTf.getText();
         Character gender = genderCb.getValue();
+        String birthCountry = birthCountryTf.getText();
+        String citizenship = citizenshipTf.getText();
+        String nationality = nationalityTf.getText();
+        String facultyEmail = facultyEmailTf.getText();
+        String city = cityTf.getText();
+        String enrollmentYear = enrollmentYearTf.getText();
+        String highSchoolSuccess = highSchoolSuccessTf.getText();
+        String entranceExamSuccess = entranceExamSuccessTf.getText();
         SrednjaSkolaResponseDTO highSchool = highSchoolCb.getValue();
         VisokoskolskaUstanovaResponseDTO university = universityCb.getValue();
 
-        if (firstName.isBlank() || lastName.isBlank() || birthPlace.isBlank() || privateEmail.isBlank() || mobilePhone.isBlank() || address.isBlank()) {
+        if (firstName.isBlank() || lastName.isBlank() || birthPlace.isBlank() || privateEmail.isBlank() || mobilePhone.isBlank() || address.isBlank() || birthCountry.isBlank() || citizenship.isBlank() || nationality.isBlank() || facultyEmail.isBlank() || city.isBlank() || enrollmentYear.isBlank() || highSchoolSuccess.isBlank() || entranceExamSuccess.isBlank()) {
             ErrorHandler.displayError(new InvalidDataException("All fields are required"));
             return;
         }
 
-        studentService.updateStudentById(
-            student.getId(),
-            firstName,
-            lastName,
-            middleName,
-            jmbg,
-            student.getGodinaUpisa(),         // Postojeća vrednost
-            birthDate,
-            birthPlace,
-            student.getDrzavaRodjenja(),      // Postojeća vrednost
-            student.getDrzavljanstvo(),       // Postojeća vrednost
-            student.getNacionalnost(),        // Postojeća vrednost
-            gender,
-            mobilePhone,
-            student.getFakultetEmail(),       // Postojeća vrednost
-            privateEmail,
-            idCard,
-            student.getMestoStanovanja(),     // Postojeća vrednost
-            student.getAdresaStanovanja(),    // Postojeća vrednost
-            student.getUspehSrednjaSkola(),   // Postojeća vrednost
-            student.getUspehPrijemni(),       // Postojeća vrednost
-            highSchool.getId(),
-            university == null ? null : university.getId()
-        ).subscribe(updatedStudent -> Platform.runLater(() -> {
-            if (parentController != null) {
-                parentController.setStudent(updatedStudent);
-            }
-            closeWindow();
-        }), ErrorHandler::displayError);
+        try {
+            studentService.updateStudentById(student.getId(), firstName, lastName, middleName, jmbg, Integer.parseInt(enrollmentYear), birthDate, birthPlace, birthCountry, citizenship, nationality, gender,
+                    mobilePhone, facultyEmail, privateEmail, idCard, city, address, Double.parseDouble(highSchoolSuccess), Double.parseDouble(entranceExamSuccess), highSchool.getId(),
+                    university == null ? null : university.getId())
+                .subscribe(updatedStudent -> Platform.runLater(() -> {
+                    if (parentController != null) {
+                        parentController.setStudent(updatedStudent);
+                    }
+                    closeWindow();
+                }), ErrorHandler::displayError);
+        }catch (NumberFormatException e){
+            ErrorHandler.displayError(e);
+        }
     }
 
-    @FXML private void handleCancel() { closeWindow(); }
+    @FXML private void handleCancel() {
+        closeWindow();
+    }
+
+    public void createStudentIndex() {
+        mainView.openModal("newStudentIndex", "Create Student Index", (NewStudentIndexController controller) -> controller.setStudent(student));
+    }
 
     private void closeWindow() {
         Stage stage = (Stage) firstNameTf.getScene().getWindow();

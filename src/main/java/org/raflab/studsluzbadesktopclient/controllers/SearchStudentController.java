@@ -108,7 +108,7 @@ public class SearchStudentController {
                 .collectList()
                 .subscribe(indices -> Platform.runLater(() -> {
                     if (indices.isEmpty()) {
-                        mainView.openModal("editProfile", "Edit Profile", (EditProfileController controller) -> {
+                        mainView.openModal("editProfile", "Student Profile", (EditProfileController controller) -> {
                             controller.setStudentData(selectedStudent);
                             controller.setParentController(null);
                         });
@@ -195,7 +195,7 @@ public class SearchStudentController {
     }
 
     private void openStudentIndex(StudentIndeksResponseDTO student){
-        mainView.openModal("studentProfile", "Student Profile", (StudentController controller) -> controller.setStudentIndex(student));
+        mainView.openModal("studentProfile", "Student Index", (StudentController controller) -> controller.setStudentIndex(student));
     }
 
     private void updateCurrentPage(){

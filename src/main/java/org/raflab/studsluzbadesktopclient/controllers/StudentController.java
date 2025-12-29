@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import org.raflab.studsluzbacommon.dto.response.*;
 import org.raflab.studsluzbadesktopclient.MainView;
@@ -123,7 +124,6 @@ public class StudentController {
         avgLabel.setText("Average: ");
         studentIndexService.findStudentAverageOcena(studentIndex.getId()).subscribe(ocena -> Platform.runLater(() -> avgLabel.setText("Average: " + ocena)), ErrorHandler::displayError);
     }
-
     private void updatePaymentRemainingAmount(){
         studentIndexService.fetchUplataPreostaliIznos(studentIndex.getId()).subscribe(amount -> Platform.runLater(() -> {
             remainingRsdLabel.setText("RSD: " + String.format("%.2f", amount.getRsd()));
@@ -160,7 +160,7 @@ public class StudentController {
     }
 
     private void onStudentUpdate(){
-        nameLabel.setText(student != null ? student.getIme() + " " + student.getPrezime() : "Student");
+        nameLabel.setText(studentIndex != null && student != null ? student.getIme() + " " + student.getPrezime() + " # " + studentIndex.getStudijskiProgram().getOznaka() + studentIndex.getBroj() + "/" + studentIndex.getGodina() : "Student Index");
         espbLabel.setText("ESPB: " + (studentIndex != null ? studentIndex.getOstvarenoEspb() : 0));
         this.updateAverageOcena();
         this.updatePayments();
@@ -171,7 +171,7 @@ public class StudentController {
 
     @FXML
     private void handleOpenEditProfile() {
-        mainView.openModal("editProfile", "Edit Profile", (EditProfileController controller) -> {
+        mainView.openModal("editProfile", "Student Profile", (EditProfileController controller) -> {
             controller.setStudentData(this.student);
             controller.setParentController(this);
         });
@@ -370,5 +370,34 @@ public class StudentController {
     public void handleUverenjeIspiti(ActionEvent actionEvent) {
         Button button = (Button) actionEvent.getSource();
         button.setDisable(true);
+    }
+
+    public void handleDeleteIndex(ActionEvent actionEvent) {
+        Button button = (Button) actionEvent.getSource();
+        button.setDisable(true);
+
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Student Index deletion");
+        confirm.setHeaderText("Please confirm deletion of index:");
+        confirm.setContentText(studentIndex.getStudijskiProgram().getOznaka() + " " + String.format("%03d", studentIndex.getBroj()) + "/" + studentIndex.getGodina());
+
+        confirm.showAndWait().ifPresent(result -> {
+            if (result != ButtonType.OK) {
+                button.setDisable(false);
+                return;
+            }
+
+            studentIndexService.deleteStudentIndexById(studentIndex.getId())
+                    .doFinally(signalType -> Platform.runLater(() -> button.setDisable(false)))
+                    .subscribe(deleted -> Platform.runLater(() -> {
+                        if (!deleted) return;
+                        closeWindow();
+                    }), ErrorHandler::displayError);
+        });
+    }
+
+    private void closeWindow(){
+        Stage stage = (Stage) nameLabel.getScene().getWindow();
+        stage.close();
     }
 }

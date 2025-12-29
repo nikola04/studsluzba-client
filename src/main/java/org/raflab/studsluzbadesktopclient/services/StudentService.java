@@ -105,7 +105,7 @@ public class StudentService {
 		body.setSrednjaSkolaId(schoolId);
 		body.setVisokoskolskaUstanovaId(universityId);
 
-		return webClient.patch()
+		return webClient.put()
 				.uri(createURL(id.toString()))
 				.bodyValue(body)
 				.retrieve()

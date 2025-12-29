@@ -29,6 +29,10 @@ public class ErrorHandler {
 
         if (cause instanceof InvalidDataException)
             return "Invalid data.";
+        if (cause instanceof NullPointerException)
+            return "Null pointer.";
+        if (cause instanceof NumberFormatException)
+            return "Invalid number format.";
         if (cause instanceof IllegalStateException)
             return "Illegal state.";
         if (cause instanceof ResourceNotFoundException)

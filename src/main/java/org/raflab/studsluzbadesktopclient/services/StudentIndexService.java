@@ -1,6 +1,7 @@
 package org.raflab.studsluzbadesktopclient.services;
 
 import lombok.AllArgsConstructor;
+import org.raflab.studsluzbacommon.dto.request.StudentIndeksRequest;
 import org.raflab.studsluzbacommon.dto.request.UplataRequest;
 import org.raflab.studsluzbacommon.dto.response.*;
 import org.raflab.studsluzbadesktopclient.exceptions.InvalidDataException;
@@ -13,6 +14,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.naming.CommunicationException;
+import java.time.LocalDate;
 
 @Service
 @AllArgsConstructor
@@ -37,9 +39,31 @@ public class StudentIndexService {
 
 	public Flux<StudentIndeksResponseDTO> fetchStudentIndexByStudentId(Long studentId){
 		return webClient.get()
-			.uri("student/podaci/" + studentId + "/indeks")
+			.uri("student/podaci/{id}/indeks", studentId)
 			.retrieve()
 			.bodyToFlux(StudentIndeksResponseDTO.class);
+	}
+
+	public Mono<Long> createStudentIndex(Long studentId, Integer godina, Long studProgramId, Long nacinFinansiranjaId, Boolean aktivan, LocalDate vaziOd){
+		StudentIndeksRequest body = new StudentIndeksRequest();
+		body.setGodina(godina);
+		body.setStudProgramId(studProgramId);
+		body.setNacinFinansiranjaId(nacinFinansiranjaId);
+		body.setAktivan(aktivan);
+		body.setVaziOd(vaziOd);
+
+		return webClient.post()
+			.uri("student/podaci/{id}/indeks", studentId)
+			.bodyValue(body)
+			.retrieve()
+			.bodyToMono(Long.class);
+	}
+
+	public Mono<Boolean> deleteStudentIndexById(Long studentIndexId){
+		return webClient.delete()
+			.uri("student/indeks/{id}", studentIndexId)
+			.retrieve()
+			.bodyToMono(Boolean.class);
 	}
 
 	public Mono<Double> findStudentAverageOcena(Long indexId){

@@ -36,6 +36,9 @@ public class SifrarnikController {
     public TextField novoTipSkoleTf;
     public TableView<TipSkoleResponseDTO> tipSkoleTable;
 
+    public TextField novoNacinFinansiranjaTf;
+    public TableView<NacinFinansiranja> nacinFinansiranjaTable;
+
     private final ObservableList<VrstaStudijaResponseDTO> vrstaStudijaObList = FXCollections.observableArrayList();
     private final ObservableList<VisokoskolskaUstanovaResponseDTO> visokoskolskaUstanovaObList = FXCollections.observableArrayList();
     private final ObservableList<TipSkoleResponseDTO> tipSkoleObList = FXCollections.observableArrayList();
@@ -43,6 +46,7 @@ public class SifrarnikController {
     private final ObservableList<PredispitneVrstaResponseDTO> predispitneVrstaObList = FXCollections.observableArrayList();
     private final ObservableList<NaucnaOblastResponseDTO> naucnaOblastObList = FXCollections.observableArrayList();
     private final ObservableList<UzaNaucnaOblastResponseDTO> uzaNaucnaOblastObList = FXCollections.observableArrayList();
+    private final ObservableList<NacinFinansiranja> nacinFinansiranjaObList = FXCollections.observableArrayList();
 
     private final VisokoskolskaUstanovaService visokoskolskaUstanovaService;
     private final VrstaStudijaService vrstaStudijaService;
@@ -51,9 +55,11 @@ public class SifrarnikController {
     private final PredispitneVrstaService predispitneVrstaService;
     private final NaucnaOblastService naucnaOblastService;
     private final UzaNaucnaOblastService uzaNaucnaOblastService;
+    private final NacinFinansiranjaService nacinFinansiranjaService;
+
     public TabPane sifarnikTabPane;
 
-    public SifrarnikController(VrstaStudijaService vrstaStudijaService, TipSkoleService tipSkoleService, VisokoskolskaUstanovaService visokoskolskaUstanovaService, ZvanjeService zvanjeService, PredispitneVrstaService predispitneVrstaService, NaucnaOblastService naucnaOblastService, UzaNaucnaOblastService uzaNaucnaOblastService, NavigationController navigationController) {
+    public SifrarnikController(VrstaStudijaService vrstaStudijaService, TipSkoleService tipSkoleService, VisokoskolskaUstanovaService visokoskolskaUstanovaService, ZvanjeService zvanjeService, PredispitneVrstaService predispitneVrstaService, NaucnaOblastService naucnaOblastService, UzaNaucnaOblastService uzaNaucnaOblastService, NavigationController navigationController, NacinFinansiranjaService nacinFinansiranjaService) {
         this.vrstaStudijaService = vrstaStudijaService;
         this.tipSkoleService = tipSkoleService;
         this.visokoskolskaUstanovaService = visokoskolskaUstanovaService;
@@ -62,6 +68,7 @@ public class SifrarnikController {
         this.naucnaOblastService = naucnaOblastService;
         this.uzaNaucnaOblastService = uzaNaucnaOblastService;
         this.navigationController = navigationController;
+        this.nacinFinansiranjaService = nacinFinansiranjaService;
     }
 
     public void initialize(){
@@ -72,20 +79,16 @@ public class SifrarnikController {
         vrstaPredispitneTable.setItems(predispitneVrstaObList);
         naucnaOblastTable.setItems(naucnaOblastObList);
         uzaNaucnaOblastTable.setItems(uzaNaucnaOblastObList);
+        nacinFinansiranjaTable.setItems(nacinFinansiranjaObList);
 
         vrstaStudijaService.fetchVrstaStudija().collectList().subscribe(list -> Platform.runLater(() -> vrstaStudijaObList.setAll(list)), ErrorHandler::displayError);
-
         tipSkoleService.fetchTipSkole().collectList().subscribe(list -> Platform.runLater(() -> tipSkoleObList.setAll(list)), ErrorHandler::displayError);
-
         visokoskolskaUstanovaService.fetchVisokoskolskaUstanove().collectList().subscribe(list -> Platform.runLater(() -> visokoskolskaUstanovaObList.setAll(list)), ErrorHandler::displayError);
-
         zvanjeService.fetchZvanje().collectList().subscribe(list -> Platform.runLater(() -> zvanjeObList.setAll(list)), ErrorHandler::displayError);
-
         predispitneVrstaService.fetchPredispitneVrsta().collectList().subscribe(list -> Platform.runLater(() -> predispitneVrstaObList.setAll(list)),ErrorHandler::displayError);
-
         naucnaOblastService.fetchNaucnaOblast().collectList().subscribe(list -> Platform.runLater(() -> naucnaOblastObList.setAll(list)), ErrorHandler::displayError);
-
         uzaNaucnaOblastService.fetchUzaNaucnaOblast().collectList().subscribe(list -> Platform.runLater(() -> uzaNaucnaOblastObList.setAll(list)), ErrorHandler::displayError);
+        nacinFinansiranjaService.fetchNaciniFinansiranja().collectList().subscribe(list -> Platform.runLater(() -> nacinFinansiranjaObList.setAll(list)), ErrorHandler::displayError);
 
         sifarnikTabPane.getSelectionModel().selectedIndexProperty().addListener((obs, oldIdx, newIdx) -> navigationController.navigateTo("sifarnik:tab:" + newIdx));
     }
@@ -100,10 +103,12 @@ public class SifrarnikController {
         Button button = (Button) actionEvent.getSource();
         button.setDisable(true);
 
-        zvanjeService.createZvanje(zvanje).subscribe(zvanjeResponseDTO -> {
-            novoZvanjeTf.clear();
-            zvanjeObList.add(zvanjeResponseDTO);
-        }, ErrorHandler::displayError, () -> button.setDisable(false));
+        zvanjeService.createZvanje(zvanje)
+            .doFinally(signalType -> Platform.runLater(() -> button.setDisable(false)))
+            .subscribe(zvanjeResponseDTO -> {
+                novoZvanjeTf.clear();
+                zvanjeObList.add(zvanjeResponseDTO);
+            }, ErrorHandler::displayError);
     }
 
     public void handleDeleteZvanje() {
@@ -129,10 +134,12 @@ public class SifrarnikController {
         Button button = (Button) actionEvent.getSource();
         button.setDisable(true);
 
-        predispitneVrstaService.createPredispitneVrsta(vrsta).subscribe(vrstaResponseDTO -> {
-            novoVrstaPredispitneTf.clear();
-            predispitneVrstaObList.add(vrstaResponseDTO);
-        }, ErrorHandler::displayError, () -> button.setDisable(false));
+        predispitneVrstaService.createPredispitneVrsta(vrsta)
+            .doFinally(signalType -> Platform.runLater(() -> button.setDisable(false)))
+            .subscribe(vrstaResponseDTO -> {
+                novoVrstaPredispitneTf.clear();
+                predispitneVrstaObList.add(vrstaResponseDTO);
+            }, ErrorHandler::displayError);
     }
 
     public void handleDeleteVrstaPredispitne() {
@@ -158,18 +165,21 @@ public class SifrarnikController {
         Button button = (Button) actionEvent.getSource();
         button.setDisable(true);
 
-        visokoskolskaUstanovaService.createVisokoskolskaUstanova(naziv).subscribe(id -> {
-            VisokoskolskaUstanovaResponseDTO vrsta = new VisokoskolskaUstanovaResponseDTO();
-            vrsta.setId(id);
-            vrsta.setNaziv(naziv);
+        visokoskolskaUstanovaService.createVisokoskolskaUstanova(naziv)
+            .doFinally(signalType -> Platform.runLater(() -> button.setDisable(false)))
+            .subscribe(id -> {
+                VisokoskolskaUstanovaResponseDTO vrsta = new VisokoskolskaUstanovaResponseDTO();
+                vrsta.setId(id);
+                vrsta.setNaziv(naziv);
 
-            novoVisokoskolskaUstanovaTf.clear();
-            visokoskolskaUstanovaObList.add(vrsta);
-        }, ErrorHandler::displayError, () -> button.setDisable(false));
+                novoVisokoskolskaUstanovaTf.clear();
+                visokoskolskaUstanovaObList.add(vrsta);
+            }, ErrorHandler::displayError);
     }
 
     public void handleDeleteVisokoskolskaUstanova() {
         VisokoskolskaUstanovaResponseDTO selected = visokoskolskaUstanovaTable.getSelectionModel().getSelectedItem();
+        if (selected == null) return;
         visokoskolskaUstanovaService.deleteVisokoskolskaUstanova(selected).subscribe(success -> {
             if (success){
                 Platform.runLater(() -> visokoskolskaUstanovaObList.remove(selected));
@@ -194,17 +204,19 @@ public class SifrarnikController {
         Button button = (Button) actionEvent.getSource();
         button.setDisable(true);
 
-        vrstaStudijaService.createVrstaStudija(naziv, oznaka).subscribe(id -> {
-            VrstaStudijaResponseDTO vrsta = new VrstaStudijaResponseDTO();
-            vrsta.setId(id);
-            vrsta.setNaziv(naziv);
-            vrsta.setOznaka(oznaka);
+        vrstaStudijaService.createVrstaStudija(naziv, oznaka)
+            .doFinally(signalType -> Platform.runLater(() -> button.setDisable(false)))
+            .subscribe(id -> {
+                VrstaStudijaResponseDTO vrsta = new VrstaStudijaResponseDTO();
+                vrsta.setId(id);
+                vrsta.setNaziv(naziv);
+                vrsta.setOznaka(oznaka);
 
-            novoVrstaStudijaNazivTf.clear();
-            novoVrstaStudijaOznakaTf.clear();
+                novoVrstaStudijaNazivTf.clear();
+                novoVrstaStudijaOznakaTf.clear();
 
-            vrstaStudijaObList.add(vrsta);
-        }, ErrorHandler::displayError, () -> button.setDisable(false));
+                vrstaStudijaObList.add(vrsta);
+            }, ErrorHandler::displayError);
     }
 
     public void handleDeleteVrstaStudija() {
@@ -228,10 +240,12 @@ public class SifrarnikController {
         Button button = (Button) actionEvent.getSource();
         button.setDisable(true);
 
-        uzaNaucnaOblastService.createUzaNaucnaOblast(oblast).subscribe(uzaNaucnaOblastResponseDTO -> {
-            novoUzaNaucnaOblastTf.clear();
-            uzaNaucnaOblastObList.add(uzaNaucnaOblastResponseDTO);
-        }, ErrorHandler::displayError, () -> button.setDisable(false));
+        uzaNaucnaOblastService.createUzaNaucnaOblast(oblast)
+            .doFinally(signalType -> Platform.runLater(() -> button.setDisable(false)))
+            .subscribe(uzaNaucnaOblastResponseDTO -> {
+                novoUzaNaucnaOblastTf.clear();
+                uzaNaucnaOblastObList.add(uzaNaucnaOblastResponseDTO);
+        }, ErrorHandler::displayError);
     }
 
     public void handleDeleteUzaNaucnaOblast() {
@@ -257,10 +271,12 @@ public class SifrarnikController {
         Button button = (Button) actionEvent.getSource();
         button.setDisable(true);
 
-        naucnaOblastService.createNaucnaOblast(oblast).subscribe(naucnaOblastResponseDTO -> {
-            novoNaucnaOblastTf.clear();
-            naucnaOblastObList.add(naucnaOblastResponseDTO);
-        }, ErrorHandler::displayError, () -> button.setDisable(false));
+        naucnaOblastService.createNaucnaOblast(oblast)
+            .doFinally(signalType -> Platform.runLater(() -> button.setDisable(false)))
+            .subscribe(naucnaOblastResponseDTO -> {
+                novoNaucnaOblastTf.clear();
+                naucnaOblastObList.add(naucnaOblastResponseDTO);
+            }, ErrorHandler::displayError);
     }
 
     public void handleDeleteNaucnaOblast() {
@@ -286,10 +302,12 @@ public class SifrarnikController {
         Button button = (Button) actionEvent.getSource();
         button.setDisable(true);
 
-        tipSkoleService.createTipSkole(tip).subscribe(tipSkoleResponseDTO -> {
-            novoTipSkoleTf.clear();
-            tipSkoleObList.add(tipSkoleResponseDTO);
-        }, ErrorHandler::displayError, () -> button.setDisable(false));
+        tipSkoleService.createTipSkole(tip)
+            .doFinally(signalType -> Platform.runLater(() -> button.setDisable(false)))
+            .subscribe(tipSkoleResponseDTO -> {
+                novoTipSkoleTf.clear();
+                tipSkoleObList.add(tipSkoleResponseDTO);
+            }, ErrorHandler::displayError);
     }
 
     public void handleDeleteTipSkole() {
@@ -303,6 +321,31 @@ public class SifrarnikController {
             }
             ErrorHandler.displayError(new RuntimeException("Failed to delete tip skole"));
         }, ErrorHandler::displayError);
+    }
+
+    public void handleCreateNacinFinansiranja(ActionEvent actionEvent) {
+        String nacinFinansiranjaValue = novoNacinFinansiranjaTf.getText();
+        if(nacinFinansiranjaValue.isBlank()){
+            ErrorHandler.displayError(new InvalidDataException("Field 'nacinFinansiranja' cannot be empty"));
+            return;
+        }
+
+        Button button = (Button) actionEvent.getSource();
+        button.setDisable(true);
+
+        nacinFinansiranjaService.createNacinFinansiranja(nacinFinansiranjaValue)
+            .doFinally(signalType -> Platform.runLater(() -> button.setDisable(false)))
+            .subscribe(nacinFinansiranja -> Platform.runLater(() -> {
+                novoNacinFinansiranjaTf.clear();
+                nacinFinansiranjaObList.add(nacinFinansiranja);
+            }), ErrorHandler::displayError);
+    }
+
+    public void handleDeleteNacinFinansiranja() {
+        NacinFinansiranja nacinFinansiranja = nacinFinansiranjaTable.getSelectionModel().getSelectedItem();
+        if(nacinFinansiranja == null) return;
+
+        nacinFinansiranjaService.deleteNacinFinansiranja(nacinFinansiranja).subscribe(success -> Platform.runLater(() -> nacinFinansiranjaObList.remove(nacinFinansiranja)), ErrorHandler::displayError);
     }
 }
 

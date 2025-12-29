@@ -5,7 +5,7 @@
 
 <VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
                     fx:controller="org.raflab.studsluzbadesktopclient.controllers.MenuBarController">
-        <MenuBar style="-fx-background-color: #ADD8E6;">
+        <MenuBar stylesheets="@../css/menu.css">
             <Menu text="Studenti">
                 <MenuItem onAction="#openSearchStudent" text="Pretraži"/>
                 <MenuItem onAction="#openNewStudent" text="Novi"/>
