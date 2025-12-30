@@ -28,4 +28,13 @@ public class MenuBarController {
 	public void openSkolskaGodina() {
 		navController.navigateTo("skolskaGodina");
 	}
+	public void openStudijskiProgram() {
+		navController.navigateTo("studijskiProgram");
+	}
+	public void openPredmeti() {
+		navController.navigateTo("predmeti");
+	}
+	public void openShortcuts() {
+	}
+
 }

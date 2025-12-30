@@ -81,10 +81,10 @@ public class EditProfileController {
             }
         });
 
-        loadComboBoxData();
+        this.fetchComboBoxData();
     }
 
-    private void loadComboBoxData() {
+    private void fetchComboBoxData() {
         highSchoolCb.getItems().clear();
          srednjaSkolaService.fetchSrednjaSkola().subscribe(item -> Platform.runLater(() -> highSchoolCb.getItems().add(item)));
 

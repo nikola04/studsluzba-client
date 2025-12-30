@@ -95,7 +95,6 @@ public class SearchStudentController {
             }
         });
 
-
         pageSizeCb.valueProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal == null || newVal.equals(oldVal)) return;
             this.handleSearchStudent(true);

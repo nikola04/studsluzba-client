@@ -1,36 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-                    fx:controller="org.raflab.studsluzbadesktopclient.controllers.MenuBarController">
-        <MenuBar stylesheets="@../css/menu.css">
-            <Menu text="Studenti">
-                <MenuItem onAction="#openSearchStudent" text="Pretraži"/>
-                <MenuItem onAction="#openNewStudent" text="Novi"/>
-                <MenuItem text="Grupe"/>
-            </Menu>
-            <Menu text="Nastavnici">
-                <MenuItem onAction="#openSearchNastavnik" text="Pretraži"/>
-                <MenuItem onAction="#openNewNastavnik" text="Novi"/>
-            </Menu>
-            <Menu text="Predmeti">
-                <MenuItem text="Studijski programi"/>
-                <MenuItem text="Predmeti"/>
-            </Menu>
-            <Menu text="Nastava i ispiti">
-                <MenuItem text="Raspodela nastave"/>
-                <MenuItem text="Raspodela nastave - studenti"/>
-                <MenuItem text="Ispitni rokovi"/>
-                <MenuItem text="Ispiti - unos"/>
-                <MenuItem text="Ispiti - prijave"/>
-                <MenuItem text="Ispiti - rezultati"/>
-            </Menu>
-            <Menu text="Administracija">
-                <MenuItem onAction="#openSifarnik" text="Šifarnici"/>
-                <MenuItem onAction="#openSkolskaGodina" text="Školske godine"/>
-                <MenuItem text="Korisnici"/>
-            </Menu>
-        </MenuBar>
-</VBox>
+<HBox alignment="CENTER_LEFT" style="-fx-background-color: #2c3e50;" stylesheets="@../css/menu.css"
+      xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.raflab.studsluzbadesktopclient.controllers.MenuBarController">
+
+    <MenuBar style="-fx-background-color: transparent;">
+        <Menu text="Studenti">
+            <MenuItem onAction="#openSearchStudent" text="Pretraži"/>
+            <MenuItem onAction="#openNewStudent" text="Novi"/>
+            <MenuItem text="Grupe"/>
+        </Menu>
+        <Menu text="Nastavnici">
+            <MenuItem onAction="#openSearchNastavnik" text="Pretraži"/>
+            <MenuItem onAction="#openNewNastavnik" text="Novi"/>
+        </Menu>
+        <Menu text="Predmeti">
+            <MenuItem onAction="#openStudijskiProgram" text="Studijski programi"/>
+            <MenuItem onAction="#openPredmeti" text="Predmeti"/>
+        </Menu>
+        <Menu text="Nastava i ispiti">
+            <MenuItem text="Raspodela nastave"/>
+            <MenuItem text="Raspodela nastave - studenti"/>
+            <MenuItem text="Ispitni rokovi"/>
+            <MenuItem text="Ispiti - unos"/>
+            <MenuItem text="Ispiti - prijave"/>
+            <MenuItem text="Ispiti - rezultati"/>
+        </Menu>
+        <Menu text="Administracija">
+            <MenuItem onAction="#openSifarnik" text="Šifarnici"/>
+            <MenuItem onAction="#openSkolskaGodina" text="Školske godine"/>
+            <MenuItem text="Korisnici"/>
+        </Menu>
+    </MenuBar>
+
+    <Region HBox.hgrow="ALWAYS" />
+
+    <Label text="Shortcuts" style="-fx-text-fill: white; -fx-padding: 0 15 0 0; -fx-cursor: hand;" onMouseClicked="#openShortcuts" />
+</HBox>

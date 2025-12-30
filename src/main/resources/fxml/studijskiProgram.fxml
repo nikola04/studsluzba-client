@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.raflab.studsluzbadesktopclient.controllers.StudijskiProgramController"
+            prefHeight="400.0" prefWidth="600.0">
+    <top>
+        <fx:include source="menuBar.fxml"/>
+    </top>
+    <center>
+        <TabPane fx:id="studProgramTabPane" tabClosingPolicy="UNAVAILABLE">
+            <Tab text="Studijski Programi">
+                <HBox spacing="15" style="-fx-background-color: white; -fx-padding: 15;">
+
+                    <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: transparent;">
+                        <TableView fx:id="studijskiProgramTable" VBox.vgrow="ALWAYS"
+                                   style="-fx-background-color: white; -fx-border-color: #dee2e6; -fx-border-width: 1;">
+                            <columns>
+                                <TableColumn text="ID" prefWidth="50" style="-fx-alignment: CENTER;">
+                                    <cellValueFactory><PropertyValueFactory property="id"/></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="Oznaka">
+                                    <cellValueFactory><PropertyValueFactory property="oznaka"/></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="Naziv" prefWidth="250">
+                                    <cellValueFactory><PropertyValueFactory property="naziv"/></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="Trajanje" style="-fx-alignment: CENTER;">
+                                    <cellValueFactory><PropertyValueFactory property="trajanjeGodina"/></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="Semestri" style="-fx-alignment: CENTER;">
+                                    <cellValueFactory><PropertyValueFactory property="trajanjeSemestara"/></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="ESPB" style="-fx-alignment: CENTER;">
+                                    <cellValueFactory><PropertyValueFactory property="ukupnoEspb"/></cellValueFactory>
+                                </TableColumn>
+                                <TableColumn text="Akreditacija" style="-fx-alignment: CENTER;">
+                                    <cellValueFactory><PropertyValueFactory property="godinaAkreditacije"/></cellValueFactory>
+                                </TableColumn>
+                            </columns>
+                        </TableView>
+
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Button text="−" onAction="#handleDeleteProgram"
+                                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-min-width: 40; -fx-cursor: hand;" />
+                            <Label text="Select row for deletion" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
+                        </HBox>
+                    </VBox>
+                </HBox>
+            </Tab>
+
+            <Tab text="Novi">
+                <BorderPane>
+                    <center>
+                        <ScrollPane fitToWidth="true" fitToHeight="true">
+                            <HBox alignment="CENTER">
+                                <padding>
+                                    <Insets top="20" bottom="20"/>
+                                </padding>
+                                <GridPane hgap="15" vgap="12" alignment="CENTER">
+                                    <Label text="Oznaka (npr. RI, RN):" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                    <TextField fx:id="txtOznaka" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                                    <Label text="Naziv:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                                    <TextField fx:id="txtNaziv" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                                    <Label text="Zvanje:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                                    <TextField fx:id="txtZvanje" GridPane.rowIndex="2" GridPane.columnIndex="1"
+                                               promptText="npr. Diplomirani inženjer..."/>
+
+                                    <Label text="Godina Akreditacije:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                                    <TextField fx:id="txtGodinaAkreditacije" GridPane.rowIndex="3"
+                                               GridPane.columnIndex="1"/>
+
+                                    <Label text="Vrsta Studija:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                                    <ComboBox fx:id="cmbVrstaStudija" GridPane.rowIndex="4" GridPane.columnIndex="1"
+                                              maxWidth="Infinity" promptText="Izaberi vrstu..."/>
+
+                                    <Label text="Trajanje (Godina):" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                                    <TextField fx:id="txtTrajanjeGodina" GridPane.rowIndex="5"
+                                               GridPane.columnIndex="1"/>
+
+                                    <Label text="Trajanje (Semestara):" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                                    <TextField fx:id="txtTrajanjeSemestara" GridPane.rowIndex="6"
+                                               GridPane.columnIndex="1"/>
+
+                                    <Label text="Ukupno ESPB:" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+                                    <TextField fx:id="txtUkupnoEspb" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+                                </GridPane>
+                            </HBox>
+                        </ScrollPane>
+                    </center>
+
+                    <bottom>
+                        <VBox alignment="CENTER">
+                            <padding>
+                                <Insets top="20" bottom="50"/>
+                            </padding>
+                            <Button text="Save" onAction="#handleSaveProgram"
+                                    style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 30; -fx-background-radius: 6; -fx-cursor: hand;"/>
+                        </VBox>
+                    </bottom>
+                </BorderPane>
+            </Tab>
+        </TabPane>
+    </center>
+</BorderPane>
