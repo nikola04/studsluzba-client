@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.raflab.studsluzbadesktopclient.controllers.StudijskiProgramDetailsController">
+
+    <TabPane tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+             AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+        <Tab text="Osnovni podaci">
+            <BorderPane>
+                <center>
+                    <ScrollPane fitToWidth="true">
+                        <HBox alignment="CENTER">
+                            <padding><Insets top="30" bottom="30"/></padding>
+                            <GridPane hgap="15" vgap="12" alignment="CENTER">
+                                <Label text="Oznaka (npr. RI, RN):" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                <TextField fx:id="txtOznaka" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                                <Label text="Naziv:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                                <TextField fx:id="txtNaziv" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                                <Label text="Zvanje:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                                <TextField fx:id="txtZvanje" GridPane.rowIndex="2" GridPane.columnIndex="1"
+                                           promptText="npr. Diplomirani inženjer..."/>
+
+                                <Label text="Godina Akreditacije:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                                <TextField fx:id="txtGodinaAkreditacije" GridPane.rowIndex="3"
+                                           GridPane.columnIndex="1"/>
+
+                                <Label text="Vrsta Studija:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                                <ComboBox fx:id="cmbVrstaStudija" GridPane.rowIndex="4" GridPane.columnIndex="1"
+                                          maxWidth="Infinity" promptText="Izaberi vrstu..."/>
+
+                                <Label text="Trajanje (Godina):" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                                <TextField fx:id="txtTrajanjeGodina" GridPane.rowIndex="5"
+                                           GridPane.columnIndex="1"/>
+
+                                <Label text="Trajanje (Semestara):" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                                <TextField fx:id="txtTrajanjeSemestara" GridPane.rowIndex="6"
+                                           GridPane.columnIndex="1"/>
+
+                                <Label text="Ukupno ESPB:" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+                                <TextField fx:id="txtUkupnoEspb" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+                            </GridPane>
+                        </HBox>
+                    </ScrollPane>
+                </center>
+                <bottom>
+                    <HBox alignment="CENTER" spacing="20">
+                        <padding><Insets top="20" bottom="40"/></padding>
+                        <Button text="Cancel" onAction="#handleCancel"
+                                style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 25; -fx-background-radius: 6; -fx-cursor: hand;"/>
+                        <Button text="Save" onAction="#handleSave"
+                                style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 25; -fx-background-radius: 6; -fx-cursor: hand;"/>
+                    </HBox>
+                </bottom>
+            </BorderPane>
+        </Tab>
+
+        <Tab text="Predmeti">
+            <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20;">
+                <Label text="Predmeti na programu" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                <TableView fx:id="predmetTable" VBox.vgrow="ALWAYS" style="-fx-border-color: #dee2e6;">
+                    <columns>
+                        <TableColumn text="Šifra" prefWidth="100">
+                            <cellValueFactory><PropertyValueFactory property="sifra"/></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Naziv" prefWidth="250">
+                            <cellValueFactory><PropertyValueFactory property="naziv"/></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="ESPB" style="-fx-alignment: CENTER;">
+                            <cellValueFactory><PropertyValueFactory property="espb"/></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Obavezan" prefWidth="100" style="-fx-alignment: CENTER;">
+                            <cellValueFactory><PropertyValueFactory property="obavezan"/></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Fond Vezbi" prefWidth="100" style="-fx-alignment: CENTER;">
+                            <cellValueFactory><PropertyValueFactory property="fondCasovaVezbe"/></cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Fond Predavanja" prefWidth="100" style="-fx-alignment: CENTER;">
+                            <cellValueFactory><PropertyValueFactory property="fondCasovaPredavanja"/></cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                </TableView>
+
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button text="+" onAction="#handleAddPredmet"
+                            style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-min-width: 40; -fx-cursor: hand;" />
+                    <Button text="−" onAction="#handleDeletePredmet"
+                            style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-min-width: 40; -fx-cursor: hand;" />
+                    <Label text="Select row for deletion" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;" />
+                </HBox>
+            </VBox>
+        </Tab>
+    </TabPane>
+</AnchorPane>
