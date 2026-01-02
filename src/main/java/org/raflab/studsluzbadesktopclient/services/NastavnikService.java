@@ -28,6 +28,13 @@ public class NastavnikService {
                 .bodyToFlux(NastavnikResponseDTO.class);
     }
 
+    public Flux<NastavnikResponseDTO> fetchNastavnik(){
+        return webClient.get()
+                .uri("nastavnik/")
+                .retrieve()
+                .bodyToFlux(NastavnikResponseDTO.class);
+    }
+
     public Mono<Long> createNastavnik(NastavnikRequest request){
         return webClient.post()
                 .uri("/nastavnik/")

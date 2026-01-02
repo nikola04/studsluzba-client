@@ -10,6 +10,7 @@ import javafx.util.StringConverter;
 import org.raflab.studsluzbacommon.dto.response.PredmetResponse;
 import org.raflab.studsluzbacommon.dto.response.StudijskiProgramResponseDTO;
 import org.raflab.studsluzbacommon.dto.response.VrstaStudijaResponseDTO;
+import org.raflab.studsluzbadesktopclient.MainView;
 import org.raflab.studsluzbadesktopclient.services.PredmetService;
 import org.raflab.studsluzbadesktopclient.services.StudijskiProgramService;
 import org.raflab.studsluzbadesktopclient.services.VrstaStudijaService;
@@ -21,6 +22,7 @@ public class StudijskiProgramDetailsController {
     private final VrstaStudijaService vrstaStudijaService;
     private final StudijskiProgramService studijskiProgramService;
     private final PredmetService predmetService;
+    private final MainView mainView;
 
     public TableView<PredmetResponse> predmetTable;
     public TextField txtOznaka;
@@ -36,10 +38,11 @@ public class StudijskiProgramDetailsController {
     private final ObservableList<VrstaStudijaResponseDTO> vrstaStudijaObList = FXCollections.observableArrayList();
     private final ObservableList<PredmetResponse> predmetObList = FXCollections.observableArrayList();
 
-    public StudijskiProgramDetailsController(VrstaStudijaService vrstaStudijaService, StudijskiProgramService studijskiProgramService, PredmetService predmetService) {
+    public StudijskiProgramDetailsController(VrstaStudijaService vrstaStudijaService, StudijskiProgramService studijskiProgramService, PredmetService predmetService, MainView mainView) {
         this.vrstaStudijaService = vrstaStudijaService;
         this.studijskiProgramService = studijskiProgramService;
         this.predmetService = predmetService;
+        this.mainView = mainView;
     }
 
     public void initialize(){
@@ -59,6 +62,20 @@ public class StudijskiProgramDetailsController {
         });
 
         vrstaStudijaService.fetchVrstaStudija().collectList().subscribe(vrstaStudijaList -> Platform.runLater(() -> vrstaStudijaObList.setAll(vrstaStudijaList)), ErrorHandler::displayError);
+
+        predmetTable.setRowFactory(tv -> {
+            TableRow<PredmetResponse> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    this.handlePredmetSelect(row.getItem());
+                }
+            });
+            return row;
+        });
+    }
+
+    private void handlePredmetSelect(PredmetResponse item) {
+        mainView.openModal("predmet", "Predmet", (PredmetController controller) -> controller.setPredmet(item));
     }
 
     public void handleCancel() {
