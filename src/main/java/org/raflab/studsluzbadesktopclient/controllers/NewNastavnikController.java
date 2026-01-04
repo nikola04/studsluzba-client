@@ -180,7 +180,9 @@ public class NewNastavnikController {
         });
     }
 
-    public NewNastavnikController(NastavnikService nastavnikService, ZvanjeService zvanjeService, VrstaStudijaService vrstaStudijaService, VisokoskolskaUstanovaService visokoskolskaUstanovaService, NavigationController navigationController, NaucnaOblastService naucnaOblastService, UzaNaucnaOblastService uzaNaucnaOblastService) {
+    public NewNastavnikController(NastavnikService nastavnikService, ZvanjeService zvanjeService,
+        VrstaStudijaService vrstaStudijaService, VisokoskolskaUstanovaService visokoskolskaUstanovaService, NavigationController navigationController,
+        NaucnaOblastService naucnaOblastService, UzaNaucnaOblastService uzaNaucnaOblastService) {
         this.nastavnikService = nastavnikService;
         this.zvanjeService = zvanjeService;
         this.vrstaStudijaService = vrstaStudijaService;

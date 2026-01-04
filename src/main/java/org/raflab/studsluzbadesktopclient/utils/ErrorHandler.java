@@ -15,7 +15,7 @@ public class ErrorHandler {
             String title = "Error!";
             String message = ex.getLocalizedMessage();
             String header = formatErrorHeader(ex);
-
+            ex.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle(title);
             alert.setHeaderText(header);

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.raflab.studsluzbadesktopclient.controllers.AddObrazovanjeController"
+            prefHeight="400.0" prefWidth="600.0">
+    <center>
+        <VBox spacing="10" alignment="center">
+
+
+            <Label text="Izaberi Visokoskolsku Ustanovu"/>
+            <ComboBox fx:id="visokoskolskaUstanovaCb" prefWidth="250"/>
+            <Label text="Izaberi Vrstu Studija"/>
+            <ComboBox fx:id="vrstaStudijaCb" prefWidth="250"/>
+            <HBox spacing="10" alignment="center">
+                <Button text="Dodaj" onAction="#handleAddObrazovanja"/>
+                <Button text="Otkaži" onAction="#handleCancel"/>
+            </HBox>
+
+        </VBox>
+    </center>
+</BorderPane>
