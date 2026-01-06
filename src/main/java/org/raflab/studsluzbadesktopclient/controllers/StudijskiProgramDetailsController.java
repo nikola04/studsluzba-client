@@ -143,6 +143,10 @@ public class StudijskiProgramDetailsController {
     }
 
     public void handleAddPredmet() {
+        mainView.openModal("newPredmet", "Novi Predmet", (NewPredmetController newPredmetController) -> {
+            newPredmetController.setStudijskiProgram(studijskiProgram);
+            newPredmetController.setPredmetObList(predmetObList);
+        });
     }
 
     public void setStudijskiProgram(StudijskiProgramResponseDTO studijskiProgram){

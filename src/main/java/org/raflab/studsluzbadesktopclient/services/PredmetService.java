@@ -15,6 +15,24 @@ import reactor.core.publisher.Mono;
 public class PredmetService {
     private WebClient webClient;
 
+    public Mono<Long> createPredmet(String naziv, Integer espb, Boolean obavezan, String opis, String sifra, Long studijskiProgramId,Integer fondCasovaVezbe, Integer fondCasovaPredavanje){
+        PredmetRequest body = new PredmetRequest();
+        body.setNaziv(naziv);
+        body.setEspb(espb);
+        body.setObavezan(obavezan);
+        body.setOpis(opis);
+        body.setSifra(sifra);
+        body.setStudijskiProgramId(studijskiProgramId);
+        body.setFondCasovaPredavanja(fondCasovaPredavanje);
+        body.setFondCasovaVezbe(fondCasovaVezbe);
+
+        return webClient.post()
+                .uri("predmet/")
+                .bodyValue(body)
+                .retrieve()
+                .bodyToMono(Long.class);
+    }
+
     public Mono<PredmetResponse> updatePredmet(Long predmetId, String naziv, Integer espb, Boolean obavezan, String opis, String sifra, Long studijskiProgramId,Integer fondCasovaVezbe, Integer fondCasovaPredavanje){
         PredmetRequest body = new PredmetRequest();
         body.setNaziv(naziv);
