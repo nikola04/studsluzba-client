@@ -35,7 +35,6 @@
         <Menu text="Administracija">
             <MenuItem onAction="#openSifarnik" text="Šifarnici"/>
             <MenuItem onAction="#openSkolskaGodina" text="Školske godine"/>
-            <MenuItem text="Korisnici"/>
         </Menu>
     </MenuBar>
 

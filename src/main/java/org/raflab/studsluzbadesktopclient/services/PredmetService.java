@@ -15,6 +15,17 @@ import reactor.core.publisher.Mono;
 public class PredmetService {
     private WebClient webClient;
 
+    public Mono<Double> getAverageOcena(Long predmetId, Integer yearFrom, Integer yearTo){
+        return webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("predmet/" + predmetId + "/prosecna-ocena")
+                        .queryParam("from", yearFrom)
+                        .queryParam("to", yearTo)
+                        .build())
+                .retrieve()
+                .bodyToMono(Double.class);
+    }
+
     public Mono<Long> createPredmet(String naziv, Integer espb, Boolean obavezan, String opis, String sifra, Long studijskiProgramId,Integer fondCasovaVezbe, Integer fondCasovaPredavanje){
         PredmetRequest body = new PredmetRequest();
         body.setNaziv(naziv);

@@ -16,6 +16,7 @@ import org.raflab.studsluzbadesktopclient.services.SkolskaGodinaService;
 import org.raflab.studsluzbadesktopclient.services.StudijskiProgramService;
 import org.raflab.studsluzbadesktopclient.utils.ErrorHandler;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 
 @Component
 public class PredmetController {
@@ -29,6 +30,9 @@ public class PredmetController {
     public TableColumn<DrziPredmetResponse, String> colSkolskaGodina;
     public ComboBox<NastavnikResponseDTO> cmbNastavnik;
     public ComboBox<SkolskaGodinaResponseDTO> cmbSkolskaGodina;
+    public TextField txtGodinaOd;
+    public TextField txtGodinaDo;
+    public Label lblAvgOcena;
     private PredmetResponse predmet;
 
     public TextField txtSifra;
@@ -210,5 +214,27 @@ public class PredmetController {
                 tblDrziPredmet.refresh();
             }), ErrorHandler::displayError);
         });
+    }
+
+    public void handleFetchStatistika() {
+        String yearFromTxt = txtGodinaOd.getText();
+        String yearToTxt = txtGodinaDo.getText();
+
+        try {
+            Integer yearFrom = yearFromTxt.isBlank() ? null : Integer.parseInt(yearFromTxt);
+            Integer yearTo = yearToTxt.isBlank() ? null : Integer.parseInt(yearToTxt);
+
+            predmetService.getAverageOcena(predmet.getId(), yearFrom, yearTo)
+                .switchIfEmpty(Mono.defer(() -> {
+                    Platform.runLater(() -> lblAvgOcena.setText("No data for this range"));
+                    return Mono.empty();
+                }))
+                .subscribe(avgOcena -> Platform.runLater(() -> lblAvgOcena.setText(avgOcena.toString())), ErrorHandler::displayError);
+        } catch(NumberFormatException e){
+            ErrorHandler.displayError(e);
+        }
+    }
+
+    public void handleIzvestajStatistika() {
     }
 }

@@ -56,6 +56,41 @@
                 </BorderPane>
             </Tab>
 
+            <Tab text="Statistika">
+                <VBox spacing="20" style="-fx-background-color: white;">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+
+                    <HBox spacing="15" alignment="CENTER_LEFT"
+                          style="-fx-background-color: #f8f9fa; -fx-padding: 15; -fx-border-color: #dee2e6; -fx-border-radius: 8; -fx-background-radius: 8;">
+
+                        <VBox spacing="5">
+                            <Label text="Godina od:" style="-fx-font-weight: bold; -fx-text-fill: #7f8c8d;"/>
+                            <TextField fx:id="txtGodinaOd" prefWidth="80" promptText="2020"/>
+                        </VBox>
+
+                        <VBox spacing="5">
+                            <Label text="Godina do:" style="-fx-font-weight: bold; -fx-text-fill: #7f8c8d;"/>
+                            <TextField fx:id="txtGodinaDo" prefWidth="80" promptText="2024"/>
+                        </VBox>
+
+                        <Region HBox.hgrow="ALWAYS" /> <HBox spacing="10" alignment="BOTTOM_CENTER">
+                        <Button text="Prikaži" onAction="#handleFetchStatistika"
+                                style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-background-radius: 6; -fx-cursor: hand;"/>
+
+                        <Button text="Izveštaj" onAction="#handleIzvestajStatistika"
+                                style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-background-radius: 6; -fx-cursor: hand;"/>
+                    </HBox>
+                    </HBox>
+
+                    <VBox VBox.vgrow="ALWAYS" alignment="CENTER" style="-fx-border-color: #dee2e6; -fx-border-style: dashed; -fx-border-width: 2;">
+                        <Label text="Prosecna ocena: " style="-fx-text-fill: #bdc3c7; -fx-font-size: 14px;"/>
+                        <Label fx:id="lblAvgOcena" />
+                    </VBox>
+                </VBox>
+            </Tab>
+
             <Tab text="Drži predmet">
                 <HBox spacing="15" style="-fx-background-color: white; -fx-padding: 15;">
 
