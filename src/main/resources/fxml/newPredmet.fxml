@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane prefWidth="450.0" prefHeight="550.0" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.raflab.studsluzbadesktopclient.controllers.NewPredmetController">
+    <center>
+        <ScrollPane fitToWidth="true">
+            <VBox spacing="15">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+                <Label text="Novi Predmet" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                <Separator/>
+
+                <GridPane hgap="10" vgap="12">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="120" />
+                        <ColumnConstraints hgrow="ALWAYS" />
+                    </columnConstraints>
+
+                    <Label text="Šifra:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtSifra" promptText="npr. CS101" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                    <Label text="Naziv:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtNaziv" promptText="Unesite naziv predmeta" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                    <Label text="ESPB:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtEspb" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                    <Label text="Fond (Predavanja):" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtFondPredavanja" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                    <Label text="Fond (Vežbe):" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtFondVezbe" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                    <Label text="Tip:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                    <CheckBox fx:id="chkObavezan" text="Obavezan predmet" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+                    <Label text="Opis:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                    <TextArea fx:id="txtOpis" prefHeight="80" wrapText="true" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+                </GridPane>
+            </VBox>
+        </ScrollPane>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER" spacing="15" style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-width: 1 0 0 0;">
+            <padding>
+                <Insets top="15" bottom="15"/>
+            </padding>
+            <Button text="Cancel" onAction="#handleCancel" prefWidth="100"
+                    style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;"/>
+            <Button text="Save" onAction="#handleSave" prefWidth="100"
+                    style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;"/>
+        </HBox>
+    </bottom>
+</BorderPane>

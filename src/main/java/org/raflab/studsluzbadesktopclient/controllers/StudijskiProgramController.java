@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import org.raflab.studsluzbacommon.dto.response.StudijskiProgramResponseDTO;
 import org.raflab.studsluzbacommon.dto.response.VrstaStudijaResponseDTO;
+import org.raflab.studsluzbadesktopclient.MainView;
 import org.raflab.studsluzbadesktopclient.services.StudijskiProgramService;
 import org.raflab.studsluzbadesktopclient.services.VrstaStudijaService;
 import org.raflab.studsluzbadesktopclient.utils.ErrorHandler;
@@ -17,6 +18,7 @@ public class StudijskiProgramController {
     private final VrstaStudijaService vrstaStudijaService;
     private final StudijskiProgramService studijskiProgramService;
     private final NavigationController navigationController;
+    private final MainView mainView;
     public TableView<StudijskiProgramResponseDTO> studijskiProgramTable;
     public TextField txtOznaka;
     public TextField txtNaziv;
@@ -31,10 +33,11 @@ public class StudijskiProgramController {
     private final ObservableList<VrstaStudijaResponseDTO> vrstaStudijaObList = FXCollections.observableArrayList();
     private final ObservableList<StudijskiProgramResponseDTO> studijskiProgramObList = FXCollections.observableArrayList();
 
-    public StudijskiProgramController(VrstaStudijaService vrstaStudijaService, StudijskiProgramService studijskiProgramService, NavigationController navigationController) {
+    public StudijskiProgramController(VrstaStudijaService vrstaStudijaService, StudijskiProgramService studijskiProgramService, NavigationController navigationController, MainView mainView) {
         this.vrstaStudijaService = vrstaStudijaService;
         this.studijskiProgramService = studijskiProgramService;
         this.navigationController = navigationController;
+        this.mainView = mainView;
     }
 
     public void initialize(){
@@ -59,7 +62,21 @@ public class StudijskiProgramController {
         vrstaStudijaService.fetchVrstaStudija().collectList().subscribe(vrstaStudijaList -> Platform.runLater(() -> vrstaStudijaObList.setAll(vrstaStudijaList)), ErrorHandler::displayError);
         studijskiProgramService.fetchStudijskiProgram().collectList().subscribe(studijskiProgramList -> Platform.runLater(() -> studijskiProgramObList.setAll(studijskiProgramList)), ErrorHandler::displayError);
 
+        studijskiProgramTable.setRowFactory(tv -> {
+            TableRow<StudijskiProgramResponseDTO> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    this.handleStudProgramClick(row.getItem());
+                }
+            });
+            return row;
+        });
+
         studProgramTabPane.getSelectionModel().selectedIndexProperty().addListener((obs, oldIdx, newIdx) -> navigationController.navigateTo("studijskiProgram:tab:" + newIdx));
+    }
+
+    private void handleStudProgramClick(StudijskiProgramResponseDTO item) {
+        mainView.openModal("studijskiProgramDetails", "Studijski Program Details", (StudijskiProgramDetailsController controller) -> controller.setStudijskiProgram(item));
     }
 
     public void handleSaveProgram(ActionEvent actionEvent) {

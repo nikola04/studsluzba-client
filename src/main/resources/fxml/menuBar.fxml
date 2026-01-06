@@ -17,9 +17,12 @@
             <MenuItem onAction="#openSearchNastavnik" text="Pretraži"/>
             <MenuItem onAction="#openNewNastavnik" text="Novi"/>
         </Menu>
-        <Menu text="Predmeti">
-            <MenuItem onAction="#openStudijskiProgram" text="Studijski programi"/>
-            <MenuItem onAction="#openPredmeti" text="Predmeti"/>
+        <Menu>
+            <graphic>
+                <Label text="Studijski programi"
+                       onMouseClicked="#openStudijskiProgram"
+                       style="-fx-text-fill: white; -fx-cursor: hand;" />
+            </graphic>
         </Menu>
         <Menu text="Nastava i ispiti">
             <MenuItem text="Raspodela nastave"/>
@@ -32,7 +35,6 @@
         <Menu text="Administracija">
             <MenuItem onAction="#openSifarnik" text="Šifarnici"/>
             <MenuItem onAction="#openSkolskaGodina" text="Školske godine"/>
-            <MenuItem text="Korisnici"/>
         </Menu>
     </MenuBar>
 
