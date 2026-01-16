@@ -60,6 +60,7 @@ public class SearchNastavnikController {
     }
     private void openNastavnikDetails(NastavnikResponseDTO nastavnik) {
         mainView.openModal("nastavnikProfile", "Nastavnik Profile", (NastavnikProfileController controller) -> controller.setNastavnik(nastavnik));
+
     }
     public void handleSearchNastavnik(ActionEvent actionEvent) {
         Button button = actionEvent != null ? ((Button) actionEvent.getSource()) : null;

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.raflab.studsluzbadesktopclient.controllers.AddZvanjeController"
+            prefHeight="400.0" prefWidth="600.0">
+        <center>
+            <VBox spacing="10" alignment="center">
+                <Label text="Datum izbora"/>
+                <DatePicker fx:id="zvanjaDatumIzbora" prefWidth="250"/>
+
+                <Label text="Naucna oblast"/>
+                <ComboBox fx:id="zvanjaNaucnaOblastCb" prefWidth="250"/>
+
+                <Label text="Uza naucna oblast"/>
+                <ComboBox fx:id="zvanjaUzaNaucnaOblastCb" prefWidth="250"/>
+
+                <Label text="Zvanje"/>
+                <ComboBox fx:id="zvanjaCb" prefWidth="250"/>
+
+                <Label text="Aktivno"/>
+                <CheckBox fx:id="zvanjeAktivno" prefWidth="250"/>
+
+                <HBox spacing="10" alignment="center">
+                    <Button text="Dodaj" onAction="#handleAddZvanje"/>
+                    <Button text="Otkaži" onAction="#handleCancel"/>
+                </HBox>
+
+            </VBox>
+        </center>
+</BorderPane>
