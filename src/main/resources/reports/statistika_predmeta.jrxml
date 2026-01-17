@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="statistika_predmeta" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+
+    <parameter name="nazivPredmeta" class="java.lang.String"/>
+    <parameter name="sifraPredmeta" class="java.lang.String"/>
+    <parameter name="espb" class="java.lang.Integer"/>
+    <parameter name="studijskiProgram" class="java.lang.String"/>
+    <parameter name="period" class="java.lang.String"/>
+    <parameter name="prosecnaOcena" class="java.lang.String"/>
+
+    <title>
+        <band height="315">
+            <staticText>
+                <reportElement x="0" y="0" width="555" height="40" forecolor="#2C3E50"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="20" isBold="true"/>
+                </textElement>
+                <text><![CDATA[STATISTIČKI IZVEŠTAJ PREDMETA]]></text>
+            </staticText>
+
+            <frame>
+                <reportElement x="40" y="80" width="480" height="100"/>
+                <textField>
+                    <reportElement x="0" y="0" width="480" height="25" forecolor="#2C3E50"/>
+                    <textElement verticalAlignment="Middle"><font size="12" isBold="true"/></textElement>
+                    <textFieldExpression><![CDATA[$P{nazivPredmeta} + " [" + $P{sifraPredmeta} + "]"]]></textFieldExpression>
+                </textField>
+                <textField>
+                    <reportElement x="0" y="25" width="480" height="20" forecolor="#2C3E50"/>
+                    <textElement verticalAlignment="Middle"><font size="11"/></textElement>
+                    <textFieldExpression><![CDATA["Studijski program: " + $P{studijskiProgram}]]></textFieldExpression>
+                </textField>
+                <textField>
+                    <reportElement x="0" y="45" width="480" height="20" forecolor="#2C3E50"/>
+                    <textElement verticalAlignment="Middle"><font size="11"/></textElement>
+                    <textFieldExpression><![CDATA["ESPB bodovi: " + $P{espb}]]></textFieldExpression>
+                </textField>
+                <textField>
+                    <reportElement x="0" y="65" width="480" height="20" forecolor="#2C3E50"/>
+                    <textElement verticalAlignment="Middle"><font size="11"/></textElement>
+                    <textFieldExpression><![CDATA["Period: " + $P{period}]]></textFieldExpression>
+                </textField>
+            </frame>
+
+            <rectangle>
+                <reportElement x="127" y="200" width="300" height="80" forecolor="#DCDCDC" backcolor="#F8F9FA"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="127" y="210" width="300" height="20" forecolor="#2C3E50"/>
+                <textElement textAlignment="Center"><font size="12" isBold="true"/></textElement>
+                <text><![CDATA[PROSEČNA OCENA]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="127" y="230" width="300" height="40" forecolor="#2C3E50"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="26" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{prosecnaOcena}]]></textFieldExpression>
+            </textField>
+
+            <textField pattern="dd.MM.yyyy. HH:mm">
+                <reportElement x="0" y="300" width="555" height="15" forecolor="#7F8C8D"/>
+                <textElement textAlignment="Right"><font size="8"/></textElement>
+                <textFieldExpression><![CDATA["Datum: " + new java.util.Date()]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+</jasperReport>

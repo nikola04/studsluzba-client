@@ -8,6 +8,10 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
 import org.raflab.studsluzbacommon.dto.response.*;
 import org.raflab.studsluzbadesktopclient.exceptions.InvalidDataException;
 import org.raflab.studsluzbadesktopclient.services.NastavnikService;
@@ -15,8 +19,12 @@ import org.raflab.studsluzbadesktopclient.services.PredmetService;
 import org.raflab.studsluzbadesktopclient.services.SkolskaGodinaService;
 import org.raflab.studsluzbadesktopclient.services.StudijskiProgramService;
 import org.raflab.studsluzbadesktopclient.utils.ErrorHandler;
+import org.raflab.studsluzbadesktopclient.utils.JasperReportUtils;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class PredmetController {
@@ -235,6 +243,38 @@ public class PredmetController {
         }
     }
 
-    public void handleIzvestajStatistika() {
+    public void handleIzvestajStatistika(ActionEvent actionEvent) {
+        String yearFromTxt = txtGodinaOd.getText();
+        String yearToTxt = txtGodinaDo.getText();
+
+        try {
+            Integer yearFrom = yearFromTxt.isBlank() ? null : Integer.parseInt(yearFromTxt);
+            Integer yearTo = yearToTxt.isBlank() ? null : Integer.parseInt(yearToTxt);
+
+            Button button = (Button) actionEvent.getSource();
+            button.setDisable(true);
+
+            Map<String, Object> params = new HashMap<>();
+            params.put("nazivPredmeta", predmet.getNaziv());
+            params.put("sifraPredmeta", predmet.getSifra());
+            params.put("espb", predmet.getEspb());
+            params.put("studijskiProgram", predmet.getStudijskiProgram().getNaziv());
+            params.put("period", txtGodinaOd.getText() + " - " + txtGodinaDo.getText());
+
+            JasperReportUtils.runTask(() -> {
+                Double averageOcena = predmetService.getAverageOcenaSync(predmet.getId(), yearFrom, yearTo);
+
+                if (averageOcena == null || averageOcena == 0.0)
+                    params.put("prosecnaOcena", "NEMA PODATAKA");
+                else params.put("prosecnaOcena", String.format("%.2f", averageOcena));
+
+                JasperReport jr = JasperReportUtils.getReport("statistika_predmeta");
+                JasperPrint jasperPrint = JasperFillManager.fillReport(jr, params, new JREmptyDataSource(1));
+
+                Platform.runLater(() -> JasperReportUtils.exportPdf(button.getScene().getWindow(), jasperPrint, "Statistika_Predmeta"));
+            }, (v) -> System.out.println("Exported!"), () -> button.setDisable(false));
+        }catch (NumberFormatException e){
+            ErrorHandler.displayError(e);
+        }
     }
 }

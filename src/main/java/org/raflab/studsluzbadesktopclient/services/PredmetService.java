@@ -6,6 +6,7 @@ import org.raflab.studsluzbacommon.dto.request.PredmetRequest;
 import org.raflab.studsluzbacommon.dto.response.DrziPredmetResponse;
 import org.raflab.studsluzbacommon.dto.response.PredmetResponse;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -14,6 +15,7 @@ import reactor.core.publisher.Mono;
 @AllArgsConstructor
 public class PredmetService {
     private WebClient webClient;
+    private RestClient restClient;
 
     public Mono<Double> getAverageOcena(Long predmetId, Integer yearFrom, Integer yearTo){
         return webClient.get()
@@ -24,6 +26,17 @@ public class PredmetService {
                         .build())
                 .retrieve()
                 .bodyToMono(Double.class);
+    }
+
+    public Double getAverageOcenaSync(Long predmetId, Integer yearFrom, Integer yearTo){
+        return restClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("predmet/" + predmetId + "/prosecna-ocena")
+                        .queryParam("from", yearFrom)
+                        .queryParam("to", yearTo)
+                        .build())
+                .retrieve()
+                .body(Double.class);
     }
 
     public Mono<Long> createPredmet(String naziv, Integer espb, Boolean obavezan, String opis, String sifra, Long studijskiProgramId,Integer fondCasovaVezbe, Integer fondCasovaPredavanje){
