@@ -18,7 +18,6 @@ import org.raflab.studsluzbadesktopclient.MainView;
 import org.raflab.studsluzbadesktopclient.models.IspitReportBean;
 import org.raflab.studsluzbadesktopclient.services.SkolskaGodinaService;
 import org.raflab.studsluzbadesktopclient.services.StudentIndexService;
-import org.raflab.studsluzbadesktopclient.services.StudentService;
 import org.raflab.studsluzbadesktopclient.utils.ErrorHandler;
 import org.raflab.studsluzbadesktopclient.utils.JasperReportUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +35,16 @@ public class StudentController {
     private StudentIndexService studentIndexService;
     @Autowired
     private SkolskaGodinaService skolskaGodinaService;
+
+    @FXML public Button prevBtn;
+    @FXML public TextField currentPageTf;
+    @FXML public Label totalPagesLabel;
+    @FXML public Button nextBtn;
+
+    @FXML public Button prevBtnPassed;
+    @FXML public TextField currentPageTfPassed;
+    @FXML public Label totalPagesLabelPassed;
+    @FXML public Button nextBtnPassed;
 
     public Label remainingRsdLabel;
     public Label remainingEurLabel;
@@ -71,6 +80,11 @@ public class StudentController {
     private StudentIndeksResponseDTO studentIndex;
     private StudentResponseDTO student;
 
+    private int currentPagePassed = 0;
+    private int totalPagesPassed = 1;
+    private int currentPage = 0;
+    private int totalPages = 1;
+
     public void initialize(){
         this.initExamsTable(idPassedExamColumn, predmetPassedExamColumn, nastavnikPassedExamColumn, espbPassedExamColumn, rokPassedExamColumn);
         this.initExamsTable(idExamColumn, predmetExamColumn, nastavnikExamColumn, espbExamColumn, rokExamColumn);
@@ -84,6 +98,32 @@ public class StudentController {
         examsTable.setItems(exams);
         upisTable.setItems(upisGodine);
         obnovaTable.setItems(obnovaGodine);
+
+        currentPageTf.setOnAction(e -> {
+            try {
+                int targetPage = Integer.parseInt(currentPageTf.getText()) - 1;
+                if (targetPage >= 0 && targetPage < totalPages) {
+                    currentPage = targetPage;
+                    this.updateCurrentPage();
+                    this.updateExams();
+                }
+            } catch (NumberFormatException ex) {
+                this.updateCurrentPage();
+            }
+        });
+
+        currentPageTfPassed.setOnAction(e -> {
+            try {
+                int targetPage = Integer.parseInt(currentPageTfPassed.getText()) - 1;
+                if (targetPage >= 0 && targetPage < totalPagesPassed) {
+                    currentPagePassed = targetPage;
+                    this.updateCurrentPagePassed();
+                    this.updateExams();
+                }
+            } catch (NumberFormatException ex) {
+                this.updateCurrentPagePassed();
+            }
+        });
     }
 
     private void initExamsTable(TableColumn<IspitResponse, Long> idColumn, TableColumn<IspitResponse, String> predmetColumn, TableColumn<IspitResponse, String> nastavnikColumn, TableColumn<IspitResponse, Integer> espbColumn, TableColumn<IspitResponse, Long> rokColumn){
@@ -157,15 +197,25 @@ public class StudentController {
     }
 
     private void updateExams(){
-        passedExams.clear(); exams.clear();
-        studentIndexService.fetchStudentPolozenIspit(studentIndex.getId()).subscribe((page) -> passedExams.setAll(page.getContent()), ErrorHandler::displayError);
-        studentIndexService.fetchStudentNepolozeniIspiti(studentIndex.getId()).subscribe((page) -> exams.setAll(page.getContent()), ErrorHandler::displayError);
+        if(this.studentIndex == null) return;
+
+        studentIndexService.fetchStudentPolozenIspit(studentIndex.getId(), currentPagePassed).subscribe((page) -> Platform.runLater(() -> {
+            passedExams.setAll(page.getContent());
+            totalPagesPassed = page.getTotalPages();
+            this.updateTotalPagesPassed();
+        }), ErrorHandler::displayError);
+        studentIndexService.fetchStudentNepolozeniIspiti(studentIndex.getId(), currentPage).subscribe((page) -> Platform.runLater(() -> {
+            exams.setAll(page.getContent());
+            totalPages = page.getTotalPages();
+            this.updateTotalPages();
+        }), ErrorHandler::displayError);
         passedExamsTable.refresh(); examsTable.refresh();
     }
 
     private void onStudentUpdate(){
         nameLabel.setText(studentIndex != null && student != null ? student.getIme() + " " + student.getPrezime() + " # " + studentIndex.getStudijskiProgram().getOznaka() + studentIndex.getBroj() + "/" + studentIndex.getGodina() : "Student Index");
         espbLabel.setText("ESPB: " + (studentIndex != null ? studentIndex.getOstvarenoEspb() : 0));
+        passedExams.clear(); exams.clear();
         this.updateAverageOcena();
         this.updatePayments();
         this.updateExams();
@@ -180,6 +230,55 @@ public class StudentController {
             controller.setParentController(this);
         });
     }
+
+    private void updateCurrentPage(){
+        currentPageTf.setText(String.valueOf(currentPage + 1));
+    }
+
+    private void updateTotalPages(){
+        totalPagesLabel.setText(" od " + totalPages);
+    }
+
+    public void handlePrevPage() {
+        if (currentPage > 0) {
+            currentPage--;
+            this.updateCurrentPage();
+            this.updateExams();
+        }
+    }
+
+    public void handleNextPage() {
+        if (currentPage < totalPages - 1) {
+            currentPage++;
+            this.updateCurrentPage();
+            this.updateExams();
+        }
+    }
+
+    private void updateCurrentPagePassed(){
+        currentPageTfPassed.setText(String.valueOf(currentPagePassed + 1));
+    }
+
+    private void updateTotalPagesPassed(){
+        totalPagesLabelPassed.setText(" od " + totalPagesPassed);
+    }
+
+    public void handlePrevPagePassed() {
+        if (currentPagePassed > 0) {
+            currentPagePassed--;
+            this.updateCurrentPagePassed();
+            this.updateExams();
+        }
+    }
+
+    public void handleNextPagePassed() {
+        if (currentPagePassed < totalPagesPassed - 1) {
+            currentPagePassed++;
+            this.updateCurrentPagePassed();
+            this.updateExams();
+        }
+    }
+
 
     public void handleCreateUplata(ActionEvent actionEvent) {
         Button button = (Button) actionEvent.getSource();

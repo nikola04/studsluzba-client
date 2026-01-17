@@ -11,7 +11,6 @@
         <Menu text="Studenti">
             <MenuItem onAction="#openSearchStudent" text="Pretraži"/>
             <MenuItem onAction="#openNewStudent" text="Novi"/>
-            <MenuItem text="Grupe"/>
         </Menu>
         <Menu text="Nastavnici">
             <MenuItem onAction="#openSearchNastavnik" text="Pretraži"/>
@@ -24,13 +23,9 @@
                        style="-fx-text-fill: white; -fx-cursor: hand;" />
             </graphic>
         </Menu>
-        <Menu text="Nastava i ispiti">
-            <MenuItem text="Raspodela nastave"/>
-            <MenuItem text="Raspodela nastave - studenti"/>
-            <MenuItem text="Ispitni rokovi"/>
-            <MenuItem text="Ispiti - unos"/>
-            <MenuItem text="Ispiti - prijave"/>
-            <MenuItem text="Ispiti - rezultati"/>
+        <Menu text="Ispiti">
+            <MenuItem text="Rokovi" onAction="#openRokovi"/>
+            <MenuItem text="Ispiti" onAction="#openIspiti"/>
         </Menu>
         <Menu text="Administracija">
             <MenuItem onAction="#openSifarnik" text="Šifarnici"/>

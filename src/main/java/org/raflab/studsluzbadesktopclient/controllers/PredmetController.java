@@ -188,6 +188,12 @@ public class PredmetController {
     public void handleAddDrziPredmet() {
         NastavnikResponseDTO nastavnik = cmbNastavnik.getValue();
         SkolskaGodinaResponseDTO skolskaGod = cmbSkolskaGodina.getValue();
+
+        if (nastavnik == null || skolskaGod == null){
+            ErrorHandler.displayError(new InvalidDataException("All fields are required."));
+            return;
+        }
+
         predmetService.createDrziPredmet(predmet.getId(), nastavnik.getId(), skolskaGod.getId()).subscribe(id -> Platform.runLater(() -> {
             DrziPredmetResponse drziPredmet = new DrziPredmetResponse();
 

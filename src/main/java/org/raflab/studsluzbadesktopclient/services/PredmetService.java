@@ -17,6 +17,13 @@ public class PredmetService {
     private WebClient webClient;
     private RestClient restClient;
 
+    public Flux<PredmetResponse> fetchPredmeti() {
+        return webClient.get()
+                .uri("predmet/")
+                .retrieve()
+                .bodyToFlux(PredmetResponse.class);
+    }
+
     public Mono<Double> getAverageOcena(Long predmetId, Integer yearFrom, Integer yearTo){
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder

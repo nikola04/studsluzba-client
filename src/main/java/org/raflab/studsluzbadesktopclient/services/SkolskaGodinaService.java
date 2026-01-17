@@ -5,8 +5,6 @@ import org.raflab.studsluzbacommon.dto.request.SkolskaGodinaRequestDTO;
 import org.raflab.studsluzbacommon.dto.response.SkolskaGodinaResponseDTO;
 import org.raflab.studsluzbadesktopclient.exceptions.ConflictException;
 import org.raflab.studsluzbadesktopclient.exceptions.ResourceNotFoundException;
-import org.raflab.studsluzbadesktopclient.exceptions.ServerCommunicationException;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -24,7 +22,6 @@ public class SkolskaGodinaService {
         return webClient.get()
                 .uri(createURL(""))
                 .retrieve()
-                .onStatus(HttpStatusCode::is5xxServerError, clientResponse -> Mono.error(new ServerCommunicationException(clientResponse.statusCode().toString())))
                 .bodyToFlux(SkolskaGodinaResponseDTO.class);
     }
 

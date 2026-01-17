@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.raflab.studsluzbadesktopclient.controllers.IspitniRokDetailsController"
+            prefHeight="600.0" prefWidth="800.0">
+    <TabPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+             AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" tabClosingPolicy="UNAVAILABLE">
+        <Tab text="Podaci">
+            <VBox spacing="20">
+                <padding>
+                    <Insets top="30" right="30" bottom="30" left="30"/>
+                </padding>
+                <GridPane hgap="20" vgap="15"
+                          style="-fx-background-color: #f8f9fa; -fx-padding: 20; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10;">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="150"/>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                    </columnConstraints>
+                    <Label text="Naziv (Mesec):" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <Label fx:id="lblNaziv" text="-" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                    <Label text="Datum početka:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <Label fx:id="lblPocetak" text="-" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                    <Label text="Datum kraja:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <Label fx:id="lblKraj" text="-" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                    <Label text="Školska godina:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                    <Label fx:id="lblSkolskaGodina" text="-" GridPane.rowIndex="3"
+                           GridPane.columnIndex="1"/>
+                </GridPane>
+            </VBox>
+        </Tab>
+
+        <Tab text="Ispiti">
+            <VBox spacing="15">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+                <VBox spacing="10" VBox.vgrow="ALWAYS">
+                    <TableView fx:id="tblIspiti" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="colPredmet" text="Predmet" prefWidth="200"/>
+                            <TableColumn fx:id="colNastavnik" text="Nastavnik" prefWidth="200"/>
+                            <TableColumn fx:id="colDatum" text="Datum" prefWidth="120"/>
+                            <TableColumn fx:id="colVreme" text="Vreme" prefWidth="100"/>
+                            <TableColumn fx:id="colStatus" text="Status" prefWidth="100"/>
+                        </columns>
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                        </columnResizePolicy>
+                    </TableView>
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Button text="−" onAction="#handleDeleteIspit"
+                                style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-min-width: 40; -fx-cursor: hand;"/>
+                        <Label text="Select row for deletion" style="-fx-text-fill: #95a5a6; -fx-font-size: 11px;"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </Tab>
+    </TabPane>
+</AnchorPane>

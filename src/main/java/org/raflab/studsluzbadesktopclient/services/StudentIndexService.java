@@ -2,6 +2,7 @@ package org.raflab.studsluzbadesktopclient.services;
 
 import lombok.AllArgsConstructor;
 import org.raflab.studsluzbacommon.dto.PagedResponse;
+import org.raflab.studsluzbacommon.dto.request.IspitIzlazakRequest;
 import org.raflab.studsluzbacommon.dto.request.StudentIndeksRequest;
 import org.raflab.studsluzbacommon.dto.request.UplataRequest;
 import org.raflab.studsluzbacommon.dto.response.*;
@@ -28,6 +29,35 @@ public class StudentIndexService {
 
     private String createURL(String pathEnd) {
 		return "student/indeks/" + pathEnd;
+	}
+
+	public Mono<IspitPrijavaResponse> saveIspitPrijava(String studentIndeks, Long ispitId) {
+		return webClient.post()
+				.uri("student/indeks/{studentIndeks}/ispit/{ispitId}/prijava", studentIndeks, ispitId)
+				.retrieve()
+				.bodyToMono(IspitPrijavaResponse.class);
+	}
+
+	public Mono<IspitIzlazakResponse> saveIspitIzlazak(String studentIndeks, Long ispitId, IspitIzlazakRequest ispitIzlazakRequest) {
+		return webClient.post()
+				.uri("student/indeks/{studentIndeks}/ispit/{ispitId}/izlazak", studentIndeks, ispitId)
+				.bodyValue(ispitIzlazakRequest)
+				.retrieve()
+				.bodyToMono(IspitIzlazakResponse.class);
+	}
+
+	public Mono<Boolean> deleteIspitIzlazak(Long indeksId, Long ispitId) {
+		return webClient.delete()
+				.uri("student/indeks/{indeksId}/ispit/{ispitId}/izlazak", indeksId, ispitId)
+				.retrieve()
+				.bodyToMono(Boolean.class);
+	}
+
+	public Mono<Boolean> deleteIspitPrijava(Long indeksId, Long ispitId) {
+		return webClient.delete()
+				.uri("student/indeks/{indeksId}/ispit/{ispitId}/prijava", indeksId, ispitId)
+				.retrieve()
+				.bodyToMono(Boolean.class);
 	}
 
 	public List<PolozenPredmetResponse> fetchPolozenPredmetSync(Long indexId) {
@@ -86,13 +116,6 @@ public class StudentIndexService {
 			.onStatus(HttpStatusCode::isError, clientResponse ->
 					Mono.error(new CommunicationException(clientResponse.statusCode().toString())))
 			.bodyToMono(Double.class);
-	}
-
-	public Flux<PolozenPredmetResponse> fetchPolozenPredmet(Long indexId){
-		return webClient.get()
-				.uri(createURL(indexId + "/predmet/polozen/"))
-				.retrieve()
-				.bodyToFlux(PolozenPredmetResponse.class);
 	}
 
 	public Flux<UplataResponse> fetchStudentUplata(Long indexId){
@@ -176,17 +199,26 @@ public class StudentIndexService {
 				.bodyToMono(Long.class);
 	}
 
-	public Mono<PagedResponse<IspitResponse>> fetchStudentPolozenIspit(Long indexId){
+	public Mono<PagedResponse<IspitResponse>> fetchStudentPolozenIspit(Long indexId, Integer page){
 		return webClient.get()
-				.uri(createURL(indexId + "/ispit/polozen"))
+				.uri(uriBuilder -> uriBuilder
+						.path(createURL(indexId + "/ispit/polozen"))
+						.queryParam("page", page)
+						.queryParam("size", 15)
+						.build())
 				.retrieve()
-				.bodyToMono(new ParameterizedTypeReference<PagedResponse<IspitResponse>>() {});
+				.bodyToMono(new ParameterizedTypeReference<>() {
+                });
 	}
 
-	public Mono<PagedResponse<IspitResponse>> fetchStudentNepolozeniIspiti(Long indexId){
+	public Mono<PagedResponse<IspitResponse>> fetchStudentNepolozeniIspiti(Long indexId, Integer page){
 		return webClient.get()
-				.uri(createURL(indexId + "/ispit/nepolozen"))
-				.retrieve()
-				.bodyToMono(new ParameterizedTypeReference<PagedResponse<IspitResponse>>() {});
+				.uri(uriBuilder -> uriBuilder
+						.path(createURL(indexId + "/ispit/nepolozen"))
+						.queryParam("page", page)
+						.queryParam("size", 15)
+						.build())				.retrieve()
+				.bodyToMono(new ParameterizedTypeReference<>() {
+                });
 	}
 }

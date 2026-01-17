@@ -31,10 +31,12 @@ public class MenuBarController {
 	public void openStudijskiProgram() {
 		navController.navigateTo("studijskiProgram");
 	}
-	public void openPredmeti() {
-		navController.navigateTo("predmeti");
+	public void openIspiti() {
+		navController.navigateTo("ispiti");
+	}
+	public void openRokovi() {
+		navController.navigateTo("rokovi");
 	}
 	public void openShortcuts() {
 	}
-
 }
