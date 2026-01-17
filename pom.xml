@@ -16,6 +16,11 @@
     </parent>
     <dependencies>
         <dependency>
+            <groupId>org.eclipse.jdt</groupId>
+            <artifactId>ecj</artifactId>
+            <version>3.35.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
@@ -71,7 +76,18 @@
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
-            <version>7.0.3</version>
+            <version>6.21.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-fonts</artifactId>
+            <version>6.21.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
         </dependency>
         <dependency>
             <groupId>com.azure</groupId>
@@ -94,6 +110,11 @@
             <artifactId>studsluzba-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>commons-digester</groupId>
+            <artifactId>commons-digester</artifactId>
+            <version>2.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -103,13 +124,17 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <plugin>
-				 <groupId>org.openjfx</groupId>
-    			<artifactId>javafx-maven-plugin</artifactId>
-    			<version>0.0.8</version>
-				<configuration>
-					<mainClass>org.raflab.studsluzbadesktopclient.StudsluzbaFxClientApp</mainClass>
-				</configuration>
-			</plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>org.raflab.studsluzbadesktopclient.StudsluzbaFxClientApp</mainClass>
+                    <options>
+                        <option>--add-exports=java.desktop/com.apple.eawt.event=ALL-UNNAMED</option>
+                        <option>--add-opens=java.desktop/com.apple.eawt.event=ALL-UNNAMED</option>
+                    </options>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

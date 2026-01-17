@@ -7,7 +7,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.StringConverter;
-import net.sf.jasperreports.engine.*;
 import org.raflab.studsluzbacommon.dto.request.StudentRequest;
 import org.raflab.studsluzbacommon.dto.response.SrednjaSkolaResponseDTO;
 import org.raflab.studsluzbacommon.dto.response.VisokoskolskaUstanovaResponseDTO;
@@ -168,21 +167,6 @@ public class NewStudentController {
             button.setDisable(false);
         }
     }
-
-//    public void handleIzvestaj() throws JRException {
-
-//        List<StudentDTO> studenti = studentService.sviStudenti();
-//
-//        JasperReport report = JasperCompileManager.compileReport(
-//                MainView.class.getResourceAsStream("/reports/sviStudenti.jrxml")
-//        );
-//
-//        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(studenti);
-//        JasperPrint jp = JasperFillManager.fillReport(report, new HashMap<>(), dataSource);
-//
-//        JasperExportManager.exportReportToPdfFile(jp, "sviStudenti.pdf");
-//    }
-
 
     private void resetForm() {
         imeTf.clear();

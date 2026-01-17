@@ -11,17 +11,21 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.raflab.studsluzbacommon.dto.response.*;
 import org.raflab.studsluzbadesktopclient.MainView;
+import org.raflab.studsluzbadesktopclient.models.IspitReportBean;
 import org.raflab.studsluzbadesktopclient.services.SkolskaGodinaService;
 import org.raflab.studsluzbadesktopclient.services.StudentIndexService;
+import org.raflab.studsluzbadesktopclient.services.StudentService;
 import org.raflab.studsluzbadesktopclient.utils.ErrorHandler;
+import org.raflab.studsluzbadesktopclient.utils.JasperReportUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Component
 public class StudentController {
@@ -86,12 +90,12 @@ public class StudentController {
         idColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getId()));
         predmetColumn.setCellValueFactory(cellData -> {
             if (cellData.getValue().getPredmet() != null)
-                new SimpleStringProperty(cellData.getValue().getPredmet().getNaziv());
+                return new SimpleStringProperty(cellData.getValue().getPredmet().getNaziv());
             return null;
         });
         nastavnikColumn.setCellValueFactory(cellData -> {
             if (cellData.getValue().getNastavnik() != null)
-                new SimpleStringProperty(cellData.getValue().getNastavnik().getIme() + " " + cellData.getValue().getNastavnik().getPrezime());
+                return new SimpleStringProperty(cellData.getValue().getNastavnik().getIme() + " " + cellData.getValue().getNastavnik().getPrezime());
             return null;
         });
         espbColumn.setCellValueFactory(cellData -> {
@@ -154,8 +158,8 @@ public class StudentController {
 
     private void updateExams(){
         passedExams.clear(); exams.clear();
-        studentIndexService.fetchStudentPolozenIspit(studentIndex.getId()).subscribe(passedExams::add, ErrorHandler::displayError);
-        studentIndexService.fetchStudentNepolozeniIspiti(studentIndex.getId()).subscribe(exams::add, ErrorHandler::displayError);
+        studentIndexService.fetchStudentPolozenIspit(studentIndex.getId()).subscribe((page) -> passedExams.setAll(page.getContent()), ErrorHandler::displayError);
+        studentIndexService.fetchStudentNepolozeniIspiti(studentIndex.getId()).subscribe((page) -> exams.setAll(page.getContent()), ErrorHandler::displayError);
         passedExamsTable.refresh(); examsTable.refresh();
     }
 
@@ -365,11 +369,52 @@ public class StudentController {
     public void handleUverenjeStudiranje(ActionEvent actionEvent) {
         Button button = (Button) actionEvent.getSource();
         button.setDisable(true);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("studentImePrezime", student.getIme() + " " + student.getPrezime());
+        params.put("brojIndeksa", studentIndex.getStudijskiProgram().getOznaka() + " " + studentIndex.getBroj() + "/" + studentIndex.getGodina());
+        params.put("studijskiProgram", studentIndex.getStudijskiProgram().getNaziv());
+        params.put("skolskaGodina", studentIndex.getGodina());
+        params.put("danasnjiDatum", DateTimeFormatter.ofPattern("dd.MM.yyyy.").format(java.time.LocalDate.now()));
+        params.put("jmbg", student.getJmbg());
+        params.put("mestoRodjenja", student.getMestoRodjenja());
+
+        JasperReportUtils.runTask(() -> {
+                JasperReport jasperReport = JasperReportUtils.getReport("uverenje");
+                JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JREmptyDataSource());
+                JasperReportUtils.exportPdf(button.getScene().getWindow(), jasperPrint, "uverenje");
+            }, (v) -> System.out.println("Exported!"), () -> button.setDisable(false));
     }
 
     public void handleUverenjeIspiti(ActionEvent actionEvent) {
         Button button = (Button) actionEvent.getSource();
         button.setDisable(true);
+
+        JasperReportUtils.runTask(() -> {
+            List<PolozenPredmetResponse> sviPolozeni = studentIndexService.fetchPolozenPredmetSync(studentIndex.getId());
+
+            List<IspitReportBean> reportData = sviPolozeni.stream()
+                    .filter(pp -> pp.getIspitIzlazak() != null)
+                    .map(IspitReportBean::new)
+                    .sorted(Comparator.comparing(IspitReportBean::getGodinaStudija))
+                    .toList();
+
+            Map<String, Object> params = new HashMap<>();
+            params.put("studentImePrezime", student.getIme() + " " + student.getPrezime());
+            params.put("brojIndeksa", studentIndex.getStudijskiProgram().getOznaka() + " " + studentIndex.getBroj() + "/" + studentIndex.getGodina());
+
+            double prosek = reportData.stream().mapToInt(IspitReportBean::getOcena).average().orElse(0.0);
+            int ukupnoEspb = reportData.stream().mapToInt(IspitReportBean::getEspb).sum();
+
+            params.put("prosecnaOcena", prosek);
+            params.put("ukupnoEspb", ukupnoEspb);
+
+            JasperReport jr = JasperReportUtils.getReport("ispiti");
+            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reportData);
+            JasperPrint jp = JasperFillManager.fillReport(jr, params, dataSource);
+
+            JasperReportUtils.exportPdf(button.getScene().getWindow(), jp, "Uverenje_o_polozenim_ispitima");
+        }, (v) -> System.out.println("Exported!"), () -> button.setDisable(false));
     }
 
     public void handleDeleteIndex(ActionEvent actionEvent) {

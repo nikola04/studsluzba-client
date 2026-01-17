@@ -64,7 +64,10 @@ public class MainView {
 			}
 		});
 
-		scene.setOnSwipeLeft(e -> navCtrl.goForward());
+		scene.setOnSwipeLeft(e -> {
+			navCtrl.goForward();
+			e.consume();
+		});
 		scene.setOnSwipeRight(e -> navCtrl.goBack());
 	}
 

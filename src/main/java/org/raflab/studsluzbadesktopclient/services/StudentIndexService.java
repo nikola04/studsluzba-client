@@ -1,6 +1,7 @@
 package org.raflab.studsluzbadesktopclient.services;
 
 import lombok.AllArgsConstructor;
+import org.raflab.studsluzbacommon.dto.PagedResponse;
 import org.raflab.studsluzbacommon.dto.request.StudentIndeksRequest;
 import org.raflab.studsluzbacommon.dto.request.UplataRequest;
 import org.raflab.studsluzbacommon.dto.response.*;
@@ -9,21 +10,31 @@ import org.raflab.studsluzbadesktopclient.exceptions.ResourceNotFoundException;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.naming.CommunicationException;
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class StudentIndexService {
 
 	private WebClient webClient;
+	private final RestClient restClient;
 
     private String createURL(String pathEnd) {
 		return "student/indeks/" + pathEnd;
+	}
+
+	public List<PolozenPredmetResponse> fetchPolozenPredmetSync(Long indexId) {
+		return restClient.get()
+				.uri("student/indeks/{id}/predmet/polozen", indexId)
+				.retrieve()
+				.body(new ParameterizedTypeReference<>() {});
 	}
 
 	public Mono<StudentIndeksResponseDTO> fetchStudentIndexByIndexNumber(String index){
@@ -75,6 +86,13 @@ public class StudentIndexService {
 			.onStatus(HttpStatusCode::isError, clientResponse ->
 					Mono.error(new CommunicationException(clientResponse.statusCode().toString())))
 			.bodyToMono(Double.class);
+	}
+
+	public Flux<PolozenPredmetResponse> fetchPolozenPredmet(Long indexId){
+		return webClient.get()
+				.uri(createURL(indexId + "/predmet/polozen/"))
+				.retrieve()
+				.bodyToFlux(PolozenPredmetResponse.class);
 	}
 
 	public Flux<UplataResponse> fetchStudentUplata(Long indexId){
@@ -158,17 +176,17 @@ public class StudentIndexService {
 				.bodyToMono(Long.class);
 	}
 
-	public Flux<IspitResponse> fetchStudentPolozenIspit(Long indexId){
+	public Mono<PagedResponse<IspitResponse>> fetchStudentPolozenIspit(Long indexId){
 		return webClient.get()
 				.uri(createURL(indexId + "/ispit/polozen"))
 				.retrieve()
-				.bodyToFlux(IspitResponse.class);
+				.bodyToMono(new ParameterizedTypeReference<PagedResponse<IspitResponse>>() {});
 	}
 
-	public Flux<IspitResponse> fetchStudentNepolozeniIspiti(Long indexId){
+	public Mono<PagedResponse<IspitResponse>> fetchStudentNepolozeniIspiti(Long indexId){
 		return webClient.get()
 				.uri(createURL(indexId + "/ispit/nepolozen"))
 				.retrieve()
-				.bodyToFlux(IspitResponse.class);
+				.bodyToMono(new ParameterizedTypeReference<PagedResponse<IspitResponse>>() {});
 	}
 }

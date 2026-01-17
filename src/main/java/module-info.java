@@ -10,11 +10,14 @@ module stud_sluzba_desktop_client {
     requires spring.web;
     requires spring.core;
     requires static lombok;
-    requires net.sf.jasperreports.core;
+
+    opens reports;
+    opens org.raflab.studsluzbadesktopclient.models to jasperreports;
 
     exports org.raflab.studsluzbadesktopclient;
     exports org.raflab.studsluzbadesktopclient.controllers;
     exports org.raflab.studsluzbadesktopclient.services;
+    exports org.raflab.studsluzbadesktopclient.models;
 
     opens org.raflab.studsluzbadesktopclient.services to spring.core, javafx.fxml;
     opens org.raflab.studsluzbadesktopclient.controllers to spring.core, javafx.fxml;
@@ -45,4 +48,5 @@ module stud_sluzba_desktop_client {
     requires java.naming;
     requires ch.qos.logback.classic;
     requires com.fasterxml.jackson.databind;
+    requires jasperreports;
 }
