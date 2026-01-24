@@ -7,7 +7,7 @@ import java.util.LinkedList;
 @Service
 public class NavigationHistoryService {
 
-    @Value("${app.navigation.history.max:10}")
+    @Value("${app.navigation.history.max}")
     private int maxDepth;
 
     private final LinkedList<String> backStack = new LinkedList<>();

@@ -49,4 +49,5 @@ module stud_sluzba_desktop_client {
     requires ch.qos.logback.classic;
     requires com.fasterxml.jackson.databind;
     requires jasperreports;
+    requires org.slf4j;
 }
